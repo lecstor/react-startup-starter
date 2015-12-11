@@ -1,0 +1,8 @@
+// set env NODE_ENV=production to include this config
+{
+  webpack_config_file: './webpack.config.prod',
+  globals: {
+    '__DEV_TOOLS_MONITOR__': false,
+    'process.env.NODE_ENV': '"production"',
+  },
+}

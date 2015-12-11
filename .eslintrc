@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "rules": {
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+
+    "space-before-function-paren": [2, "always"],
+  },
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "__DEV_TOOLS_MONITOR__": false,
+    "__EXTERNAL_DTM__": false
+  }
+}
