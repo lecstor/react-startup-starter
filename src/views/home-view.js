@@ -9,7 +9,7 @@ export class HomeView extends React.Component {
         <h1>Welcome to the React Startup Starter!</h1>
         <Counter />
         <hr />
-        <Link to="/about">Go To About View</Link>
+        <Link to="/login">Login</Link>
       </div>
     );
   }
