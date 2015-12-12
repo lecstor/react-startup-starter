@@ -74,6 +74,7 @@ module.exports = function (config) {
         jsdom: 'window',
         cheerio: 'window',
         'react/lib/ExecutionEnvironment': 'window',
+        'react/lib/ReactContext': 'window',
         'text-encoding': 'window'
       },
       // fix? issue with tape dep on fs
