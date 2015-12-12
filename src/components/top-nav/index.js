@@ -28,7 +28,7 @@ export class TopNav extends Component {
       <Navbar fixedTop className={styles.navbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.brand}>
-            <IndexLink to="/"> React Starup Starter </IndexLink>
+            <IndexLink to="/"> React Startup Starter </IndexLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
