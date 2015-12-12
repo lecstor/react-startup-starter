@@ -25,6 +25,7 @@
   "author": "Jason Galea <jason@lecstor.com>",
   "license": "MIT",
   "dependencies": {
+    "connect-history-api-fallback": "^1.1.0",
     "history": "~1.13",
     "json5": "^0.4.0",
     "react": "^0.14.3",
