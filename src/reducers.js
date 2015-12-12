@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import { routeReducer } from 'redux-simple-router';
+import { reducer as formReducer } from 'redux-form';
+
 import counter from './components/counter/action-reducers';
 // import topnav from './components/top-nav/reducers';
 
@@ -13,4 +15,5 @@ export function createReducer (initialState, fnMap) {
 export default combineReducers({
   counter,
   routing: routeReducer,
+  form: formReducer,
 });
