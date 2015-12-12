@@ -5,14 +5,16 @@ React Startup Starter
 * [Redux](https://github.com/rackt/redux) Redux is a predictable state container for JavaScript apps
 * [react-router](https://github.com/rackt/react-router) A complete routing solution for React.js
 * [redux-simple-router](https://github.com/jlongster/redux-simple-router) Ruthlessly simple bindings to keep react-router and redux in sync
+* [Babel](https://babeljs.io/)(6) Next gen (ES6/7/etc) Javascript compiler
+* [Webpack](https://webpack.github.io/) A bundler for javascript and friends
 * [Karma](http://karma-runner.github.io/) Spectacular Test Runner for JavaScript
 * [Tape](https://github.com/substack/tape) tap-producing test harness for node and browsers
 * [Enzyme](https://github.com/airbnb/enzyme) Enzyme is a JavaScript testing utility for React ([airbnb.io](http://airbnb.io))
 * [Istanbul](https://github.com/gotwarlost/istanbul) A Javascript code coverage tool written in JS
 * [ESLint](http://eslint.org) The pluggable linting utility for JavaScript and JSX
-* [Babel](https://babeljs.io/)(6) Next gen (ES6/7/etc) Javascript compiler
-* [Webpack](https://webpack.github.io/) A bundler for javascript and friends
 * [node-config](https://github.com/lorenwest/node-config) Node.js Application Configuration
+* [redux-form](http://erikras.github.io/redux-form) The best way to manage your form state in Redux.
+* [react-bootstrap](http://react-bootstrap.github.io/) The most popular front-end framework, rebuilt for React.
 
 Get it running
 --------------
