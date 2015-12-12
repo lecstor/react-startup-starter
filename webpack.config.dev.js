@@ -9,15 +9,17 @@ module.exports = {
   name: 'client',
   target: 'web',
   devtool: 'eval', // 'source-map' : ''
-  // resolve: {
-  //   root: __dirname + '/src'
-  // },
+
+  // Use with multiple entry points in webpack
+  // https://github.com/glenjamin/webpack-hot-middleware#use-with-multiple-entry-points-in-webpack
+  // If you want to use multiple entry points in your webpack config you need to include the hot middleware client in each entry point.
   entry: {
     app: [
       'webpack-hot-middleware/client',
       './src/index'
     ],
     vendor: [
+      'webpack-hot-middleware/client',
       'history',
       'react',
       'react-redux',
