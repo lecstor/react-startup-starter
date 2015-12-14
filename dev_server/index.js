@@ -52,9 +52,9 @@ app.post('/auth/login', (req, res) => {
   res.end();
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../src', 'index.html'));
+// });
 
 app.listen(config.get('server_port'), config.get('server_host'), (err) => {
   if (err) {
