@@ -3,3 +3,4 @@
 **/coverage/**/*.*
 **/*.js
 !**/src/**/*.js
+!**/dev_server/**/*.js

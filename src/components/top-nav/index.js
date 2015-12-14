@@ -59,7 +59,7 @@ export class TopNav extends Component {
 
 TopNav.propTypes = {
   actions: PropTypes.object,
-  user: PropTypes.number,
+  user: PropTypes.object,
 };
 
 
