@@ -28,6 +28,7 @@ const submit = (values, dispatch, loginAction) => {
       method: 'post',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
+      credentials: 'same-origin',
     })
     .then(checkStatus)
     .then(parseJSON)
