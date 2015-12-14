@@ -1,24 +1,55 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-// import {show as showResults} from '../redux/modules/submission';
+import Promise from 'bluebird';
+import fetch from 'isomorphic-fetch';
 
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
+import Alert from 'react-bootstrap/lib/Alert';
+
+// To have fetch Promise reject on HTTP error statuses, i.e. on any non-2xx status, define a custom response handler
+function checkStatus (response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+  const error = new Error(response.statusText);
+  error.response = response;
+  throw error;
+}
+
+function parseJSON (response) {
+  return response.json();
+}
 
 // const submit = (values, dispatch) => {
-const submit = (values) => {
+const submit = (values, dispatch, loginAction) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (!['john', 'paul', 'george', 'ringo'].includes(values.email)) {
-        reject({ email: 'User does not exist', _error: 'Login failed!' });
-      } else if (values.password !== 'redux-form') {
-        reject({ password: 'Wrong password', _error: 'Login failed!' });
-      } else {
-        // dispatch(showResults(values));
-        console.log(JSON.stringify(values));
-        resolve();
+    fetch('/auth/login', {
+      method: 'post',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(
+      payload => {
+        if (payload.ok) {
+          dispatch(loginAction(payload.user));
+          resolve();
+        } else {
+          const err = new Error(payload.error);
+          err.email = payload.email;
+          err.password = payload.password;
+          err._error = payload.error;
+          reject(err);
+        }
+      },
+      error => {
+        const err = new Error(error);
+        err._error = error.message;
+        reject(err);
       }
-    }, 1000); // simulate server latency
+    );
   });
 };
 
@@ -29,23 +60,25 @@ export class ContactForm extends Component {
     error: PropTypes.string,
     resetForm: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
+    loginAction: PropTypes.func.isRequired,
   };
   render () {
-    const { fields: { email, password }, error, handleSubmit, submitting } = this.props;
+    const { fields: { email, password }, error, handleSubmit, submitting, loginAction } = this.props;
+    const submitHandler = (values, dispatch) => {
+      return submit(values, dispatch, loginAction);
+    };
     return (
       <div className="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-        <form className="form-horizontal" onSubmit={handleSubmit(submit)}>
+        <form className="form-horizontal" onSubmit={handleSubmit(submitHandler)}>
           <Input label="Email" labelClassName="col-xs-4"
                  wrapperClassName="col-xs-8" type="email" placeholder="email" {...email}/>
-          {email.touched && email.error && <div className="col-xs-offset-4 col-xs-8">{email.error}</div>}
+          {email.touched && email.error && <Alert bsStyle="danger">{email.error}</Alert>}
           <Input label="Password" labelClassName="col-xs-4"
                  wrapperClassName="col-xs-8" type="password" placeholder="password" {...password}/>
-          {password.touched && password.error && <div className="col-xs-offset-4 col-xs-8">{password.error}</div>}
-          {error && <div>{error}</div>}
+          {password.touched && password.error && <Alert bsStyle="danger">{password.error}</Alert>}
+          {error && !(email.error || password.error) && <Alert bsStyle="danger">{error}</Alert>}
           <div style={{ textAlign: 'right' }}>
-            <Button disabled={submitting} onClick={handleSubmit(submit)}>
-              {submitting ? <i/> : <i/>} Log In
-            </Button>
+            <Button active={submitting} onClick={handleSubmit(submitHandler)}> Log In </Button>
           </div>
         </form>
       </div>
