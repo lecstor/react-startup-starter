@@ -3,7 +3,7 @@ import { routeReducer as routing } from 'redux-simple-router';
 import { reducer as form } from 'redux-form';
 
 import counter from '../components/counter/action-reducers';
-import user from '../components/user/action-reducers';
+import user from '../store/modules/user';
 
 export function createReducer (initialState, fnMap) {
   return (state = initialState, { type, payload } = {}) => {

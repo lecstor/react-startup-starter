@@ -1,13 +1,13 @@
 import React from 'react';
 
 import LoginForm from '../components/login-form';
-import userActions from '../components/user/action-creators'
+import { login } from '../store/modules/user';
 
 
 const LoginView = () => (
   <div className="container text-center">
     <h1>This is the login view!</h1>
-    <LoginForm loginAction={userActions.login} />
+    <LoginForm loginAction={login} />
   </div>
 );
 
