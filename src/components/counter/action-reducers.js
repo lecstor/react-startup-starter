@@ -1,4 +1,4 @@
-import { createReducer } from '../../reducers';
+import { createReducer } from '../../store/reducers';
 import { COUNTER_INCREMENT } from './action-types';
 
 const initialState = 0;

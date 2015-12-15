@@ -1,4 +1,4 @@
-import { createReducer } from '../../reducers';
+import { createReducer } from '../../store/reducers';
 import { USER_LOGIN } from './action-types';
 
 const initialState = null;

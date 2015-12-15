@@ -1,4 +1,4 @@
-import { createReducer } from '../../reducers';
+import { createReducer } from '../../store/reducers';
 import { LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL } from './action-types';
 
 const initialState = 0;
