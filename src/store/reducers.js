@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { routeReducer } from 'redux-simple-router';
-import { reducer as formReducer } from 'redux-form';
+import { routeReducer as routing } from 'redux-simple-router';
+import { reducer as form } from 'redux-form';
 
-import counter from './components/counter/action-reducers';
-import user from './components/user/action-reducers';
+import counter from '../components/counter/action-reducers';
+import user from '../components/user/action-reducers';
 
 export function createReducer (initialState, fnMap) {
   return (state = initialState, { type, payload } = {}) => {
@@ -13,10 +13,10 @@ export function createReducer (initialState, fnMap) {
 }
 
 export default combineReducers({
+  routing,
+  form,
   counter,
   user,
-  routing: routeReducer,
-  form: formReducer,
 });
 
 
