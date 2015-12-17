@@ -38,17 +38,17 @@ app.post('/auth/login', (req, res) => {
   const values = req.body;
   res.type('application/json');
   setTimeout(() => {
-    if (values.password === 'incorrect') {
-      res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { password: 'Wrong password' } });
-    } else if (values.password === 'correct') {
-      if (values.email === 'ok@example.com') {
+    if (values.password === 'boom' || values.email === 'boom') {
+      res.sendStatus(500);
+    } else if (values.email === 'ok@example.com') {
+      if (values.password === 'password') {
         req.my_session.user = 'ok@example.com';
         res.set('status', 200).send({ ok: true, payload: { id: 123321, email: 'ok@example.com', name: 'Buddy' } });
       } else {
-        res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { email: 'No account for that email address' } });
+        res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { password: 'The password is incorrect' } });
       }
     } else {
-      res.sendStatus(500);
+      res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { email: 'Account not found for that email address' } });
     }
     res.end();
   }, 1000);

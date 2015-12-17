@@ -33,34 +33,37 @@ const submit = (creds, dispatch) => {
   );
 };
 
-export class LoginForm extends Component {
-  static propTypes = {
-    fields: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    error: PropTypes.string,
-    resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-  };
-  render () {
-    const { fields: { email, password }, error, handleSubmit, submitting } = this.props;
-    return (
-      <div className="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-        <form className="form-horizontal" onSubmit={handleSubmit}>
-          {error && !(email.error || password.error) && <Alert bsStyle="danger">{error}</Alert>}
-          <Input label="Email" labelClassName="col-xs-4"
-                 wrapperClassName="col-xs-8" type="email" placeholder="email" {...email}/>
-          {email.touched && email.error && <Alert bsStyle="danger">{email.error}</Alert>}
-          <Input label="Password" labelClassName="col-xs-4"
-                 wrapperClassName="col-xs-8" type="password" placeholder="password" {...password}/>
-          {password.touched && password.error && <Alert bsStyle="danger">{password.error}</Alert>}
-          <div style={{ textAlign: 'right' }}>
-            <Button active={submitting} onClick={handleSubmit}> Log In </Button>
-          </div>
-        </form>
+export const LoginForm = ({ handleSubmit, error, fields, submitting }) => {
+  const emailError = fields.email.touched && fields.email.error;
+  const passError = fields.password.touched && fields.password.error;
+  let emailAlert = emailError ? 'error' : undefined;
+  const passAlert = passError ? 'error' : undefined;
+  if (passAlert) emailAlert = 'success';
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input label="Email" type="email" placeholder="email" {...fields.email}
+        bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
+      />
+      <Input label="Password" type="password" placeholder="password" {...fields.password}
+        bsStyle={passAlert} hasFeedback={passAlert ? true : false}
+      />
+      <div style={{ textAlign: 'right', marginBottom: '5px' }}>
+        <Button active={submitting} onClick={handleSubmit}> Log In </Button>
       </div>
-    );
-  }
-}
+      {error && !(emailError || passError) && <Alert bsStyle="danger">{error}</Alert>}
+      {emailError && <Alert bsStyle="danger">{fields.email.error}</Alert>}
+      {passError && <Alert bsStyle="danger">{fields.password.error}</Alert>}
+    </form>
+  );
+};
+
+LoginForm.propTypes = {
+  fields: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  submitting: PropTypes.bool.isRequired,
+};
 
 // Export our form class as a redux-form with a unique name for this form,
 // all the fields in the form, and our submit handler.
