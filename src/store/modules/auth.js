@@ -49,7 +49,7 @@ export function isLoaded (globalState) {
 
 /**
  * The load, login, and logout functions return actions that will be intercepted by the redux
- * middleware in store/middleware/fetchMiddleware.js which will dispatch the first action type,
+ * middleware in store/middleware/hyperActions.js which will dispatch the first action type,
  * call the promise function, and then dispatch one of the remaining action types depending on
  * the result of the promise function.
  */

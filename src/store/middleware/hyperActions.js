@@ -15,7 +15,7 @@ import fetch from '../customFetch';
  * If the promise resolves then the second action type is dispatched with the result.
  * If the promise rejects or catches, then the third action type is dispatched with the error.
  */
-export default function fetchMiddleware ({ dispatch, getState }) {
+export default function hyperActions ({ dispatch, getState }) {
   return next => action => {
     if (typeof action === 'function') {
       return action(dispatch, getState);

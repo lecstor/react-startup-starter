@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import rootReducer from '../store/reducers';
 
+import hyperActions from './middleware/hyperActions';
+
 const finalCreateStore = compose(
-  applyMiddleware(thunk)
+  applyMiddleware(hyperActions)
 )(createStore);
 
 export default function configureStore (initialState) {

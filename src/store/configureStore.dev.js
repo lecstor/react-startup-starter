@@ -3,10 +3,10 @@ import { persistState } from 'redux-devtools';
 import rootReducer from '../store/reducers';
 import DevTools from '../containers/dev-tools';
 
-import fetchMiddleware from './middleware/fetchMiddleware';
+import hyperActions from './middleware/hyperActions';
 
 const finalCreateStore = compose(
-  applyMiddleware(fetchMiddleware),
+  applyMiddleware(hyperActions),
   DevTools.instrument(),
   persistState(
     window.location.href.match(
