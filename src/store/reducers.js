@@ -3,7 +3,7 @@ import { routeReducer as routing } from 'redux-simple-router';
 import { reducer as form } from 'redux-form';
 
 import counter from '../components/counter/action-reducers';
-import user from '../store/modules/user';
+import auth from '../store/modules/auth';
 
 export function createReducer (initialState, fnMap) {
   return (state = initialState, { type, payload } = {}) => {
@@ -16,7 +16,7 @@ export default combineReducers({
   routing,
   form,
   counter,
-  user,
+  auth,
 });
 
 

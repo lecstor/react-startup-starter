@@ -37,19 +37,21 @@ app.use(hotMiddleware(compiler));
 app.post('/auth/login', (req, res) => {
   const values = req.body;
   res.type('application/json');
-  if (values.password === 'incorrect') {
-    res.set('status', 200).send({ password: 'Wrong password', error: 'Login failed' });
-  } else if (values.password === 'correct') {
-    if (values.email === 'ok@example.com') {
-      req.my_session.user = 'ok@example.com';
-      res.set('status', 200).send({ ok: true, user: { id: 123321, email: 'ok@example.com', name: 'Buddy' } });
+  setTimeout(() => {
+    if (values.password === 'incorrect') {
+      res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { password: 'Wrong password' } });
+    } else if (values.password === 'correct') {
+      if (values.email === 'ok@example.com') {
+        req.my_session.user = 'ok@example.com';
+        res.set('status', 200).send({ ok: true, payload: { id: 123321, email: 'ok@example.com', name: 'Buddy' } });
+      } else {
+        res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { email: 'No account for that email address' } });
+      }
     } else {
-      res.set('status', 200).send({ email: 'No account for that email address', error: 'Login failed' });
+      res.sendStatus(500);
     }
-  } else {
-    res.sendStatus(500);
-  }
-  res.end();
+    res.end();
+  }, 1000);
 });
 
 // app.get('*', (req, res) => {

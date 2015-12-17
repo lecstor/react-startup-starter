@@ -13,7 +13,7 @@ import * as actions from './actions';
 // the component can be tested w/ and w/o being connected.
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
-  user: state.user,
+  auth: state.auth,
   routerState: state.routing,
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export class TopNav extends Component {
   render () {
-    const { user } = this.props;
+    const { auth } = this.props;
     const styles = require('./style.scss');
     return (
       <Navbar fixedTop className={styles.navbar}>
@@ -34,23 +34,25 @@ export class TopNav extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight navbar>
-            {!user &&
+            {!auth.user &&
             <LinkContainer to="/signup">
               <NavItem>Sign up</NavItem>
             </LinkContainer>}
-            {!user &&
+            {!auth.user &&
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>}
-            {user &&
+            {auth.user &&
             <LinkContainer to="/logout">
               <NavItem className="logout-link">
                 Logout
               </NavItem>
             </LinkContainer>}
           </Nav>
-          {user &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
+          {auth.user &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{auth.user.name}</strong>.</p>}
+          {auth.loggingIn &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Loggin In..</p>}
         </Navbar.Collapse>
       </Navbar>
     );
@@ -59,7 +61,7 @@ export class TopNav extends Component {
 
 TopNav.propTypes = {
   actions: PropTypes.object,
-  user: PropTypes.object,
+  auth: PropTypes.object,
 };
 
 
