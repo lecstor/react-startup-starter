@@ -73,7 +73,7 @@ module.exports = function (config) {
       externals: {
         jsdom: 'window',
         cheerio: 'window',
-        'react/lib/ExecutionEnvironment': 'window',
+        'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': 'window',
         'text-encoding': 'window'
       },
