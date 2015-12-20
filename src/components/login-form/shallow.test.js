@@ -1,19 +1,15 @@
 import React from 'react';
 import tape from 'blue-tape';
 import { shallow } from 'enzyme';
-
-const fetchMock = require('fetch-mock/es5/client');
+import fetchMock from 'fetch-mock';
+import configureMockStore from 'redux-mock-store';
 
 import { LoginForm, submitForm } from './';
-
-import configureMockStore from 'redux-mock-store';
 import hyperActions from '../../store/middleware/hyperActions';
 import { loginSubmit, loginSuccess, loginFail } from '../../store/modules/auth';
 
 const middlewares = [hyperActions];
 const mockStore = configureMockStore(middlewares);
-
-import Alert from 'react-bootstrap/lib/Alert';
 
 tape('# LoginForm - Component', nest => {
   nest.test('Displays correctly with no errors', test => {
@@ -45,7 +41,7 @@ tape('# LoginForm - Component', nest => {
       },
     };
     const wrapper = shallow(<LoginForm {...props} />);
-    const alert = wrapper.find(Alert);
+    const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
     test.equal(alert.shallow().text(), 'Something is not right', 'alert text is correct');
     test.end();
@@ -62,7 +58,7 @@ tape('# LoginForm - Component', nest => {
       },
     };
     const wrapper = shallow(<LoginForm {...props} />);
-    const alert = wrapper.find(Alert);
+    const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
     test.equal(alert.shallow().text(), 'That is not an email address', 'alert text is correct');
     test.end();
@@ -79,7 +75,7 @@ tape('# LoginForm - Component', nest => {
       },
     };
     const wrapper = shallow(<LoginForm {...props} />);
-    const alert = wrapper.find(Alert);
+    const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
     test.equal(alert.shallow().text(), 'Incorrect Password', 'alert text is correct');
     test.end();
@@ -154,3 +150,4 @@ tape('# LoginForm - login action', nest => {
     );
   });
 });
+
