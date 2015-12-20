@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 
 import { LoginForm, submitForm } from './';
 import hyperActions from '../../store/middleware/hyperActions';
-import { loginSubmit, loginSuccess, loginFail } from '../../store/modules/auth';
+import reducer, { loginSubmit, loginSuccess, loginFail } from '../../store/modules/auth';
 
 const middlewares = [hyperActions];
 const mockStore = configureMockStore(middlewares);
@@ -151,3 +151,30 @@ tape('# LoginForm - login action', nest => {
   });
 });
 
+tape('# LoginForm - login reducer', nest => {
+  nest.test('return the initial state', test => {
+    test.deepEquals(reducer(undefined, {}), { loaded: false });
+    test.end();
+  });
+
+  nest.test('handle LOGIN', test => {
+    const action = loginSubmit();
+    const expected = { loaded: false, loggingIn: true };
+    test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN ok');
+    test.end();
+  });
+
+  nest.test('handle LOGIN_SUCCESS', test => {
+    const action = loginSuccess({ name: 'Fred' });
+    const expected = { loaded: true, loggingIn: false, user: { name: 'Fred' } };
+    test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_SUCCESS ok');
+    test.end();
+  });
+
+  nest.test('handle LOGIN_FAIL', test => {
+    const action = loginFail({ error: 'Kaboom!' });
+    const expected = { loaded: false, loggingIn: false, loginError: 'Kaboom!', user: null };
+    test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_FAIL ok');
+    test.end();
+  });
+});
