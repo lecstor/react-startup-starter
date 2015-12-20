@@ -31,8 +31,8 @@ export default function hyperActions ({ dispatch, getState }) {
     return promise(fetch).then(
       (result) => next({ ...rest, result, type: SUCCESS }),
       (error) => next({ ...rest, error, type: FAILURE })
-    ).catch((error)=> {
-      console.error('MIDDLEWARE ERROR:', error);
+    ).catch((error) => {
+      console.error('MIDDLEWARE ERROR:', JSON.stringify(error, null, 2));
       next({ ...rest, error, type: FAILURE });
     });
   };

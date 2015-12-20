@@ -1,4 +1,4 @@
-import isoFetch from 'isomorphic-fetch';
+import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 // To have fetch Promise reject on HTTP error statuses, i.e. on any non-2xx status, define a custom response handler
@@ -15,14 +15,14 @@ function parseJSON (response) {
   return response.json();
 }
 
-export default function fetch (url, options = {}) {
+export default function customFetch (url, options = {}) {
   const defaultOptions = {
     method: 'get',
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     credentials: 'same-origin',
   };
   const fetchOptions = Object.assign(defaultOptions, options);
-  return isoFetch(url, fetchOptions)
+  return fetch(url, fetchOptions)
   .then(checkStatus)
   .then(parseJSON)
   .then(

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import Promise from 'bluebird';
 
@@ -13,7 +13,7 @@ import Alert from 'react-bootstrap/lib/Alert';
 import fetch from '../../store/customFetch';
 import { loginSubmit, loginSuccess, loginFail } from '../../store/modules/auth';
 
-const submit = (creds, dispatch) => {
+export const submitForm = (creds, dispatch) => {
   // update the store to say we're sending a login request to the server
   dispatch(loginSubmit());
   // send the login request
@@ -70,5 +70,5 @@ LoginForm.propTypes = {
 export default reduxForm({
   form: 'login_form',
   fields: ['email', 'password'],
-  onSubmit: submit,
+  onSubmit: submitForm,
 })(LoginForm);
