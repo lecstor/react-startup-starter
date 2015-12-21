@@ -15,6 +15,8 @@ const initialState = {
 };
 
 export default function reducer (state = initialState, action = {}) {
+  console.log('auth action', JSON.stringify(action));
+  console.log('auth action', action);
   switch (action.type) {
 
     case LOAD:
@@ -29,7 +31,9 @@ export default function reducer (state = initialState, action = {}) {
     case LOGIN_SUCCESS:
       return { ...state, loggingIn: false, loaded: true, user: action.result };
     case LOGIN_FAIL:
-      return { ...state, loggingIn: false, user: null, loginError: action.result.error };
+      const error = action.error.details || {};
+      error.form = action.error.message;
+      return { ...state, loggingIn: false, loaded: false, user: null, loginError: error };
 
     case LOGOUT:
       return { ...state, loggingOut: true };
@@ -94,6 +98,6 @@ export function loginSuccess (user) {
   return { type: LOGIN_SUCCESS, result: user };
 }
 
-export function loginFail (result) {
-  return { type: LOGIN_FAIL, result };
+export function loginFail (error) {
+  return { type: LOGIN_FAIL, error };
 }

@@ -25,7 +25,7 @@ export const submitForm = (creds, dispatch) => {
       return Promise.resolve(payload);
     },
     error => {
-      dispatch(loginFail({ error: 'Login failed' }));
+      dispatch(loginFail(error));
       error._error = error.message;
       Object.assign(error, error.details || {});
       return Promise.reject(error);

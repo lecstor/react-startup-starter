@@ -42,6 +42,10 @@ export class TopNav extends Component {
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>}
+            {!auth.user &&
+            <LinkContainer to="/login-native">
+              <NavItem>Login Native</NavItem>
+            </LinkContainer>}
             {auth.user &&
             <LinkContainer to="/logout">
               <NavItem className="logout-link">

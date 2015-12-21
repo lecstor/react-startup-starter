@@ -4,6 +4,7 @@ import { reducer as form } from 'redux-form';
 
 import counter from '../components/counter/action-reducers';
 import auth from '../store/modules/auth';
+import loginForm from '../store/modules/login-form';
 
 export function createReducer (initialState, fnMap) {
   return (state = initialState, { type, payload } = {}) => {
@@ -17,6 +18,7 @@ export default combineReducers({
   form,
   counter,
   auth,
+  loginForm,
 });
 
 
