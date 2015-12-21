@@ -15,8 +15,8 @@ const mapStateToProps = (state) => ({
 });
 
 // Map action dispatch functions to properties of our component.
-// `bindActionCreators` will wrap earch of our action creators in a function that
-// will call dispatch on the store with or action.
+// `bindActionCreators` will wrap each of our action creators in a function that
+// will call dispatch on the store with our action.
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actionCreators, dispatch),
 });
@@ -35,8 +35,9 @@ export class Counter extends React.Component {
       <div className="text-center">
         <h2>Sample Counter: {this.props.counter}</h2>
         <Button className="btn btn-default"
-                onClick={this.props.actions.increment}
-                label="Incrementor" />
+          onClick={this.props.actions.increment}
+          label="Incrementor"
+        />
       </div>
     );
   }
