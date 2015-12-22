@@ -107,7 +107,10 @@ tape('# LoginForm - login action', nest => {
 
   nest.test('Dispatch Login Action Fail', test => {
     const failPayload = { password: 'The password is incorrect' };
-    const expectedActions = [loginSubmit(), loginFail({ error: 'Login failed' })];
+    const failArgs = new Error('Login Failed');
+    failArgs.details = failPayload;
+
+    const expectedActions = [loginSubmit(), loginFail(failArgs)];
     fetchMock.reMock('http://localhost:9876/auth/login', { ok: false, error: 'Login failed', payload: failPayload });
 
     const store = mockStore({}, expectedActions, () => {
@@ -133,7 +136,7 @@ tape('# LoginForm - login action', nest => {
   });
 
   nest.test('Dispatch Login Action Server Fail', test => {
-    const expectedActions = [loginSubmit(), loginFail({ error: 'Login failed' })];
+    const expectedActions = [loginSubmit(), loginFail(new Error('Login Failed'))];
     fetchMock.reMock('http://localhost:9876/auth/login', 500);
 
     const store = mockStore({}, expectedActions, () => {
@@ -172,8 +175,8 @@ tape('# LoginForm - login reducer', nest => {
   });
 
   nest.test('handle LOGIN_FAIL', test => {
-    const action = loginFail({ error: 'Kaboom!' });
-    const expected = { loaded: false, loggingIn: false, loginError: 'Kaboom!', user: null };
+    const action = loginFail(new Error('Kaboom!'));
+    const expected = { loaded: false, loggingIn: false, loginError: { form: 'Kaboom!' }, user: null };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_FAIL ok');
     test.end();
   });

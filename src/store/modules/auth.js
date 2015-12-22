@@ -15,8 +15,6 @@ const initialState = {
 };
 
 export default function reducer (state = initialState, action = {}) {
-  console.log('auth action', JSON.stringify(action));
-  console.log('auth action', action);
   switch (action.type) {
 
     case LOAD:

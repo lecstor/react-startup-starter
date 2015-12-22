@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 
 import LoginForm from './';
 
-tape.only('# LoginForm - Pure Function Component', nest => {
+tape('# LoginForm - Pure Function Component', nest => {
   nest.test('Displays correctly with no errors', test => {
     const props = {
       actions: {},
