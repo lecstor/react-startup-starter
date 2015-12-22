@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import Counter from '../components/counter';
 
+// don't use pure function components for views or
+// react-transform-hmr won't work for us (for now)
 export class HomeView extends React.Component {
   render () {
     return (

@@ -1,9 +1,13 @@
 import React from 'react';
 
-const Signup = () => (
-  <div className="container text-center">
-    <h1>This is the signup view!</h1>
-  </div>
-);
-
-export default Signup;
+// don't use pure function components for views or
+// react-transform-hmr won't work for us (for now)
+export default class Signup extends React.Component {
+  render () {
+    return (
+      <div className="container text-center">
+        <h1>This is the signup view!</h1>
+      </div>
+    );
+  }
+}
