@@ -38,6 +38,13 @@ app.get('/auth', (req, res) => {
   res.send({ ok: true, payload: req.my_session.user });
 });
 
+app.delete('/auth', (req, res) => {
+  req.my_session.user = undefined;
+  setTimeout(() => {
+    res.send({ ok: true });
+  }, 1000);
+});
+
 app.post('/auth/login', (req, res) => {
   const values = req.body;
   res.type('application/json');

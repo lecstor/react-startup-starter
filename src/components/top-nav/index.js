@@ -56,7 +56,9 @@ export class TopNav extends Component {
           {auth.user &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{auth.user.name}</strong>.</p>}
           {auth.loggingIn &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Loggin In..</p>}
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logging In..</p>}
+          {auth.loggingOut &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logging Out..</p>}
         </Navbar.Collapse>
       </Navbar>
     );
