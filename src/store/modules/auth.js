@@ -20,7 +20,10 @@ export default function reducer (state = initialState, action = {}) {
     case LOAD:
       return { ...state, loading: true };
     case LOAD_SUCCESS:
-      return { ...state, loading: false, loaded: true, user: action.result };
+      if (action.result && action.result.id) {
+        return { ...state, loading: false, loaded: true, user: action.result };
+      }
+      return { ...state, loading: false, loaded: false, user: undefined };
     case LOAD_FAIL:
       return { ...state, loading: false, loaded: false, error: action.error };
 
