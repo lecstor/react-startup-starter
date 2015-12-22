@@ -34,6 +34,10 @@ app.use(devMiddleware(compiler, {
 
 app.use(hotMiddleware(compiler));
 
+app.get('/auth', (req, res) => {
+  res.send({ ok: true, payload: req.my_session.user });
+});
+
 app.post('/auth/login', (req, res) => {
   const values = req.body;
   res.type('application/json');
@@ -42,8 +46,9 @@ app.post('/auth/login', (req, res) => {
       res.sendStatus(500);
     } else if (values.email === 'ok@example.com') {
       if (values.password === 'password') {
-        req.my_session.user = 'ok@example.com';
-        res.set('status', 200).send({ ok: true, payload: { id: 123321, email: 'ok@example.com', name: 'Buddy' } });
+        const user = { id: 123321, email: 'ok@example.com', name: 'Buddy' };
+        req.my_session.user = user;
+        res.set('status', 200).send({ ok: true, payload: user });
       } else {
         res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { password: 'The password is incorrect' } });
       }
