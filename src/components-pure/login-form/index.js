@@ -10,21 +10,19 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {Function} options.actions.login       [description]
  * @param   {Function} options.actions.setEmail    [description]
  * @param   {Function} options.actions.setPassword [description]
- * @param   {Object}   options.error               [description]
- * @param   {String}   options.error.form          [description]
- * @param   {String}   options.error.email         [description]
- * @param   {String}   options.error.password      [description]
+ * @param   {Error}    options.error               [description]
+ * @param   {String}   options.loginError.error    [description]
+ * @param   {String}   options.loginError.email    [description]
+ * @param   {String}   options.loginError.password [description]
  * @param   {String}   options.email               [description]
  * @param   {String}   options.password            [description]
  * @param   {Boolean}  options.loggingIn           [description]
  * @returns {Component}                            [description]
  */
-const LoginForm = ({ actions, email, password, loggingIn, error = {} }) => {
-  const passAlert = error.password ? 'error' : undefined;
-  let emailAlert = error.email ? 'error' : undefined;
+const LoginForm = ({ actions, email, password, loggingIn, error, loginError = {} }) => {
+  const passAlert = loginError.password ? 'error' : undefined;
+  let emailAlert = loginError.email ? 'error' : undefined;
   if (passAlert) emailAlert = 'success';
-  let serverError = error.form;
-  if (error.email || error.password) serverError = undefined;
 
   const handleChange = action => event => action(event.target.value);
   const handleSubmit = () => actions.login({ email, password });
@@ -40,15 +38,16 @@ const LoginForm = ({ actions, email, password, loggingIn, error = {} }) => {
       <div style={{ textAlign: 'right', marginBottom: '5px' }}>
         <Button active={loggingIn} onClick={handleSubmit}> Log In </Button>
       </div>
-      {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
-      {error.email && <Alert bsStyle="danger">{error.email}</Alert>}
-      {error.password && <Alert bsStyle="danger">{error.password}</Alert>}
+      {error && <Alert bsStyle="danger">{error.message}</Alert>}
+      {loginError.email && <Alert bsStyle="warning">{loginError.email}</Alert>}
+      {loginError.password && <Alert bsStyle="warning">{loginError.password}</Alert>}
     </form>
   );
 };
 
 LoginForm.propTypes = {
   error: PropTypes.object,
+  loginError: PropTypes.object,
   actions: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,

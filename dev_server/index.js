@@ -35,13 +35,13 @@ app.use(devMiddleware(compiler, {
 app.use(hotMiddleware(compiler));
 
 app.get('/auth', (req, res) => {
-  res.send({ ok: true, payload: req.my_session.user });
+  res.send({ result: req.my_session.user });
 });
 
 app.delete('/auth', (req, res) => {
   req.my_session.user = undefined;
   setTimeout(() => {
-    res.send({ ok: true });
+    res.send({});
   }, 1000);
 });
 
@@ -55,12 +55,12 @@ app.post('/auth/login', (req, res) => {
       if (values.password === 'password') {
         const user = { id: 123321, email: 'ok@example.com', name: 'Buddy' };
         req.my_session.user = user;
-        res.set('status', 200).send({ ok: true, payload: user });
+        res.set('status', 200).send({ result: user });
       } else {
-        res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { password: 'The password is incorrect' } });
+        res.set('status', 200).send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
       }
     } else {
-      res.set('status', 200).send({ ok: false, error: 'Login failed', payload: { email: 'Account not found for that email address' } });
+      res.set('status', 200).send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
     }
     res.end();
   }, 1000);

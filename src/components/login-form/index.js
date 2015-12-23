@@ -21,8 +21,15 @@ export const submitForm = (creds, dispatch) => {
   .then(
     payload => {
       // update the store with our logged in user details
-      dispatch(loginSuccess(payload));
-      return Promise.resolve(payload);
+      if (payload.error) {
+        dispatch(loginFail(payload.error));
+        const rejError = new Error(payload.error.message);
+        rejError._error = payload.error.message;
+        Object.assign(rejError, payload.error.props || {});
+        return Promise.reject(rejError);
+      }
+      dispatch(loginSuccess(payload.result));
+      return Promise.resolve(payload.result);
     },
     error => {
       dispatch(loginFail(error));

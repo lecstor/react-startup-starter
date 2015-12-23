@@ -3,12 +3,15 @@
 const LOAD = 'rss/auth/LOAD';
 const LOAD_SUCCESS = 'rss/auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'rss/auth/LOAD_FAIL';
+const LOAD_REQUEST_FAIL = 'rss/auth/LOAD_REQUEST_FAIL';
 const LOGIN = 'rss/auth/LOGIN';
 const LOGIN_SUCCESS = 'rss/auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'rss/auth/LOGIN_FAIL';
+const LOGIN_REQUEST_FAIL = 'rss/auth/LOGIN_REQUEST_FAIL';
 const LOGOUT = 'rss/auth/LOGOUT';
 const LOGOUT_SUCCESS = 'rss/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'rss/auth/LOGOUT_FAIL';
+const LOGOUT_REQUEST_FAIL = 'rss/auth/LOGOUT_REQUEST_FAIL';
 
 const initialState = {
   loaded: false,
@@ -20,21 +23,22 @@ export default function reducer (state = initialState, action = {}) {
     case LOAD:
       return { ...state, loading: true };
     case LOAD_SUCCESS:
-      if (action.result && action.result.id) {
-        return { ...state, loading: false, loaded: true, user: action.result };
-      }
-      return { ...state, loading: false, loaded: false, user: undefined };
+      // if (action.result && action.result.id) {
+      return { ...state, loading: false, loaded: true, user: action.result };
+      // }
     case LOAD_FAIL:
-      return { ...state, loading: false, loaded: false, error: action.error };
+      return { ...state, loading: false };
+    case LOAD_REQUEST_FAIL:
+      return { ...state, loading: false, error: action.error };
 
     case LOGIN:
       return { ...state, loggingIn: true };
     case LOGIN_SUCCESS:
       return { ...state, loggingIn: false, loaded: true, user: action.result };
     case LOGIN_FAIL:
-      const error = action.error.details || {};
-      error.form = action.error.message;
-      return { ...state, loggingIn: false, loaded: false, user: null, loginError: error };
+      return { ...state, loggingIn: false, loginError: action.error };
+    case LOGIN_REQUEST_FAIL:
+      return { ...state, loggingIn: false, error: action.error };
 
     case LOGOUT:
       return { ...state, loggingOut: true };
@@ -42,6 +46,8 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loggingOut: false, user: null };
     case LOGOUT_FAIL:
       return { ...state, loggingOut: false, logoutError: action.error };
+    case LOGOUT_REQUEST_FAIL:
+      return { ...state, loggingOut: false, error: action.error };
 
     default:
       return state;
@@ -61,21 +67,21 @@ export function isLoaded (globalState) {
 
 export function load () {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL, LOAD_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth'),
   };
 }
 
 export function login (creds) {
   return {
-    types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
+    types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_REQUEST_FAIL],
     promise: fetch => fetch('/auth/login', { method: 'post', body: JSON.stringify(creds) }),
   };
 }
 
 export function logout () {
   return {
-    types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
+    types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL, LOGOUT_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth', { method: 'delete' }),
   };
 }
@@ -101,4 +107,8 @@ export function loginSuccess (user) {
 
 export function loginFail (error) {
   return { type: LOGIN_FAIL, error };
+}
+
+export function loginRequestFail (error) {
+  return { type: LOGIN_REQUEST_FAIL, error };
 }

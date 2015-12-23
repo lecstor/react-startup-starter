@@ -14,7 +14,8 @@ const mapStateToProps = (state) => ({
   form: state.loginForm,
   email: state.loginForm.email,
   password: state.loginForm.password,
-  error: state.auth.loginError,
+  loginError: state.auth.loginError,
+  error: state.auth.error,
   loggingIn: state.auth.loggingIn,
 });
 

@@ -26,14 +26,20 @@ export default function hyperActions ({ dispatch, getState }) {
       return next(action);
     }
 
-    const [REQUEST, SUCCESS, FAILURE] = types;
+    const [REQUEST, SUCCESS, FAILURE, REQUEST_FAILURE] = types;
     next({ ...rest, type: REQUEST });
     return promise(fetch).then(
-      (result) => next({ ...rest, result, type: SUCCESS }),
-      (error) => next({ ...rest, error, type: FAILURE })
+      (response) => {
+        if (response.error) {
+          next({ ...rest, error: response.error, type: FAILURE });
+        } else {
+          next({ ...rest, result: response.result, type: SUCCESS });
+        }
+      },
+      (error) => next({ ...rest, error, type: REQUEST_FAILURE })
     ).catch((error) => {
       console.error('MIDDLEWARE ERROR:', JSON.stringify(error, null, 2));
-      next({ ...rest, error, type: FAILURE });
+      next({ ...rest, error, type: REQUEST_FAILURE });
     });
   };
 }

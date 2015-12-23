@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 
 import { LoginForm, submitForm } from './';
 import hyperActions from '../../store/middleware/hyperActions';
-import reducer, { loginSubmit, loginSuccess, loginFail } from '../../store/modules/auth';
+import reducer, { loginSubmit, loginSuccess, loginFail, loginRequestFail } from '../../store/modules/auth';
 
 const middlewares = [hyperActions];
 const mockStore = configureMockStore(middlewares);
@@ -86,7 +86,7 @@ tape('# LoginForm - login action', nest => {
   nest.test('Dispatch Login Action Success', test => {
     const successPayload = { id: 123321, email: 'ok@example.com', name: 'Buddy' };
     const expectedActions = [loginSubmit(), loginSuccess(successPayload)];
-    fetchMock.mock('http://localhost:9876/auth/login', { ok: true, payload: successPayload });
+    fetchMock.mock('http://localhost:9876/auth/login', { result: successPayload });
 
     const store = mockStore({}, expectedActions, () => {
       test.ok(true, 'expected actions were fired');
@@ -105,20 +105,17 @@ tape('# LoginForm - login action', nest => {
     );
   });
 
-  nest.test('Dispatch Login Action Fail', test => {
-    const failPayload = { password: 'The password is incorrect' };
-    const failArgs = new Error('Login Failed');
-    failArgs.details = failPayload;
+  nest.test('Redux Form Dispatch Login Action Fail', test => {
+    const failPayload = { message: 'Login failed', props: { password: 'The password is incorrect' } };
 
-    const expectedActions = [loginSubmit(), loginFail(failArgs)];
-    fetchMock.reMock('http://localhost:9876/auth/login', { ok: false, error: 'Login failed', payload: failPayload });
+    const expectedActions = [loginSubmit(), loginFail(failPayload)];
+    fetchMock.reMock('http://localhost:9876/auth/login', { error: failPayload });
 
     const store = mockStore({}, expectedActions, () => {
       test.ok(true, 'expected actions were fired');
     });
 
     const expectedError = new Error('Login Failed');
-    expectedError.details = failPayload;
     expectedError._error = 'Login failed';
     expectedError.password = 'The password is incorrect';
 
@@ -175,9 +172,17 @@ tape('# LoginForm - login reducer', nest => {
   });
 
   nest.test('handle LOGIN_FAIL', test => {
-    const action = loginFail(new Error('Kaboom!'));
-    const expected = { loaded: false, loggingIn: false, loginError: { form: 'Kaboom!' }, user: null };
+    const action = loginFail({ password: 'The password is incorrect' });
+    const expected = { loaded: false, loggingIn: false, loginError: { password: 'The password is incorrect' } };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_FAIL ok');
+    test.end();
+  });
+
+  nest.test('handle LOGIN_REQUEST_FAIL', test => {
+    const error = new Error('Kaboom!');
+    const action = loginRequestFail(error);
+    const expected = { loaded: false, loggingIn: false, error };
+    test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_REQUEST_FAIL ok');
     test.end();
   });
 });
