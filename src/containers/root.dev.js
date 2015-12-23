@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import DevTools from './dev-tools';
+
+import { Provider } from 'react-redux';
+import { createDevTools } from 'redux-devtools';
+import LogMonitor from 'redux-devtools-log-monitor';
+import DockMonitor from 'redux-devtools-dock-monitor';
 
 import routes from '../routes';
 import { load } from '../store/modules/auth';
+
+const DevTools = createDevTools(
+  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
+    <LogMonitor />
+  </DockMonitor>
+);
 
 export default class Root extends Component {
   static propTypes = {
