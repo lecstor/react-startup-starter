@@ -15,6 +15,8 @@ const DevTools = createDevTools(
   </DockMonitor>
 );
 
+export { DevTools };
+
 export default class Root extends Component {
   static propTypes = {
     store: React.PropTypes.object,
