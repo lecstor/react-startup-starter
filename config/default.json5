@@ -2,7 +2,7 @@
   server_host: 'localhost',
   server_port: 3000,
 
-  webpack_config_file: './webpack.config.dev',
+  webpack_config_file: './webpack/development',
 
   globals: {
     '__DEV_TOOLS_MONITOR__': true,

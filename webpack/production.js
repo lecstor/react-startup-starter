@@ -10,10 +10,7 @@ module.exports = {
   name: 'client',
   target: 'web',
   devtool: 'source-map',
-  resolve: {
-    root: __dirname + '/src'
-  },
-  json: true,
+  // json: true,
   entry: {
     app: [
       './src/index'
@@ -28,7 +25,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '../', 'dist'),
     filename: '[name].[hash].js',
     publicPath: '/'
   },
@@ -47,7 +44,7 @@ module.exports = {
                        // This slows down the compilation
     }),
     new HtmlWebpackPlugin({
-      template : path.join(__dirname, 'src', 'index.html'),
+      template : path.join(__dirname, '../', 'src', 'index.html'),
       hash     : false,
       filename : 'index.html',
       inject   : 'body',
@@ -69,7 +66,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: path.join(__dirname, 'src'),
+        include: path.join(__dirname, '../', 'src'),
         query: {
           presets: ['es2015', 'stage-0', 'react']
         }

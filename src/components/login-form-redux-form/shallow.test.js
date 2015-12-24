@@ -159,7 +159,7 @@ tape('# LoginForm - login reducer', nest => {
 
   nest.test('handle LOGIN', test => {
     const action = loginSubmit();
-    const expected = { loaded: false, loggingIn: true };
+    const expected = { loaded: false, loggingIn: true, loginError: undefined, error: undefined };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN ok');
     test.end();
   });

@@ -15,11 +15,11 @@ module.exports = function (config) {
     frameworks: ['tap'],
 
     files: [
-      'webpack.tests.js'
+      'webpack/tests.js'
     ],
 
     preprocessors: {
-      'webpack.tests.js': ['webpack', 'sourcemap']
+      'webpack/tests.js': ['webpack', 'sourcemap']
     },
 
     reporters: ['dots', 'coverage'],

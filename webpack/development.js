@@ -29,7 +29,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '../', 'dist'),
     filename: '[name].[hash].js',
     publicPath: '/'
   },
@@ -38,7 +38,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(config.get('globals')),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'index.html'),
+      template: path.join(__dirname, '../', 'src', 'index.html'),
       hash: false,
       filename: 'index.html',
       inject: 'body',
@@ -52,7 +52,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: path.join(__dirname, 'src'),
+        include: path.join(__dirname, '../', 'src'),
         exclude: /node_modules/,
         query: {
           presets: ['es2015', 'stage-0', 'react'],

@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { IndexLink } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-
-import * as actions from './actions';
 
 // We define mapStateToProps and mapDispatchToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
@@ -15,9 +12,6 @@ import * as actions from './actions';
 const mapStateToProps = (state) => ({
   auth: state.auth,
   routerState: state.routing,
-});
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch),
 });
 
 export class TopNav extends Component {
@@ -67,4 +61,4 @@ TopNav.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopNav);
+export default connect(mapStateToProps)(TopNav);

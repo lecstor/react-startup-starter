@@ -32,7 +32,7 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: false, error: action.error };
 
     case LOGIN:
-      return { ...state, loggingIn: true };
+      return { ...state, loggingIn: true, error: undefined, loginError: undefined };
     case LOGIN_SUCCESS:
       return { ...state, loggingIn: false, error: undefined, loginError: undefined, loaded: true, user: action.result };
     case LOGIN_FAIL:
