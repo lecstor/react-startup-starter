@@ -51,8 +51,19 @@ const LoginForm = ({ actions, email, password, loggingIn, error, loginError = { 
   let emailAlert = emailErr ? 'error' : undefined;
   if (passAlert) emailAlert = 'success';
 
-  const handleChange = action => event => action(event.target.value);
-  const handleSubmit = () => actions.login({ email, password });
+  // these single line functions are nice, and work fine, but they mess with istanbul/test coverage
+  // const handleChange = action => event => action(event.target.value);
+  // const handleSubmit = () => actions.login({ email, password });
+
+  const handleChange = action => {
+    return event => {
+      return action(event.target.value);
+    };
+  };
+
+  const handleSubmit = () => {
+    return actions.login({ email, password });
+  };
 
   return (
     <form onSubmit={handleSubmit}>

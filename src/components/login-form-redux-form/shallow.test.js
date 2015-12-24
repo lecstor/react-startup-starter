@@ -11,7 +11,7 @@ import reducer, { loginSubmit, loginSuccess, loginFail, loginRequestFail } from 
 const middlewares = [hyperActions];
 const mockStore = configureMockStore(middlewares);
 
-tape('# LoginForm - Component', nest => {
+tape('# LoginFormReduxForm - Component', nest => {
   nest.test('Displays correctly with no errors', test => {
     const props = {
       handleSubmit: () => {},
@@ -82,7 +82,7 @@ tape('# LoginForm - Component', nest => {
   });
 });
 
-tape('# LoginForm - login action', nest => {
+tape('# LoginFormReduxForm - login action', nest => {
   nest.test('Dispatch Login Action Success', test => {
     const successPayload = { id: 123321, email: 'ok@example.com', name: 'Buddy' };
     const expectedActions = [loginSubmit(), loginSuccess(successPayload)];
@@ -151,7 +151,7 @@ tape('# LoginForm - login action', nest => {
   });
 });
 
-tape('# LoginForm - login reducer', nest => {
+tape('# LoginFormReduxForm - login reducer', nest => {
   nest.test('return the initial state', test => {
     test.deepEquals(reducer(undefined, {}), { loaded: false });
     test.end();

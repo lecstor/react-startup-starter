@@ -28,9 +28,10 @@ module.exports = function (config) {
       devtool: 'inline-source-map',
       module: {
         preLoaders: [{
-          test    : /\.(js|jsx)$/,
-          include : /src/,
-          loader  : 'isparta'
+          test: /\.(js|jsx)$/,
+          include: /src/,
+          exclude: /node_modules/,
+          loader: 'isparta'
         }],
         loaders: [
           {
