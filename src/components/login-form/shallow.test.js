@@ -2,7 +2,7 @@ import React from 'react';
 import tape from 'blue-tape';
 import { shallow } from 'enzyme';
 
-import LoginForm from './';
+import { LoginForm } from './';
 
 tape('# LoginForm - Pure Function Component', nest => {
   nest.test('Displays correctly with no errors', test => {
