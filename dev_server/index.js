@@ -4,6 +4,7 @@ import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import history from 'connect-history-api-fallback';
+import uuid from 'node-uuid';
 
 import sessions from 'client-sessions';
 import cookieParser from 'cookie-parser';
@@ -15,6 +16,8 @@ const webpackConfig = require(path.join('../', config.get('webpack_config_file')
 
 const app = express();
 const compiler = webpack(webpackConfig);
+
+const USERS = {};
 
 app.use(history());
 app.use(bodyParser.json());
@@ -45,15 +48,31 @@ app.delete('/auth', (req, res) => {
   }, 1000);
 });
 
+app.post('/auth/signup', (req, res) => {
+  const values = req.body;
+  res.type('application/json');
+  setTimeout(() => {
+    if (values.email) {
+      const user = { id: uuid.v4(), email: values.email };
+      USERS[user.email] = user.id;
+      req.my_session.user = user;
+      res.set('status', 200).send({ result: user });
+    } else {
+      res.set('status', 200).send({ error: { message: 'Signup failed', props: { email: 'The email address must be an email address' } } });
+    }
+    res.end();
+  }, 1000);
+});
+
 app.post('/auth/login', (req, res) => {
   const values = req.body;
   res.type('application/json');
   setTimeout(() => {
     if (values.password === 'boom' || values.email === 'boom') {
       res.sendStatus(500);
-    } else if (values.email === 'ok@example.com') {
+    } else if (USERS[values.email] || values.email === 'ok@example.com') {
       if (values.password === 'password') {
-        const user = { id: 123321, email: 'ok@example.com', name: 'Buddy' };
+        const user = { id: USERS[values.email] || 123321, email: values.email };
         req.my_session.user = user;
         res.set('status', 200).send({ result: user });
       } else {

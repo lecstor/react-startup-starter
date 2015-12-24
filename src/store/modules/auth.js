@@ -4,6 +4,10 @@ const LOAD = 'rss/auth/LOAD';
 const LOAD_SUCCESS = 'rss/auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'rss/auth/LOAD_FAIL';
 const LOAD_REQUEST_FAIL = 'rss/auth/LOAD_REQUEST_FAIL';
+const SIGNUP = 'rss/auth/SIGNUP';
+const SIGNUP_SUCCESS = 'rss/auth/SIGNUP_SUCCESS';
+const SIGNUP_FAIL = 'rss/auth/SIGNUP_FAIL';
+const SIGNUP_REQUEST_FAIL = 'rss/auth/SIGNUP_REQUEST_FAIL';
 const LOGIN = 'rss/auth/LOGIN';
 const LOGIN_SUCCESS = 'rss/auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'rss/auth/LOGIN_FAIL';
@@ -30,6 +34,15 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: false };
     case LOAD_REQUEST_FAIL:
       return { ...state, loading: false, error: action.error };
+
+    case SIGNUP:
+      return { ...state, signingUp: true, error: undefined, signupError: undefined };
+    case SIGNUP_SUCCESS:
+      return { ...state, signingUp: false, error: undefined, signupError: undefined, loaded: true, user: action.result };
+    case SIGNUP_FAIL:
+      return { ...state, signingUp: false, error: undefined, signupError: action.error };
+    case SIGNUP_REQUEST_FAIL:
+      return { ...state, signingUp: false, error: action.error, signupError: undefined };
 
     case LOGIN:
       return { ...state, loggingIn: true, error: undefined, loginError: undefined };
@@ -69,6 +82,13 @@ export function load () {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL, LOAD_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth'),
+  };
+}
+
+export function signup (creds) {
+  return {
+    types: [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL, SIGNUP_REQUEST_FAIL],
+    promise: fetch => fetch('/auth/signup', { method: 'post', body: JSON.stringify(creds) }),
   };
 }
 

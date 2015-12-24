@@ -29,6 +29,7 @@
     "history": "~1.13",
     "isomorphic-fetch": "^2.2.0",
     "json5": "^0.4.0",
+    "node-uuid": "^1.4.7",
     "react": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.3",

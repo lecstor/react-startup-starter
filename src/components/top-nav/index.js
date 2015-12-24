@@ -30,7 +30,7 @@ export class TopNav extends Component {
           <Nav pullRight navbar>
             {!auth.user &&
             <LinkContainer to="/signup">
-              <NavItem>Sign up</NavItem>
+              <NavItem>Sign Up</NavItem>
             </LinkContainer>}
             {!auth.user &&
             <LinkContainer to="/login">
@@ -44,7 +44,7 @@ export class TopNav extends Component {
             </LinkContainer>}
           </Nav>
           {auth.user &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{auth.user.name}</strong>.</p>}
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{auth.user.email}</strong>.</p>}
           {auth.loggingIn &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging In..</p>}
           {auth.loggingOut &&
