@@ -19,7 +19,7 @@ tape('# LoginForm - Pure Function Component', nest => {
     test.end();
   });
 
-  nest.test('Displays correctly with form error', test => {
+  nest.test('Displays correctly with request error', test => {
     const props = {
       error: new Error('Something is not right'),
       actions: {},
@@ -35,7 +35,7 @@ tape('# LoginForm - Pure Function Component', nest => {
 
   nest.test('Displays correctly with email input error', test => {
     const props = {
-      loginError: { email: 'That is not an email address' },
+      loginError: { props: { email: 'That is not an email address' } },
       actions: {},
       email: '',
       password: '',
@@ -49,7 +49,7 @@ tape('# LoginForm - Pure Function Component', nest => {
 
   nest.test('Displays correctly with password input error', test => {
     const props = {
-      loginError: { password: 'Incorrect Password' },
+      loginError: { props: { password: 'Incorrect Password' } },
       actions: {},
       email: '',
       password: '',

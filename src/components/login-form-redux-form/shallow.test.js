@@ -166,14 +166,14 @@ tape('# LoginForm - login reducer', nest => {
 
   nest.test('handle LOGIN_SUCCESS', test => {
     const action = loginSuccess({ name: 'Fred' });
-    const expected = { loaded: true, loggingIn: false, user: { name: 'Fred' } };
+    const expected = { loaded: true, loggingIn: false, user: { name: 'Fred' }, loginError: undefined, error: undefined };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_SUCCESS ok');
     test.end();
   });
 
   nest.test('handle LOGIN_FAIL', test => {
     const action = loginFail({ password: 'The password is incorrect' });
-    const expected = { loaded: false, loggingIn: false, loginError: { password: 'The password is incorrect' } };
+    const expected = { loaded: false, loggingIn: false, error: undefined, loginError: { password: 'The password is incorrect' } };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_FAIL ok');
     test.end();
   });
@@ -181,7 +181,7 @@ tape('# LoginForm - login reducer', nest => {
   nest.test('handle LOGIN_REQUEST_FAIL', test => {
     const error = new Error('Kaboom!');
     const action = loginRequestFail(error);
-    const expected = { loaded: false, loggingIn: false, error };
+    const expected = { loaded: false, loggingIn: false, loginError: undefined, error };
     test.deepEquals(reducer(undefined, action), expected, 'reducer LOGIN_REQUEST_FAIL ok');
     test.end();
   });

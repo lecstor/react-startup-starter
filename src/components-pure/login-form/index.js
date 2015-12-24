@@ -19,9 +19,11 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {Boolean}  options.loggingIn           [description]
  * @returns {Component}                            [description]
  */
-const LoginForm = ({ actions, email, password, loggingIn, error, loginError = {} }) => {
-  const passAlert = loginError.password ? 'error' : undefined;
-  let emailAlert = loginError.email ? 'error' : undefined;
+const LoginForm = ({ actions, email, password, loggingIn, error, loginError = { props: {} } }) => {
+  const emailErr = loginError.props.email;
+  const passErr = loginError.props.password;
+  const passAlert = passErr ? 'error' : undefined;
+  let emailAlert = emailErr ? 'error' : undefined;
   if (passAlert) emailAlert = 'success';
 
   const handleChange = action => event => action(event.target.value);
@@ -39,8 +41,8 @@ const LoginForm = ({ actions, email, password, loggingIn, error, loginError = {}
         <Button active={loggingIn} onClick={handleSubmit}> Log In </Button>
       </div>
       {error && <Alert bsStyle="danger">{error.message}</Alert>}
-      {loginError.email && <Alert bsStyle="warning">{loginError.email}</Alert>}
-      {loginError.password && <Alert bsStyle="warning">{loginError.password}</Alert>}
+      {emailErr && <Alert bsStyle="warning">{emailErr}</Alert>}
+      {passErr && <Alert bsStyle="warning">{passErr}</Alert>}
     </form>
   );
 };

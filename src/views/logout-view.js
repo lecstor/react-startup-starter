@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoginForm from '../components/login-form-native';
+import LoginForm from '../components/login-form';
 import { logout } from '../store/modules/auth';
 
 export class LogoutView extends React.Component {

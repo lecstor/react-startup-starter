@@ -34,11 +34,11 @@ export default function reducer (state = initialState, action = {}) {
     case LOGIN:
       return { ...state, loggingIn: true };
     case LOGIN_SUCCESS:
-      return { ...state, loggingIn: false, loaded: true, user: action.result };
+      return { ...state, loggingIn: false, error: undefined, loginError: undefined, loaded: true, user: action.result };
     case LOGIN_FAIL:
-      return { ...state, loggingIn: false, loginError: action.error };
+      return { ...state, loggingIn: false, error: undefined, loginError: action.error };
     case LOGIN_REQUEST_FAIL:
-      return { ...state, loggingIn: false, error: action.error };
+      return { ...state, loggingIn: false, error: action.error, loginError: undefined };
 
     case LOGOUT:
       return { ...state, loggingOut: true };
