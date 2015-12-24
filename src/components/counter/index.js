@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import actionCreators from './action-creators';
-import createButton from '../../components-pure/button';
+import createButton from '../button';
 
 // We'll use the Redux `connect` function to simplify the process of setting the
 // properties in our component.
