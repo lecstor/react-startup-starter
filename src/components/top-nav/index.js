@@ -4,20 +4,17 @@ import { IndexLink } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
-// We define mapStateToProps and mapDispatchToProps where we'd normally use
-// the @connect decorator so the data requirements are clear upfront, but then
-// export the decorated component after the main class definition so
-// the component can be tested w/ and w/o being connected.
-// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  routerState: state.routing,
 });
 
+// Export bare component for testing
+// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 export class TopNav extends Component {
   render () {
     const { auth } = this.props;
     const styles = require('./style.scss');
+
     return (
       <Navbar fixedTop className={styles.navbar}>
         <Navbar.Header>
@@ -38,9 +35,7 @@ export class TopNav extends Component {
             </LinkContainer>}
             {auth.user &&
             <LinkContainer to="/logout">
-              <NavItem className="logout-link">
-                Logout
-              </NavItem>
+              <NavItem>Logout</NavItem>
             </LinkContainer>}
           </Nav>
           {auth.user &&
@@ -60,5 +55,21 @@ TopNav.propTypes = {
   auth: PropTypes.object,
 };
 
+// set pure to false to render after changing to a dynamic route (see below)
+export default connect(mapStateToProps, null, null, { pure: false })(TopNav);
 
-export default connect(mapStateToProps)(TopNav);
+// *There is likely a better solution for this*
+//
+// Dynamic Routes (React-Router) https://github.com/rackt/react-router/blob/latest/docs/guides/advanced/DynamicRouting.md
+//
+// When using dynamic routes, with TopNav as a pure component, TopNav is not
+// re-rendered the first time a dynamic route is loaded preventing the selected
+// link from displaying as "active".
+//
+// connect options
+// [pure = true] (Boolean): If true, implements shouldComponentUpdate and shallowly
+// compares the result of mergeProps, preventing unnecessary updates, assuming that
+// the component is a “pure” component and does not rely on any input or state other
+// than its props and the selected Redux store’s state. Defaults to true
+//
+// https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options

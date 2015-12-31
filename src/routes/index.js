@@ -1,18 +1,42 @@
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
 import AppLayout from '../layouts/app-layout';
 import HomeView from '../views/home-view';
-import AboutView from '../views/about-view';
-import SignupView from '../views/signup-view';
 import LoginView from '../views/login-view';
-import LogoutView from '../views/logout-view';
 
-export default (
-  <Route component={AppLayout} path="/">
-    <IndexRoute component={HomeView} />
-    <Route component={AboutView} path="/about" />
-    <Route component={SignupView} path="/signup" />
-    <Route component={LoginView} path="/login" />
-    <Route component={LogoutView} path="/logout" />
-  </Route>
-);
+// By dynamically requiring our route components we're telling webpack to separate
+// our app into chuncks that will be downloaded on-demand.
+//
+// Dynamic Routes (React-Router) https://github.com/rackt/react-router/blob/latest/docs/guides/advanced/DynamicRouting.md
+
+const rootRoute = {
+  component: 'div',
+  childRoutes: [
+    {
+      path: '/',
+      component: AppLayout,
+      indexRoute: { component: HomeView },
+      childRoutes: [
+        { path: '/login', component: LoginView },
+        {
+          path: 'signup',
+          getComponent (location, cb) {
+            require.ensure([], require => cb(null, require('../views/signup-view').default));
+          },
+        },
+        {
+          path: 'about',
+          getComponent (location, cb) {
+            require.ensure([], require => cb(null, require('../views/about-view').default));
+          },
+        },
+        {
+          path: 'logout',
+          getComponent (location, cb) {
+            require.ensure([], require => cb(null, require('../views/logout-view').default));
+          },
+        },
+      ],
+    },
+  ],
+};
+
+module.exports = rootRoute;
