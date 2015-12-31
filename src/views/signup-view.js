@@ -2,8 +2,8 @@ import React from 'react';
 
 import SignupForm from '../components/signup-form';
 
-// don't use pure function components for views or
-// react-transform-hmr won't work for us (for now)
+// don't use pure function components for views or react-transform-hmr
+// won't work for us (for now)
 export default class Signup extends React.Component {
   render () {
     return (

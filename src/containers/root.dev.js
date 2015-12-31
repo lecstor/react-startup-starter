@@ -30,9 +30,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <div>
-          <Router history={this.props.history}>
-            {routes}
-          </Router>
+          <Router history={this.props.history} routes={routes} />
           <DevTools />
         </div>
       </Provider>
