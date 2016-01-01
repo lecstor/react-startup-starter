@@ -38,7 +38,10 @@ app.use(devMiddleware(compiler, {
 app.use(hotMiddleware(compiler));
 
 app.get('/auth', (req, res) => {
-  res.send({ result: req.my_session.user });
+  if (req.my_session.user && req.my_session.user.id) {
+    return res.send({ result: req.my_session.user });
+  }
+  return res.send({ error: { message: 'No active session' } });
 });
 
 app.delete('/auth', (req, res) => {
