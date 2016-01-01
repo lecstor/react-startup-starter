@@ -1,3 +1,5 @@
+import { pushPath } from 'redux-simple-router';
+
 // https://github.com/rackt/redux/issues/99
 // https://github.com/erikras/react-redux-universal-hot-example/blob/master/src/redux/middleware/clientMiddleware.js
 const LOAD = 'rss/auth/LOAD';
@@ -27,9 +29,7 @@ export default function reducer (state = initialState, action = {}) {
     case LOAD:
       return { ...state, loading: true };
     case LOAD_SUCCESS:
-      // if (action.result && action.result.id) {
       return { ...state, loading: false, loaded: true, user: action.result };
-      // }
     case LOAD_FAIL:
       return { ...state, loading: false };
     case LOAD_REQUEST_FAIL:
@@ -71,6 +71,10 @@ export function isLoaded (globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
+export function redirectToApp (dispatch, path = '/app') {
+  dispatch(pushPath(/^\/app/.test(path) ? path : '/app'));
+}
+
 /**
  * The load, login, and logout functions return actions that will be intercepted by the redux
  * middleware in store/middleware/hyperActions.js which will dispatch the first action type,
@@ -78,10 +82,11 @@ export function isLoaded (globalState) {
  * the result of the promise function.
  */
 
-export function load () {
+export function load (currentPath) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL, LOAD_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth'),
+    onSuccess: ({ dispatch }) => redirectToApp(dispatch, currentPath),
   };
 }
 
@@ -92,10 +97,11 @@ export function signup (creds) {
   };
 }
 
-export function login (creds) {
+export function login (creds, sourcePath) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_REQUEST_FAIL],
     promise: fetch => fetch('/auth/login', { method: 'post', body: JSON.stringify(creds) }),
+    onSuccess: ({ dispatch }) => redirectToApp(dispatch, sourcePath),
   };
 }
 
@@ -103,6 +109,7 @@ export function logout () {
   return {
     types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL, LOGOUT_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth', { method: 'delete' }),
+    onSuccess: ({ dispatch }) => dispatch(pushPath('/')),
   };
 }
 
