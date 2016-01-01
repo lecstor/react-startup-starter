@@ -13,7 +13,12 @@ import fetch from '../customFetch';
  * The value of the promise property is a function which returns a promise.
  * The first action type is dispatched first, then the promise function is called.
  * If the promise resolves then the second action type is dispatched with the result.
- * If the promise rejects or catches, then the third action type is dispatched with the error.
+ * If the promise rejects or one of the promise handlers fails, then the third action type
+ * is dispatched with the error.
+ *
+ * Promise actions may also have onSuccess, onFail, or onRequestFail properties for functions
+ * to be called after the action has completed. The function will be called with an object
+ * containing the dispatch and getState functions.
  */
 export default function hyperActions ({ dispatch, getState }) {
   return next => action => {
@@ -21,7 +26,7 @@ export default function hyperActions ({ dispatch, getState }) {
       return action(dispatch, getState);
     }
 
-    const { promise, types, ...rest } = action;
+    const { promise, types, onSuccess, onFail, onRequestFail, ...rest } = action;
     if (!promise) {
       return next(action);
     }
@@ -32,14 +37,20 @@ export default function hyperActions ({ dispatch, getState }) {
       (response) => {
         if (response.error) {
           next({ ...rest, error: response.error, type: FAILURE });
+          if (onFail) onFail({ dispatch, getState });
         } else {
           next({ ...rest, result: response.result, type: SUCCESS });
+          if (onSuccess) onSuccess({ dispatch, getState });
         }
       },
-      (error) => next({ ...rest, error, type: REQUEST_FAILURE })
+      (error) => {
+        next({ ...rest, error, type: REQUEST_FAILURE });
+        if (onRequestFail) onRequestFail(dispatch);
+      }
     ).catch((error) => {
       console.error('MIDDLEWARE ERROR:', JSON.stringify(error, null, 2));
       next({ ...rest, error, type: REQUEST_FAILURE });
+      if (onRequestFail) onRequestFail({ dispatch, getState });
     });
   };
 }
