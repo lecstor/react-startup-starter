@@ -34,6 +34,12 @@ const rootRoute = {
             require.ensure([], require => cb(null, require('../views/logout-view').default));
           },
         },
+        {
+          path: 'app',
+          getComponent (location, cb) {
+            require.ensure([], require => cb(null, require('../views/app-view').default));
+          },
+        },
       ],
     },
   ],
