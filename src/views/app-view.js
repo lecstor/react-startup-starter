@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
 import { LinkContainer } from 'react-router-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
