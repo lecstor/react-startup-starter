@@ -8,7 +8,7 @@
     "lint": "eslint ./src/ ./tests/",
     "build": "NODE_ENV=production webpack --config webpack/production.js",
     "build:dev": "webpack --config webpack/development.js",
-    "build:stats": "webpack --config webpack/production.js --profile --json > dist/stats.json",
+    "build:stats": "NODE_ENV=production webpack --config webpack/production.js --profile --json > dist/stats.json",
     "start": "NODE_PATH='src' node dev_server.js",
     "start:prod": "NODE_ENV=production npm run start",
     "test": "karma start karma.conf.js",
