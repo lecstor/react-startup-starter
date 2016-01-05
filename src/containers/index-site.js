@@ -4,7 +4,7 @@ import Counter from '../components/counter';
 
 // don't use pure function components for views or
 // react-transform-hmr won't work for us (for now)
-export class HomeView extends React.Component {
+export class IndexSite extends React.Component {
   render () {
     return (
       <div className="container text-center">
@@ -17,4 +17,4 @@ export class HomeView extends React.Component {
   }
 }
 
-export default HomeView;
+export default IndexSite;

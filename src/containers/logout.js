@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { logout } from '../store/modules/auth';
 
-export class LogoutView extends React.Component {
+export class Logout extends React.Component {
   static propTypes = {
     logout: React.PropTypes.func.isRequired,
   }
@@ -22,4 +22,4 @@ export class LogoutView extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({ logout: () => dispatch(logout()) });
 
-export default connect(undefined, mapDispatchToProps)(LogoutView);
+export default connect(undefined, mapDispatchToProps)(Logout);

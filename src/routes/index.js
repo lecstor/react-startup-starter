@@ -1,4 +1,4 @@
-import SignupView from '../containers/signup-view';
+import SignupView from '../containers/signup';
 
 // Code splitting is controlled via our routes.
 //
@@ -13,49 +13,43 @@ const rootRoute = {
     {
       path: '/',
       getComponent (location, cb) {
-        require.ensure([], require => cb(null, require('../containers/app-layout').default));
+        require.ensure([], require => cb(null, require('../containers/layout-site').default));
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../containers/home-view').default));
+          require.ensure([], require => cb(null, require('../containers/index-site').default));
         },
       },
       childRoutes: [
         {
           path: 'login',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/login-view').default));
+            require.ensure([], require => cb(null, require('../containers/login').default));
           },
         },
         { path: 'signup', component: SignupView },
         {
           path: 'about',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/about-view').default));
+            require.ensure([], require => cb(null, require('../containers/about').default));
           },
         },
         {
           path: 'logout',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/logout-view').default));
-          },
-        },
-        {
-          path: 'app',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/app-view').default));
+            require.ensure([], require => cb(null, require('../containers/logout').default));
           },
         },
       ],
     },
     {
-      path: '/alt',
+      path: '/app',
       getComponent (location, cb) {
-        require.ensure([], require => cb(null, require('../containers/alt-layout').default));
+        require.ensure([], require => cb(null, require('../containers/layout-app').default));
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../containers/alt-home-view').default));
+          require.ensure([], require => cb(null, require('../containers/index-app').default));
         },
       },
       childRoutes: [

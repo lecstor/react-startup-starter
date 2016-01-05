@@ -4,7 +4,7 @@ import LoginForm from '../components/login-form';
 
 // don't use pure function components for views or
 // react-transform-hmr won't work for us (for now)
-export default class LoginView extends React.Component {
+export default class Login extends React.Component {
   render () {
     return (
       <div className="container text-center">

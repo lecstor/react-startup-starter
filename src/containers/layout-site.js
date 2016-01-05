@@ -4,7 +4,7 @@ import TopNav from '../components/top-nav';
 
 import '../styles/core.scss';
 
-export default class AppLayout extends React.Component {
+export default class LayoutSite extends React.Component {
   static propTypes = {
     children: React.PropTypes.element,
   }
