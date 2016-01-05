@@ -15,13 +15,13 @@ export default class AltTopNav extends Component {
       <Navbar fixedTop className={styles.navbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.brand}>
-            <IndexLink to="/"> React Startup Starter </IndexLink>
+            <IndexLink to="/alt"> React Startup Starter </IndexLink>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight navbar>
-            <LinkContainer to="/l/signup">
+            <LinkContainer to="/alt/signup">
               <NavItem>Sign Up</NavItem>
             </LinkContainer>
           </Nav>
