@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import AltTopNav from '../components/alt-top-nav';
+import TopNavApp from '../components/top-nav-app';
 
 import '../styles/core.scss';
 
-export default class LayoutApp extends React.Component {
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export class LayoutApp extends Component {
   static propTypes = {
     children: React.PropTypes.element,
+    auth: PropTypes.object,
   }
   render () {
+    const { auth } = this.props;
+
     return (
       <div className="page-container">
-        <AltTopNav />
+        <TopNavApp {...auth} />
         <div className="view-container">
           <div className="container">
             <div style={{ width: '200px', float: 'left', marginRight: '10px' }}>
@@ -33,3 +41,5 @@ export default class LayoutApp extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(LayoutApp);

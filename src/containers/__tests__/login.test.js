@@ -5,28 +5,20 @@ import { Provider } from 'react-redux';
 
 import configureStore from '../../store';
 
-import LoginForm from './';
+import Login from '../login';
 
-function mountForm (store) {
+function mountComponent (store) {
   return mount(
     <Provider store={store}>
-      <LoginForm />
+      <Login />
     </Provider>
   );
 }
 
-// log is work-around for ReferenceError: inspect is not defined
-//    at Console.console.log (http://localhost:9876/base/node_modules/karma-tap/src/adapter.js:39:20)
-// function log (...obj) { console.log(JSON.stringify(obj)); }
-
-tape('# LoginForm - Component - Full Render', nest => {
+tape('# Login', nest => {
   nest.test('  Submit the form', test => {
     const store = configureStore();
-    const wrapper = mountForm(store);
-
-    test.equal(wrapper.find('Alert').length, 0, 'node has no alerts');
-    const button = wrapper.find('Button');
-    test.equal(button.length, 1, 'node has one button');
+    const wrapper = mountComponent(store);
 
     const inputs = wrapper.find('Input');
     const emailInput = inputs.at(0);
@@ -37,6 +29,7 @@ tape('# LoginForm - Component - Full Render', nest => {
     passInput.simulate('change', { target: { value: 'mypassword' } });
     test.equals(passInput.props().value, 'mypassword', 'password set on change');
 
+    const button = wrapper.find('Button');
     button.simulate('click');
     test.ok(button.hasClass('active'), 'button is active');
     test.end();

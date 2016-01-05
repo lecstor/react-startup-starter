@@ -14,7 +14,7 @@ const mapStateToProps = (state) => ({
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 export class TopNav extends Component {
   render () {
-    const { auth } = this.props;
+    const { user, loggingIn, loggingOut } = this.props;
     const styles = require('./style.scss');
 
     return (
@@ -27,24 +27,24 @@ export class TopNav extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight navbar>
-            {!auth.user &&
+            {!user &&
             <LinkContainer to="/signup">
               <NavItem>Sign Up</NavItem>
             </LinkContainer>}
-            {!auth.user &&
+            {!user &&
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>}
-            {auth.user &&
+            {user &&
             <LinkContainer to="/logout">
               <NavItem>Logout</NavItem>
             </LinkContainer>}
           </Nav>
-          {auth.user &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{auth.user.email}</strong>.</p>}
-          {auth.loggingIn &&
+          {user &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>}
+          {loggingIn &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging In..</p>}
-          {auth.loggingOut &&
+          {loggingOut &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging Out..</p>}
         </Navbar.Collapse>
       </Navbar>
@@ -53,8 +53,9 @@ export class TopNav extends Component {
 }
 
 TopNav.propTypes = {
-  actions: PropTypes.object,
-  auth: PropTypes.object,
+  user: PropTypes.object,
+  loggingIn: PropTypes.bool,
+  loggingOut: PropTypes.bool,
 };
 
 // set pure to false to render after changing to a dynamic route (see below)

@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { routeReducer as routing } from 'redux-simple-router';
 
-import counter from '../components/counter/action-reducers';
 import auth from '../store/modules/auth';
 import loginForm from '../store/modules/login-form';
 import signupForm from '../store/modules/signup-form';
@@ -15,7 +14,6 @@ export function createReducer (initialState, fnMap) {
 
 export default combineReducers({
   routing,
-  counter,
   auth,
   loginForm,
   signupForm,
