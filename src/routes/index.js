@@ -1,3 +1,5 @@
+import { pushPath } from 'redux-simple-router';
+
 import SignupView from '../containers/signup';
 
 // Code splitting is controlled via our routes.
@@ -7,7 +9,7 @@ import SignupView from '../containers/signup';
 //
 // Dynamic Routes (React-Router) https://github.com/rackt/react-router/blob/latest/docs/guides/advanced/DynamicRouting.md
 
-const rootRoute = {
+const getRoutes = (store) => ({
   component: 'div',
   childRoutes: [
     {
@@ -44,6 +46,11 @@ const rootRoute = {
     },
     {
       path: '/app',
+      onEnter () {
+        if (!store.getState().auth.loaded) {
+          store.dispatch(pushPath('/login'));
+        }
+      },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-app').default));
       },
@@ -57,6 +64,6 @@ const rootRoute = {
       ],
     },
   ],
-};
+});
 
-module.exports = rootRoute;
+module.exports = getRoutes;

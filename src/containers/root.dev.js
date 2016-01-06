@@ -6,7 +6,7 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 
-import routes from '../routes';
+import getRoutes from '../routes';
 import { load } from '../store/modules/auth';
 
 const DevTools = createDevTools(
@@ -30,7 +30,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <div>
-          <Router history={this.props.history} routes={routes} />
+          <Router history={this.props.history} routes={getRoutes(store)} />
           <DevTools />
         </div>
       </Provider>
