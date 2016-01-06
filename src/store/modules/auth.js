@@ -21,17 +21,18 @@ const LOGOUT_REQUEST_FAIL = 'rss/auth/LOGOUT_REQUEST_FAIL';
 
 const initialState = {
   loaded: false,
+  loadDone: false,
 };
 
 export default function reducer (state = initialState, action = {}) {
   switch (action.type) {
 
     case LOAD:
-      return { ...state, loading: true };
+      return { ...state, loading: true, loadDone: true };
     case LOAD_SUCCESS:
-      return { ...state, loading: false, loaded: true, user: action.result };
+      return { ...state, loading: false, loadDone: true, loaded: true, user: action.result };
     case LOAD_FAIL:
-      return { ...state, loading: false };
+      return { ...state, loading: false, loadDone: true, failed: true };
     case LOAD_REQUEST_FAIL:
       return { ...state, loading: false, error: action.error };
 
@@ -72,7 +73,8 @@ export function isLoaded (globalState) {
 }
 
 export function redirectToApp (dispatch, path = '/app') {
-  dispatch(pushPath(/^\/app/.test(path) ? path : '/app'));
+  const redirectTo = /^\/app/.test(path) ? path : '/app';
+  dispatch(pushPath(redirectTo));
 }
 
 /**
@@ -82,11 +84,10 @@ export function redirectToApp (dispatch, path = '/app') {
  * the result of the promise function.
  */
 
-export function load (currentPath) {
+export function load () {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL, LOAD_REQUEST_FAIL],
     promise: (fetch) => fetch('/auth'),
-    onSuccess: ({ dispatch }) => redirectToApp(dispatch, currentPath),
   };
 }
 

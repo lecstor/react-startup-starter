@@ -7,7 +7,6 @@ import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 
 import getRoutes from '../routes';
-import { load } from '../store/modules/auth';
 
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
@@ -21,9 +20,6 @@ export default class Root extends Component {
   static propTypes = {
     store: React.PropTypes.object,
     history: React.PropTypes.object,
-  }
-  componentWillMount () {
-    this.props.store.dispatch(load());
   }
   render () {
     const { store } = this.props;

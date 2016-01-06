@@ -1,5 +1,8 @@
 import { pushPath } from 'redux-simple-router';
 
+import waiter from '../store/waiter';
+import { load } from '../store/modules/auth';
+
 import SignupView from '../containers/signup';
 
 // Code splitting is controlled via our routes.
@@ -14,6 +17,9 @@ const getRoutes = (store) => ({
   childRoutes: [
     {
       path: '/',
+      onEnter () {
+        if (!store.getState().auth.loadDone) store.dispatch(load());
+      },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-site').default));
       },
@@ -46,10 +52,15 @@ const getRoutes = (store) => ({
     },
     {
       path: '/app',
-      onEnter () {
-        if (!store.getState().auth.loaded) {
-          store.dispatch(pushPath('/login'));
-        }
+      onEnter (nextState, replaceState, callback) {
+        // by using the onEnter callback the route will wait until we are ready before continuing
+        // instead of calling the callback, we can redirect to another route if required.
+
+        // attempt to load the user if we haven't already
+        if (!store.getState().auth.loadDone) store.dispatch(load());
+
+        // wait while auth.loading then auth.loaded ? callback : dispatch pushPath('/login')
+        waiter(store, 'auth.loading', 'auth.loaded', callback, () => store.dispatch(pushPath('/login')));
       },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-app').default));
@@ -60,7 +71,12 @@ const getRoutes = (store) => ({
         },
       },
       childRoutes: [
-        { path: 'signup', component: SignupView },
+        {
+          path: 'apikeys',
+          getComponent (location, cb) {
+            require.ensure([], require => cb(null, require('../containers/app/apikeys').default));
+          },
+        },
       ],
     },
   ],
