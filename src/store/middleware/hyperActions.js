@@ -48,7 +48,7 @@ export default function hyperActions ({ dispatch, getState }) {
         if (onRequestFail) onRequestFail(dispatch);
       }
     ).catch((error) => {
-      console.error('MIDDLEWARE ERROR:', JSON.stringify(error, null, 2));
+      console.error('MIDDLEWARE ERROR:', error);
       next({ ...rest, error, type: REQUEST_FAILURE });
       if (onRequestFail) onRequestFail({ dispatch, getState });
     });
