@@ -70,6 +70,7 @@ Recommended Reading
 -------------------
 
 * [Redux Documentation](http://rackt.org/redux/index.html)
-* [Getting Started with Redux](https://egghead.io/series/getting-started-with-redux)
-* [5 Questions Every Unit Test Must Answer](https://medium.com/javascript-scene/what-every-unit-test-needs-f6cd34d9836d)
-* [The Two Pillars of JavaScript](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3)
+* [Getting Started with Redux (Dan Abramov)](https://egghead.io/series/getting-started-with-redux)
+* [5 Questions Every Unit Test Must Answer (Eric Elliot)](https://medium.com/javascript-scene/what-every-unit-test-needs-f6cd34d9836d)
+* [The Two Pillars of JavaScript (Eric Elliot)](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3)
+* [Redux best practices (Will Becker)](https://medium.com/lexical-labs-engineering/redux-best-practices-64d59775802e#.fkc9pmmyz)
