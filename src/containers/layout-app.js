@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { pushPath } from 'redux-simple-router';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -12,10 +14,20 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ pushPath }, dispatch),
+});
+
 export class LayoutApp extends Component {
   static propTypes = {
     children: React.PropTypes.element,
+    actions: PropTypes.object,
     auth: PropTypes.object,
+  }
+  componentWillMount () {
+    if (!this.props.auth.loaded) {
+      this.props.actions.pushPath('/login');
+    }
   }
   render () {
     const { auth } = this.props;
@@ -42,4 +54,4 @@ export class LayoutApp extends Component {
   }
 }
 
-export default connect(mapStateToProps)(LayoutApp);
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutApp);

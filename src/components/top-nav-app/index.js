@@ -26,7 +26,8 @@ export default class TopNavApp extends Component {
               <NavItem>Log Out</NavItem>
             </LinkContainer>
           </Nav>
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>
+          {user &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>}
           {loggingOut &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging Out..</p>}
         </Navbar.Collapse>
