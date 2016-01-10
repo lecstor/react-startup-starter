@@ -22,11 +22,11 @@ tape('# Login', nest => {
 
     const inputs = wrapper.find('Input');
     const emailInput = inputs.at(0);
-    emailInput.simulate('change', { target: { value: 'myemail' } });
+    emailInput.simulate('change', { target: { name: 'email', value: 'myemail' } });
     test.equals(emailInput.props().value, 'myemail', 'email set on change');
 
     const passInput = inputs.at(1);
-    passInput.simulate('change', { target: { value: 'mypassword' } });
+    passInput.simulate('change', { target: { name: 'password', value: 'mypassword' } });
     test.equals(passInput.props().value, 'mypassword', 'password set on change');
 
     const button = wrapper.find('Button');

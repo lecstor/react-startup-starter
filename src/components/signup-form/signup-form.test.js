@@ -9,7 +9,7 @@ let submitClicked = 0;
 
 const props = {
   handleSubmit: () => submitClicked++,
-  emailChange: () => changeTriggered++,
+  onInputChange: () => changeTriggered++,
   email: '',
 };
 
@@ -23,7 +23,7 @@ tape('# SignupForm - Bare Component', nest => {
   });
 
   nest.test('Displays correctly with request error', test => {
-    const tProps = Object.assign({}, props, { error: new Error('Something is not right') });
+    const tProps = Object.assign({}, props, { error: { server: { message: 'Something is not right' } } });
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -32,7 +32,7 @@ tape('# SignupForm - Bare Component', nest => {
   });
 
   nest.test('Displays correctly with email input error', test => {
-    const tProps = Object.assign({}, props, { signupError: { props: { email: 'That is not an email address' } } });
+    const tProps = Object.assign({}, props, { error: { props: { email: 'That is not an email address' } } });
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');

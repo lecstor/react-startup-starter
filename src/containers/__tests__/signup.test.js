@@ -22,7 +22,7 @@ tape('# Signup', nest => {
 
     const inputs = wrapper.find('Input');
     const emailInput = inputs.at(0);
-    emailInput.simulate('change', { target: { value: 'myemail' } });
+    emailInput.simulate('change', { target: { name: 'email', value: 'myemail' } });
     test.equals(emailInput.props().value, 'myemail', 'email set on change');
 
     const button = wrapper.find('Button');

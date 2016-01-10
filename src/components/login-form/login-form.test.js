@@ -9,8 +9,7 @@ let submitClicked = 0;
 
 const props = {
   handleSubmit: () => submitClicked++,
-  emailChange: () => changeTriggered++,
-  passwordChange: () => changeTriggered++,
+  onInputChange: () => changeTriggered++,
   email: '',
   password: '',
 };
@@ -26,7 +25,7 @@ tape('# LoginForm - Bare Component', nest => {
   });
 
   nest.test('Displays correctly with request error', test => {
-    const tProps = Object.assign({}, props, { error: new Error('Something is not right') });
+    const tProps = Object.assign({}, props, { error: { server: { message: 'Something is not right' } } });
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -35,7 +34,7 @@ tape('# LoginForm - Bare Component', nest => {
   });
 
   nest.test('Displays correctly with email input error', test => {
-    const tProps = Object.assign({}, props, { loginError: { props: { email: 'That is not an email address' } } });
+    const tProps = Object.assign({}, props, { error: { props: { email: 'That is not an email address' } } });
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -44,7 +43,7 @@ tape('# LoginForm - Bare Component', nest => {
   });
 
   nest.test('Displays correctly with password input error', test => {
-    const tProps = Object.assign({}, props, { loginError: { props: { password: 'Incorrect Password' } } });
+    const tProps = Object.assign({}, props, { error: { props: { password: 'Incorrect Password' } } });
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -73,4 +72,3 @@ tape('# LoginForm - Bare Component', nest => {
     test.end();
   });
 });
-

@@ -5,43 +5,45 @@ import Button from 'react-bootstrap/lib/Button';
 import Alert from 'react-bootstrap/lib/Alert';
 
 /**
- * [description]
- * @param   {Object}   options.emailChange         [description]
- * @param   {Function} options.handleSubmit        [description]
- * @param   {Error}    options.error               [description]
- * @param   {String}   options.signupError.error   [description]
- * @param   {String}   options.signupError.email   [description]
- * @param   {String}   options.email               [description]
- * @param   {Boolean}  options.signingUp           [description]
- * @returns {Component}                            [description]
+ * Signup Form Component
+ * @param   {Function} options.onInputChange
+ * @param   {Function} options.handleSubmit
+ * @param   {Object}   options.error
+ * @param   {String}   options.error.message
+ * @param   {String}   options.error.props.email
+ * @param   {String}   options.error.props.password
+ * @param   {Number}   options.error.server.status
+ * @param   {String}   options.error.server.message
+ * @param   {String}   options.email
+ * @param   {Boolean}  options.signingUp
+ * @returns {Component}
  */
-const SignupForm = ({ emailChange, handleSubmit, email, signingUp, error, signupError = { props: {} } }) => {
-  const emailErr = signupError.props.email;
-  const emailAlert = emailErr ? 'error' : undefined;
+const SignupForm = ({ email, signingUp, error, handleSubmit, onInputChange }) => {
+  const err = error ? { ...error, ...error.props } : {};
+  const emailAlert = err.email ? 'error' : undefined;
 
   const submit = () => handleSubmit(email);
 
   return (
     <form onSubmit={submit}>
-      <Input label="Email" type="email" placeholder="email" onChange={emailChange} value={email}
+      <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={email}
         bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
       />
       <div style={{ textAlign: 'right', marginBottom: '5px' }}>
         <Button active={signingUp} onClick={submit}> Log In </Button>
       </div>
-      {error && <Alert bsStyle="danger">{error.message}</Alert>}
-      {emailErr && <Alert bsStyle="warning">{emailErr}</Alert>}
+      {err.server && <Alert bsStyle="danger">{err.server.message}</Alert>}
+      {err.email && <Alert bsStyle="warning">{err.email}</Alert>}
     </form>
   );
 };
 
 SignupForm.propTypes = {
-  emailChange: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
-  signupError: PropTypes.object,
-  email: PropTypes.string.isRequired,
   signingUp: PropTypes.bool,
+  error: PropTypes.object,
+  email: PropTypes.string,
 };
 
 export default SignupForm;
