@@ -11,6 +11,7 @@ const ApiKey = ({ apikey, actions }) => {
   const enabledAction = () => actions.updateKey({ id: apikey.id, disabled: !apikey.disabled });
   const enabledLabel = apikey.disabled ? 'Enable' : 'Disable';
   const disableBsStyle = apikey.disabled ? 'success' : 'warning';
+  const deleteKey = () => actions.deleteKey(apikey);
   return (
     <Row style={{ borderBottom: '1px solid lightgrey', padding: '5px' }}>
       <Col xs={12} md={4}><strong>{apikey.label}</strong></Col>
@@ -19,7 +20,7 @@ const ApiKey = ({ apikey, actions }) => {
         <Button style={{ width: '80px', marginRight: '5px' }} bsSize="sm" onClick={enabledAction} bsStyle={disableBsStyle}>
           <Glyphicon glyph="off" /> {enabledLabel}
         </Button>
-        <Button style={{ width: '80px' }} bsSize="sm" onClick={actions.deleteKey} bsStyle="danger">
+        <Button style={{ width: '80px' }} bsSize="sm" onClick={deleteKey} bsStyle="danger">
           <Glyphicon glyph="remove" /> Delete
         </Button>
       </Col>

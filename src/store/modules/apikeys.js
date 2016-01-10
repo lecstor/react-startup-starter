@@ -1,3 +1,5 @@
+import findIndex from 'lodash/array/findIndex';
+
 const LOAD = 'rss/apikeys/LOAD';
 const LOAD_SUCCESS = 'rss/apikeys/LOAD_SUCCESS';
 const LOAD_FAIL = 'rss/apikeys/LOAD_FAIL';
@@ -28,6 +30,7 @@ export default function reducer (state = initialState, action = {}) {
     case LOAD_FAIL:
       return { ...state, loading: false, error: action.error };
 
+
     case CREATE_KEY:
       return { ...state, loading: true };
 
@@ -36,6 +39,25 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: false, keys };
 
     case CREATE_KEY_FAIL:
+      return { ...state, loading: false, error: action.error };
+
+
+    case DELETE_KEY:
+      return { ...state, loading: true };
+
+    case DELETE_KEY_SUCCESS:
+      const idx = findIndex(state.keys, { id: action.result.id });
+      if (idx < 0) return { ...state, loading: false };
+      return {
+        ...state,
+        loading: false,
+        keys: [
+          ...state.keys.slice(0, idx),
+          ...state.keys.slice(idx + 1),
+        ],
+      };
+
+    case DELETE_KEY_FAIL:
       return { ...state, loading: false, error: action.error };
 
     default:
@@ -67,6 +89,12 @@ export function updateKey (key) {
 export function deleteKey (key) {
   return {
     types: [DELETE_KEY, DELETE_KEY_SUCCESS, DELETE_KEY_FAIL],
-    promise: (fetch) => fetch(`/apikeys/${key.id}`, { method: 'delete' }),
+    promise: (fetch) => {
+      return fetch(`/apikeys/${key.id}`, { method: 'delete' })
+      .then((response) => {
+        if (!response.error) response.result = { id: key.id };
+        return response;
+      });
+    },
   };
 }
