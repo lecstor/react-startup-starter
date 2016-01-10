@@ -1,3 +1,5 @@
+import { pushPath } from 'redux-simple-router';
+
 import fetch from '../customFetch';
 
 /**
@@ -31,7 +33,7 @@ export default function hyperActions ({ dispatch, getState }) {
       return next(action);
     }
 
-    const [REQUEST, SUCCESS, FAILURE, REQUEST_FAILURE] = types;
+    const [REQUEST, SUCCESS, FAILURE] = types;
     next({ ...rest, type: REQUEST });
     return promise(fetch).then(
       (response) => {
@@ -44,13 +46,16 @@ export default function hyperActions ({ dispatch, getState }) {
         }
       },
       (error) => {
-        next({ ...rest, error, type: REQUEST_FAILURE });
-        if (onRequestFail) onRequestFail(dispatch);
+        // server returned response code <200 || >= 300
+        const err = { server: { status: error.status, message: error.message || error.name } };
+        next({ ...rest, error: err, type: FAILURE });
+        if (error.status === 403) {
+          setTimeout(() => dispatch(pushPath(`/login/from${getState().routing.path}`)), 1000);
+        }
       }
     ).catch((error) => {
       console.error('MIDDLEWARE ERROR:', error);
-      next({ ...rest, error, type: REQUEST_FAILURE });
-      if (onRequestFail) onRequestFail({ dispatch, getState });
+      next({ ...rest, error, type: FAILURE });
     });
   };
 }
