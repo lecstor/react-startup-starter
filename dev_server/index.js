@@ -6,6 +6,8 @@ import hotMiddleware from 'webpack-hot-middleware';
 import history from 'connect-history-api-fallback';
 import uuid from 'node-uuid';
 
+import { omit, values, find } from 'lodash';
+
 import sessions from 'client-sessions';
 import cookieParser from 'cookie-parser';
 
@@ -17,7 +19,38 @@ const webpackConfig = require(path.join('../', config.get('webpack_config_file')
 const app = express();
 const compiler = webpack(webpackConfig);
 
-const USERS = {};
+const STORE = {
+  user_a5c7651399a6423caf8f794a6f033311: {
+    user: { id: 'user_a5c7651399a6423caf8f794a6f033311', email: 'ok@example.com', password: 'password' },
+    account: {
+      apikeys: [
+        { label: 'Marketing', id: 'live_d99b7bc0b7784a2fb58b7899c946955a', disabled: false },
+        { label: 'Billing', id: 'live_31ed432cd186400ab32e09a602837d3c', disabled: true },
+        { label: 'Billing (Test)', id: 'test_8cf7c437ccf545bf810b099b15bbe0cd', disabled: false, test: true },
+      ],
+    },
+  },
+};
+
+function getStore (req) {
+  if (req.my_session.user && STORE[req.my_session.user.id]) return STORE[req.my_session.user.id];
+  return null;
+}
+
+function userByEmail (email) {
+  return find(values(STORE), store => store.user.email === email);
+}
+
+function newStore (email) {
+  const store = {
+    user: { email, id: uuid.v4() },
+    account: {
+      apikeys: [],
+    },
+  };
+  STORE[store.user.id] = store;
+  return store;
+}
 
 app.use(history());
 app.use(bodyParser.json());
@@ -38,10 +71,11 @@ app.use(devMiddleware(compiler, {
 app.use(hotMiddleware(compiler));
 
 app.get('/auth', (req, res) => {
+  res.type('application/json');
   if (req.my_session.user && req.my_session.user.id) {
     return res.send({ result: req.my_session.user });
   }
-  return res.send({ error: { message: 'No active session' } });
+  res.send({ result: undefined });
 });
 
 app.delete('/auth', (req, res) => {
@@ -52,14 +86,13 @@ app.delete('/auth', (req, res) => {
 });
 
 app.post('/auth/signup', (req, res) => {
-  const values = req.body;
+  const body = req.body;
   res.type('application/json');
   setTimeout(() => {
-    if (values.email) {
-      const user = { id: uuid.v4(), email: values.email };
-      USERS[user.email] = user.id;
-      req.my_session.user = user;
-      res.set('status', 200).send({ result: user });
+    if (body.email) {
+      const store = newStore(body.email);
+      req.my_session.user = store.user;
+      res.set('status', 200).send({ result: store.user });
     } else {
       res.set('status', 200).send({ error: { message: 'Signup failed', props: { email: 'The email address must be an email address' } } });
     }
@@ -68,24 +101,46 @@ app.post('/auth/signup', (req, res) => {
 });
 
 app.post('/auth/login', (req, res) => {
-  const values = req.body;
+  const body = req.body;
   res.type('application/json');
   setTimeout(() => {
-    if (values.password === 'boom' || values.email === 'boom') {
-      res.sendStatus(500);
-    } else if (USERS[values.email] || values.email === 'ok@example.com') {
-      if (values.password === 'password') {
-        const user = { id: USERS[values.email] || 123321, email: values.email };
-        req.my_session.user = user;
-        res.set('status', 200).send({ result: user });
+    const store = userByEmail(body.email);
+    if (store) {
+      if (body.password === store.user.password) {
+        req.my_session.user = omit(store.user, 'password');
+        res.set('status', 200).send({ result: req.my_session.user });
       } else {
         res.set('status', 200).send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
       }
+    } else if (body.password === 'boom' || body.email === 'boom') {
+      res.sendStatus(500);
     } else {
       res.set('status', 200).send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
     }
     res.end();
-  }, 1000);
+  }, 500);
+});
+
+app.get('/apikeys', (req, res) => {
+  const store = getStore(req);
+  if (!store) return res.send(403);
+
+  setTimeout(() => {
+    const keys = store.account ? store.account.apikeys || [] : [];
+    res.send({ result: keys });
+  }, 2000);
+});
+
+app.post('/apikeys', (req, res) => {
+  const store = getStore(req);
+  if (!store) return res.send(403);
+
+  const key = req.body;
+  res.type('application/json');
+
+  key.id = key.test ? 'test_' : 'live_' + uuid.v4().replace(/-/g, '');
+  store.account.apikeys.push(key);
+  res.set('status', 200).send({ result: key });
 });
 
 // app.get('*', (req, res) => {
