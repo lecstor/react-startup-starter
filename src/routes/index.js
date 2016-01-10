@@ -1,7 +1,8 @@
 import { pushPath } from 'redux-simple-router';
 
 import waiter from '../store/waiter';
-import { load } from '../store/modules/auth';
+import { load as loadAuth } from '../store/modules/auth';
+import { load as loadApiKeys } from '../store/modules/apikeys';
 
 import SignupView from '../containers/signup';
 
@@ -18,7 +19,7 @@ const getRoutes = (store) => ({
     {
       path: '/',
       onEnter () {
-        if (!store.getState().auth.loadDone) store.dispatch(load());
+        if (!store.getState().auth.user) store.dispatch(loadAuth());
       },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-site').default));
@@ -30,7 +31,7 @@ const getRoutes = (store) => ({
       },
       childRoutes: [
         {
-          path: 'login',
+          path: 'login(/from**)',
           getComponent (location, cb) {
             require.ensure([], require => cb(null, require('../containers/login').default));
           },
@@ -57,10 +58,10 @@ const getRoutes = (store) => ({
         // instead of calling the callback, we can redirect to another route if required.
 
         // attempt to load the user if we haven't already
-        if (!store.getState().auth.loadDone) store.dispatch(load());
+        if (!store.getState().auth.user) store.dispatch(loadAuth());
 
-        // wait while auth.loading then auth.loaded ? callback : dispatch pushPath('/login')
-        waiter(store, 'auth.loading', 'auth.loaded', callback, () => store.dispatch(pushPath('/login')));
+        // wait while auth.loading then auth.user.id ? callback : dispatch pushPath('/login')
+        waiter(store, 'auth.loading', 'auth.user.id', callback, () => store.dispatch(pushPath('/login')));
       },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-app').default));
@@ -73,6 +74,9 @@ const getRoutes = (store) => ({
       childRoutes: [
         {
           path: 'apikeys',
+          onEnter () {
+            store.dispatch(loadApiKeys());
+          },
           getComponent (location, cb) {
             require.ensure([], require => cb(null, require('../containers/app/apikeys').default));
           },
