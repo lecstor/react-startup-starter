@@ -145,8 +145,9 @@ app.post('/apikeys', (req, res) => {
 
 app.delete('/apikeys/:apikeyId', (req, res) => {
   const store = getStore(req);
-  remove(store.account.apikeys, { id: req.params.apikeyId });
-  res.send({});
+  const apikey = remove(store.account.apikeys, { id: req.params.apikeyId });
+  if (!apikey) res.sendStatus(404);
+  res.sendStatus(204); // all ok, no response content required
 });
 
 // app.get('*', (req, res) => {

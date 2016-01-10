@@ -48,13 +48,14 @@ export default function hyperActions ({ dispatch, getState }) {
       (error) => {
         // server returned response code <200 || >= 300
         const err = { server: { status: error.status, message: error.message || error.name } };
+        console.error('hyperActions fetch error:', err);
         next({ ...rest, error: err, type: FAILURE });
         if (error.status === 403) {
           setTimeout(() => dispatch(pushPath(`/login/from${getState().routing.path}`)), 1000);
         }
       }
     ).catch((error) => {
-      console.error('MIDDLEWARE ERROR:', error);
+      console.error('hyperActions middleware error:', error);
       next({ ...rest, error, type: FAILURE });
     });
   };
