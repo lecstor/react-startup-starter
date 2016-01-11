@@ -42,18 +42,38 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: false, error: action.error };
 
 
-    case DELETE_KEY:
+    case UPDATE_KEY:
       return { ...state, loading: true };
 
-    case DELETE_KEY_SUCCESS:
-      const idx = findIndex(state.keys, { id: action.result.id });
-      if (idx < 0) return { ...state, loading: false };
+    case UPDATE_KEY_SUCCESS:
+      const updateIdx = findIndex(state.keys, { id: action.result.id });
+      if (updateIdx < 0) return { ...state, loading: false };
       return {
         ...state,
         loading: false,
         keys: [
-          ...state.keys.slice(0, idx),
-          ...state.keys.slice(idx + 1),
+          ...state.keys.slice(0, updateIdx),
+          action.result,
+          ...state.keys.slice(updateIdx + 1),
+        ],
+      };
+
+    case UPDATE_KEY_FAIL:
+      return { ...state, loading: false, error: action.error };
+
+
+    case DELETE_KEY:
+      return { ...state, loading: true };
+
+    case DELETE_KEY_SUCCESS:
+      const deleteIdx = findIndex(state.keys, { id: action.result.id });
+      if (deleteIdx < 0) return { ...state, loading: false };
+      return {
+        ...state,
+        loading: false,
+        keys: [
+          ...state.keys.slice(0, deleteIdx),
+          ...state.keys.slice(deleteIdx + 1),
         ],
       };
 

@@ -6,7 +6,7 @@ import hotMiddleware from 'webpack-hot-middleware';
 import history from 'connect-history-api-fallback';
 import uuid from 'node-uuid';
 
-import { omit, values, find, remove } from 'lodash';
+import { omit, values, find, findIndex, remove, pick, merge } from 'lodash';
 
 import sessions from 'client-sessions';
 import cookieParser from 'cookie-parser';
@@ -141,6 +141,20 @@ app.post('/apikeys', (req, res) => {
   key.id = key.test ? 'test_' : 'live_' + uuid.v4().replace(/-/g, '');
   store.account.apikeys.push(key);
   res.set('status', 200).send({ result: key });
+});
+
+app.put('/apikeys/:apikeyId', (req, res) => {
+  const store = getStore(req);
+  if (!store) return res.send(403);
+
+  const apikeys = store.account.apikeys;
+  const idx = findIndex(apikeys, { id: req.params.apikeyId });
+  if (idx < 0) res.sendStatus(404);
+
+  const updateProps = pick(req.body, 'label', 'disabled');
+  merge(apikeys[idx], updateProps);
+
+  res.send({ result: apikeys[idx] });
 });
 
 app.delete('/apikeys/:apikeyId', (req, res) => {
