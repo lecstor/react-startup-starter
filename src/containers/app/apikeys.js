@@ -9,35 +9,50 @@ import Spinner from '../../components/spinner';
 import ApiKey from '../../components/api-key';
 import CreateApiKey from '../../components/api-key/create';
 
-import { createStashSetFn } from '../../store/modules/stash';
+import { createStashSetFn, createStashEventValueFn } from '../../store/modules/stash';
 import { createKey, updateKey, deleteKey } from '../../store/modules/apikeys';
 
 const mapStateToProps = (state) => ({
   apikeys: state.apikeys,
-  ...state.stash.newApiKeyForm,
+  ...state.stash.apikeysForm,
 });
 
-const stash = createStashSetFn('newApiKeyForm');
+const stash = createStashSetFn('apikeysForm');
+const stashEvent = createStashEventValueFn('apikeysForm');
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ createKey, updateKey, deleteKey, stash }, dispatch),
+  actions: bindActionCreators({ createKey, updateKey, deleteKey, stash, stashEvent }, dispatch),
 });
 
 export default class ApiKeys extends Component {
   render () {
-    const { actions, apikeys, newKeyLabel } = this.props;
-    const stashLabel = (event) => actions.stash('newKeyLabel', event.target.value);
+    const { actions, apikeys, newKeyLabel, editKeyId, editKeyLabel } = this.props;
     const newKey = () => actions.createKey({ label: newKeyLabel });
-    const newKeyProps = { newKey, newKeyLabel, updateLabel: stashLabel };
+    const newKeyProps = { newKey, newKeyLabel, updateLabel: stashEvent };
+    const apiKeyProps = {
+      actions,
+      editKeyId,
+      editKeyLabel,
+      stashEditLabel: actions.stashEvent,
+    };
     const spinnerConf = { left: '20%', top: '20%' };
+    const editKeySelect = (apikeyId, apikeyLabel) => () => {
+      actions.stash('editKeyLabel', apikeyLabel);
+      actions.stash('editKeyId', apikeyId);
+    };
+
     return (
-      <div style={{ textAlign: 'left', maxWidth: '700px' }}>
+      <div style={{ textAlign: 'left', maxWidth: '800px' }}>
         <h1>API Keys</h1>
-        {apikeys.loading && <Spinner config={spinnerConf}/>}
-        {apikeys.keys.map(apikey => (<ApiKey key={apikey.id} apikey={apikey} actions={actions} />))}
         <Row style={{ marginTop: '30px' }}><Col xs={12}>
           <CreateApiKey {...newKeyProps} />
         </Col></Row>
+        {apikeys.loading && <Spinner config={spinnerConf}/>}
+        {apikeys.keys.map(apikey => (
+          <ApiKey key={apikey.id} apikey={apikey} {...apiKeyProps}
+            editKeySelect={editKeySelect(apikey.id, apikey.label)}
+          />
+        ))}
       </div>
     );
   }
@@ -47,6 +62,8 @@ ApiKeys.propTypes = {
   actions: PropTypes.object.isRequired,
   apikeys: PropTypes.object,
   newKeyLabel: PropTypes.string,
+  editKeyId: PropTypes.string,
+  editKeyLabel: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApiKeys);
