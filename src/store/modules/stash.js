@@ -5,12 +5,13 @@ const CLEAR_STASH = 'rss/stash/CLEAR_STASH';
 const initialState = {};
 
 export default function reducer (state = initialState, action = {}) {
-  const { stash, key, value } = action.result || {};
+  const { stash, value } = action.result || {};
 
   switch (action.type) {
 
     case SET_VALUE:
-      return { ...state, [stash]: { ...state[stash], [key]: value } };
+      const stashValue = Object.assign({}, state[stash], value);
+      return Object.assign({}, state, { [stash]: stashValue });
 
     case CLEAR_STASH:
       return { ...state, [stash]: {} };
@@ -32,12 +33,11 @@ export function clearStash (stash) {
 /**
  * Set a value in a stash from key/value args
  * @param   {String} stash  stash the name of a stash
- * @param   {String} key    the key of a record in the stash
- * @param   {Any}    value  the value to set
+ * @param   {Object} value  the value to set
  * @returns {Object}        a Redux action
  */
-export function setValue (stash, key, value) {
-  return { type: SET_VALUE, result: { stash, key, value } };
+export function setValue (stash, value) {
+  return { type: SET_VALUE, result: { stash, value } };
 }
 
 /**
@@ -46,7 +46,7 @@ export function setValue (stash, key, value) {
  * @returns {Function}        takes key, value args and calls setValue on a stash
  */
 export function createStashSetFn (stash) {
-  return (key, value) => setValue(stash, key, value);
+  return value => setValue(stash, value);
 }
 
 /**
@@ -57,7 +57,7 @@ export function createStashSetFn (stash) {
  */
 export function setValueFromEvent (stash, event) {
   const { name, value } = event.target;
-  return { type: SET_VALUE, result: { stash, key: name, value } };
+  return { type: SET_VALUE, result: { stash, value: { [name]: value } } };
 }
 
 /**
@@ -66,6 +66,6 @@ export function setValueFromEvent (stash, event) {
  * @returns {Function}        takes an event and calls setValueFromEvent on a stash
  */
 export function createStashEventValueFn (stash) {
-  return (event) => setValueFromEvent(stash, event);
+  return event => setValueFromEvent(stash, event);
 }
 

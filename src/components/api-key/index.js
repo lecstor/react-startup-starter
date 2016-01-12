@@ -13,9 +13,9 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
   const enabledAction = () => actions.updateKey({ id: apikey.id, disabled: !apikey.disabled });
   const saveEdit = () => {
     actions.updateKey({ id: apikey.id, label: editKeyLabel });
-    actions.stash('editKeyId', undefined);
+    actions.stash({ editKeyId: undefined });
   };
-  const cancelEdit = () => actions.stash('editKeyId', undefined);
+  const cancelEdit = () => actions.stash({ editKeyId: undefined });
   const deleteKey = () => actions.deleteKey(apikey);
 
   const enabledLabel = apikey.disabled ? 'Enable' : 'Disable';

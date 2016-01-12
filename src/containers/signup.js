@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import SignupForm from '../components/signup-form';
 
 import { signup } from '../store/modules/auth';
-import { createStashSetFn, createStashEventValueFn } from '../store/modules/stash';
+import { createStashEventValueFn } from '../store/modules/stash';
 
 // We'll use the Redux `connect` function to simplify the process of setting the
 // properties in our component.
@@ -18,14 +18,13 @@ const mapStateToProps = (state) => ({
   ...state.stash.signupForm,
 });
 
-const stash = createStashSetFn('signupForm');
 const stashEvent = createStashEventValueFn('signupForm');
 
 // Map action dispatch functions to properties of our component.
 // `bindActionCreators` will wrap each of our action creators in a function that
 // will call dispatch on the store with our action.
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ signup, stash, stashEvent }, dispatch),
+  actions: bindActionCreators({ signup, stashEvent }, dispatch),
 });
 
 // don't use pure function components for views or react-transform-hmr

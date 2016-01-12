@@ -27,8 +27,11 @@ const mapDispatchToProps = (dispatch) => ({
 export default class ApiKeys extends Component {
   render () {
     const { actions, apikeys, newKeyLabel, editKeyId, editKeyLabel } = this.props;
-    const newKey = () => actions.createKey({ label: newKeyLabel });
-    const newKeyProps = { newKey, newKeyLabel, updateLabel: stashEvent };
+    const newKey = () => {
+      actions.createKey({ label: newKeyLabel });
+      actions.stash({ newKeyLabel: undefined });
+    };
+    const newKeyProps = { newKey, newKeyLabel, updateLabel: actions.stashEvent };
     const apiKeyProps = {
       actions,
       editKeyId,
@@ -37,8 +40,7 @@ export default class ApiKeys extends Component {
     };
     const spinnerConf = { left: '20%', top: '20%' };
     const editKeySelect = (apikeyId, apikeyLabel) => () => {
-      actions.stash('editKeyLabel', apikeyLabel);
-      actions.stash('editKeyId', apikeyId);
+      actions.stash({ editKeyLabel: apikeyLabel, editKeyId: apikeyId });
     };
 
     return (

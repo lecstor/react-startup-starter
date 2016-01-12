@@ -35,7 +35,7 @@ export class Login extends Component {
 
   componentWillUnmount () {
     // don't leave the password in the stash
-    this.props.actions.stash('password', '');
+    this.props.actions.stash({ password: '' });
   }
 
   // set default for params to handle route path with no params

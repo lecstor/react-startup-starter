@@ -35,7 +35,7 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: true };
 
     case CREATE_KEY_SUCCESS:
-      const keys = [...state.keys, action.result];
+      const keys = [action.result, ...state.keys];
       return { ...state, loading: false, keys };
 
     case CREATE_KEY_FAIL:

@@ -139,7 +139,7 @@ app.post('/apikeys', (req, res) => {
   res.type('application/json');
 
   key.id = key.test ? 'test_' : 'live_' + uuid.v4().replace(/-/g, '');
-  store.account.apikeys.push(key);
+  store.account.apikeys.unshift(key);
   res.set('status', 200).send({ result: key });
 });
 
