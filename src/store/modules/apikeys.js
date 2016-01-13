@@ -16,7 +16,7 @@ const DELETE_KEY = 'rss/apikeys/DELETE_KEY';
 const DELETE_KEY_SUCCESS = 'rss/apikeys/DELETE_KEY_SUCCESS';
 const DELETE_KEY_FAIL = 'rss/apikeys/DELETE_KEY_FAIL';
 
-const initialState = { loaded: false, keys: [] };
+const initialState = { loaded: false, data: [] };
 
 export default function reducer (state = initialState, action = {}) {
   switch (action.type) {
@@ -25,7 +25,7 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: true };
 
     case LOAD_SUCCESS:
-      return { ...state, loading: false, loaded: true, keys: action.result };
+      return { ...state, loading: false, loaded: true, data: action.result };
 
     case LOAD_FAIL:
       return { ...state, loading: false, error: action.error };
@@ -35,8 +35,8 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: true };
 
     case CREATE_KEY_SUCCESS:
-      const keys = [action.result, ...state.keys];
-      return { ...state, loading: false, keys };
+      const data = [action.result, ...state.data];
+      return { ...state, loading: false, data };
 
     case CREATE_KEY_FAIL:
       return { ...state, loading: false, error: action.error };
@@ -46,15 +46,15 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: true };
 
     case UPDATE_KEY_SUCCESS:
-      const updateIdx = findIndex(state.keys, { id: action.result.id });
+      const updateIdx = findIndex(state.data, { id: action.result.id });
       if (updateIdx < 0) return { ...state, loading: false };
       return {
         ...state,
         loading: false,
-        keys: [
-          ...state.keys.slice(0, updateIdx),
+        data: [
+          ...state.data.slice(0, updateIdx),
           action.result,
-          ...state.keys.slice(updateIdx + 1),
+          ...state.data.slice(updateIdx + 1),
         ],
       };
 
@@ -66,14 +66,14 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: true };
 
     case DELETE_KEY_SUCCESS:
-      const deleteIdx = findIndex(state.keys, { id: action.result.id });
+      const deleteIdx = findIndex(state.data, { id: action.result.id });
       if (deleteIdx < 0) return { ...state, loading: false };
       return {
         ...state,
         loading: false,
-        keys: [
-          ...state.keys.slice(0, deleteIdx),
-          ...state.keys.slice(deleteIdx + 1),
+        data: [
+          ...state.data.slice(0, deleteIdx),
+          ...state.data.slice(deleteIdx + 1),
         ],
       };
 

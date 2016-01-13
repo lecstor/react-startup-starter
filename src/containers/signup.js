@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import SignupForm from '../components/signup-form';
 
-import { signup } from '../store/modules/auth';
+import { signup } from '../store/modules/user';
 import { createStashEventValueFn } from '../store/modules/stash';
 
 // We'll use the Redux `connect` function to simplify the process of setting the
@@ -13,8 +13,8 @@ import { createStashEventValueFn } from '../store/modules/stash';
 // Map the parts of the app state object that our component needs, to properties
 // of our component.
 const mapStateToProps = (state) => ({
-  error: state.auth.error,
-  signingUp: state.auth.signingUp,
+  error: state.user.error,
+  signingUp: state.user.signingUp,
   ...state.stash.signupForm,
 });
 

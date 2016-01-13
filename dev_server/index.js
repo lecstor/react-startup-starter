@@ -70,7 +70,29 @@ app.use(devMiddleware(compiler, {
 
 app.use(hotMiddleware(compiler));
 
-app.get('/auth', (req, res) => {
+// login
+app.post('/session', (req, res) => {
+  const body = req.body;
+  res.type('application/json');
+  setTimeout(() => {
+    const store = userByEmail(body.email);
+    if (store) {
+      if (body.password === store.user.password) {
+        req.my_session.user = omit(store.user, 'password');
+        res.set('status', 200).send({ result: { user: req.my_session.user } });
+      } else {
+        res.set('status', 200).send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
+      }
+    } else if (body.password === 'boom' || body.email === 'boom') {
+      res.sendStatus(500);
+    } else {
+      res.set('status', 200).send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
+    }
+    res.end();
+  }, 500);
+});
+
+app.get('/session', (req, res) => {
   res.type('application/json');
   if (req.my_session.user && req.my_session.user.id) {
     return res.send({ result: req.my_session.user });
@@ -78,14 +100,16 @@ app.get('/auth', (req, res) => {
   res.send({ result: undefined });
 });
 
-app.delete('/auth', (req, res) => {
+// logout
+app.delete('/session', (req, res) => {
   req.my_session.user = undefined;
   setTimeout(() => {
     res.send({});
   }, 1000);
 });
 
-app.post('/auth/signup', (req, res) => {
+// signup
+app.post('/user', (req, res) => {
   const body = req.body;
   res.type('application/json');
   setTimeout(() => {
@@ -100,25 +124,19 @@ app.post('/auth/signup', (req, res) => {
   }, 1000);
 });
 
-app.post('/auth/login', (req, res) => {
-  const body = req.body;
-  res.type('application/json');
-  setTimeout(() => {
-    const store = userByEmail(body.email);
-    if (store) {
-      if (body.password === store.user.password) {
-        req.my_session.user = omit(store.user, 'password');
-        res.set('status', 200).send({ result: req.my_session.user });
-      } else {
-        res.set('status', 200).send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
-      }
-    } else if (body.password === 'boom' || body.email === 'boom') {
-      res.sendStatus(500);
-    } else {
-      res.set('status', 200).send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
-    }
-    res.end();
-  }, 500);
+app.get('/user', (req, res) => {
+  const store = getStore(req);
+  if (!store) return res.send(403);
+  res.send({ result: omit(store.user, 'password') });
+});
+
+// update user details
+app.put('/user', (req, res) => {
+  const store = getStore(req);
+  if (!store) return res.send(403);
+  store.user.name = req.body.name;
+  store.user.email = req.body.email;
+  res.send({ result: omit(store.user, 'password') });
 });
 
 app.get('/apikeys', (req, res) => {

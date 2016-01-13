@@ -13,27 +13,27 @@ import TopNavApp from '../components/top-nav-app';
 import '../styles/core.scss';
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  user: state.user,
 });
 
 export class LayoutApp extends Component {
   static propTypes = {
     children: React.PropTypes.element,
     actions: PropTypes.object,
-    auth: PropTypes.object,
+    user: PropTypes.object,
   }
   render () {
-    const { auth } = this.props;
+    const { user } = this.props;
 
     return (
       <div className="page-container">
-        <TopNavApp {...auth} />
+        <TopNavApp userLabel={user.data.email} loggingOut={user.loggingOut} />
         <div className="view-container">
           <div className="container">
             <Grid><Row>
               <Col xs={12} md={2}>
                 <Nav bsStyle="pills" stacked>
-                  <LinkContainer to="/app/profile"><NavItem>User Profile</NavItem></LinkContainer>
+                  <LinkContainer to="/app/user"><NavItem>Your Details</NavItem></LinkContainer>
                   <LinkContainer to="/app/account"><NavItem>Account</NavItem></LinkContainer>
                   <LinkContainer to="/app/apikeys"><NavItem>API Keys</NavItem></LinkContainer>
                 </Nav>

@@ -6,20 +6,21 @@ import TopNav from '../components/top-nav';
 import '../styles/core.scss';
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  user: state.user,
 });
 
-export default class LayoutSite extends Component {
+export class LayoutSite extends Component {
   static propTypes = {
     children: PropTypes.element,
-    auth: PropTypes.object,
+    user: PropTypes.object,
   }
   render () {
-    const { auth } = this.props;
+    const { user } = this.props;
+    const userLabel = user.data ? user.data.email : undefined;
 
     return (
       <div className="page-container">
-        <TopNav {...auth} />
+        <TopNav userLabel={userLabel} loggingIn={user.loggingIn} loggingOut={user.loggingOut} />
         <div className="view-container">
           {this.props.children}
         </div>

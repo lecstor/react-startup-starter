@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { logout } from '../store/modules/auth';
+import { logout } from '../store/modules/user';
 
 export class Logout extends React.Component {
   static propTypes = {

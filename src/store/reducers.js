@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routeReducer as routing } from 'redux-simple-router';
 
-import auth from '../store/modules/auth';
+import user from '../store/modules/user';
 import apikeys from '../store/modules/apikeys';
 import stash from '../store/modules/stash';
 
@@ -14,7 +14,7 @@ export function createReducer (initialState, fnMap) {
 
 export default combineReducers({
   routing,
-  auth,
+  user,
   apikeys,
   stash,
 });

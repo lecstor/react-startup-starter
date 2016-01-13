@@ -50,7 +50,7 @@ export default class ApiKeys extends Component {
           <CreateApiKey {...newKeyProps} />
         </Col></Row>
         {apikeys.loading && <Spinner config={spinnerConf}/>}
-        {apikeys.keys.map(apikey => (
+        {apikeys.data.map(apikey => (
           <ApiKey key={apikey.id} apikey={apikey} {...apiKeyProps}
             editKeySelect={editKeySelect(apikey.id, apikey.label)}
           />

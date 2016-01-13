@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import LoginForm from '../components/login-form';
 
-import { login } from '../store/modules/auth';
+import { login } from '../store/modules/user';
 import { createStashSetFn, createStashEventValueFn } from '../store/modules/stash';
 
 // don't use pure function components for screens or react-transform-hmr won't work for us (for now)
@@ -15,9 +15,9 @@ import { createStashSetFn, createStashEventValueFn } from '../store/modules/stas
 // Map the parts of the app state object that our component needs, to properties
 // of our component.
 const mapStateToProps = (state) => ({
-  form: state.loginForm,
-  error: state.auth.error,
-  loggingIn: state.auth.loggingIn,
+  form: state.stash.loginForm,
+  error: state.user.error,
+  loggingIn: state.user.loggingIn,
   ...state.stash.loginForm,
 });
 

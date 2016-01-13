@@ -10,7 +10,7 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 export default class TopNavApp extends Component {
   render () {
     const styles = require('./style.scss');
-    const { user, loggingOut } = this.props;
+    const { userLabel, loggingOut } = this.props;
 
     return (
       <Navbar fixedTop className={styles.navbar}>
@@ -26,8 +26,8 @@ export default class TopNavApp extends Component {
               <NavItem>Log Out</NavItem>
             </LinkContainer>
           </Nav>
-          {user &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>}
+          {userLabel &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{userLabel}</strong>.</p>}
           {loggingOut &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging Out..</p>}
         </Navbar.Collapse>
@@ -37,6 +37,6 @@ export default class TopNavApp extends Component {
 }
 
 TopNavApp.propTypes = {
-  user: PropTypes.object,
+  userLabel: PropTypes.string,
   loggingOut: PropTypes.bool,
 };

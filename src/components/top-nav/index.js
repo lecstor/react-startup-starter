@@ -1,20 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { IndexLink } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
 // Export bare component for testing
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
-export class TopNav extends Component {
+export default class TopNav extends Component {
   render () {
-    const { user, loggingIn, loggingOut } = this.props;
+    const { userLabel, loggingIn, loggingOut } = this.props;
     const styles = require('./style.scss');
 
     return (
@@ -27,21 +22,21 @@ export class TopNav extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight navbar>
-            {!user &&
+            {!userLabel &&
             <LinkContainer to="/signup">
               <NavItem>Sign Up</NavItem>
             </LinkContainer>}
-            {!user &&
+            {!userLabel &&
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>}
-            {user &&
+            {userLabel &&
             <LinkContainer to="/logout">
               <NavItem>Logout</NavItem>
             </LinkContainer>}
           </Nav>
-          {user &&
-          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.email}</strong>.</p>}
+          {userLabel &&
+          <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{userLabel}</strong>.</p>}
           {loggingIn &&
           <p className={styles.loggedInMessage + ' navbar-text'}>Logging In..</p>}
           {loggingOut &&
@@ -53,26 +48,8 @@ export class TopNav extends Component {
 }
 
 TopNav.propTypes = {
-  user: PropTypes.object,
+  userLabel: PropTypes.string,
   loggingIn: PropTypes.bool,
   loggingOut: PropTypes.bool,
 };
 
-// set pure to false to render after changing to a dynamic route (see below)
-export default connect(mapStateToProps, null, null, { pure: false })(TopNav);
-
-// *There is likely a better solution for this*
-//
-// Dynamic Routes (React-Router) https://github.com/rackt/react-router/blob/latest/docs/guides/advanced/DynamicRouting.md
-//
-// When using dynamic routes, with TopNav as a pure component, TopNav is not
-// re-rendered the first time a dynamic route is loaded preventing the selected
-// link from displaying as "active".
-//
-// connect options
-// [pure = true] (Boolean): If true, implements shouldComponentUpdate and shallowly
-// compares the result of mergeProps, preventing unnecessary updates, assuming that
-// the component is a “pure” component and does not rely on any input or state other
-// than its props and the selected Redux store’s state. Defaults to true
-//
-// https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options
