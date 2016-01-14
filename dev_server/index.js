@@ -79,14 +79,14 @@ app.post('/session', (req, res) => {
     if (store) {
       if (body.password === store.user.password) {
         req.my_session.user = omit(store.user, 'password');
-        res.set('status', 200).send({ result: { user: req.my_session.user } });
+        res.send({ result: { user: req.my_session.user } });
       } else {
-        res.set('status', 200).send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
+        res.send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
       }
     } else if (body.password === 'boom' || body.email === 'boom') {
       res.sendStatus(500);
     } else {
-      res.set('status', 200).send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
+      res.send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
     }
     res.end();
   }, 500);
@@ -116,9 +116,9 @@ app.post('/user', (req, res) => {
     if (body.email) {
       const store = newStore(body.email);
       req.my_session.user = store.user;
-      res.set('status', 200).send({ result: store.user });
+      res.send({ result: store.user });
     } else {
-      res.set('status', 200).send({ error: { message: 'Signup failed', props: { email: 'The email address must be an email address' } } });
+      res.send({ error: { message: 'Signup failed', props: { email: 'The email address must be an email address' } } });
     }
     res.end();
   }, 1000);
@@ -126,7 +126,7 @@ app.post('/user', (req, res) => {
 
 app.get('/user', (req, res) => {
   const store = getStore(req);
-  if (!store) return res.send(403);
+  if (!store) return res.send({});
   res.send({ result: omit(store.user, 'password') });
 });
 
@@ -158,7 +158,7 @@ app.post('/apikeys', (req, res) => {
 
   key.id = key.test ? 'test_' : 'live_' + uuid.v4().replace(/-/g, '');
   store.account.apikeys.unshift(key);
-  res.set('status', 200).send({ result: key });
+  res.send({ result: key });
 });
 
 app.put('/apikeys/:apikeyId', (req, res) => {

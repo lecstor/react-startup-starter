@@ -7,7 +7,7 @@ import Spinner from 'spin.js';
 export default class Spin extends Component {
   static propTypes = {
     config: PropTypes.object,
-  }
+  };
 
   componentDidMount () {
     this.spinner = new Spinner(this.props.config);

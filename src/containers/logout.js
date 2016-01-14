@@ -6,7 +6,7 @@ import { logout } from '../store/modules/user';
 export class Logout extends React.Component {
   static propTypes = {
     logout: React.PropTypes.func.isRequired,
-  }
+  };
   componentWillMount () {
     this.props.logout();
   }

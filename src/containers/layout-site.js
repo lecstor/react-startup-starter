@@ -13,7 +13,7 @@ export class LayoutSite extends Component {
   static propTypes = {
     children: PropTypes.element,
     user: PropTypes.object,
-  }
+  };
   render () {
     const { user } = this.props;
     const userLabel = user.data ? user.data.email : undefined;
