@@ -1,6 +1,15 @@
 React Startup Starter
 =====================
 
+### Achievements
+
+* Code-splitting - uses React Router dynamic routes and Webpack to split the code into "chunks" which are loaded by the client on demand minimising the initial download required.
+* Login, logout, user details, and API keys UI all working through Redux and a self-contained development server.
+* Redux "stash" module for storing form data, UI state, and more so view changes don't lose input.
+* Gracefully handles session expiry displaying login if a background request returns 403. (delete the my_session cookie while editing API keys to test)
+
+### Giant Shoulders
+
 * [React](https://github.com/facebook/react) A Javascript library for building user interfaces
 * [Redux](https://github.com/rackt/redux) Redux is a predictable state container for JavaScript apps
 * [react-router](https://github.com/rackt/react-router) A complete routing solution for React.js
@@ -13,7 +22,6 @@ React Startup Starter
 * [Istanbul](https://github.com/gotwarlost/istanbul) A Javascript code coverage tool written in JS
 * [ESLint](http://eslint.org) The pluggable linting utility for JavaScript and JSX
 * [node-config](https://github.com/lorenwest/node-config) Node.js Application Configuration
-* [redux-form](http://erikras.github.io/redux-form) The best way to manage your form state in Redux.
 * [react-bootstrap](http://react-bootstrap.github.io/) The most popular front-end framework, rebuilt for React.
 
 Get it running
@@ -30,8 +38,8 @@ $ npm start
 $ open http://localhost:3000
 ```
 
-Position the debug dev tools with ctrl-q
-Hide/Show the debug dev tools with ctrl-h
+- Position the debug dev tools with ctrl-q
+- Hide/Show the debug dev tools with ctrl-h
 
 
 Usage
