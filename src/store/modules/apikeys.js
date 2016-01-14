@@ -1,4 +1,4 @@
-import findIndex from 'lodash/array/findIndex';
+import findIndex from 'lodash/findIndex';
 
 const LOAD = 'rss/apikeys/LOAD';
 const LOAD_SUCCESS = 'rss/apikeys/LOAD_SUCCESS';
