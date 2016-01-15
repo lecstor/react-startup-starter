@@ -71,6 +71,7 @@
     "html-webpack-plugin": "^1.6.1",
     "imports-loader": "^0.6.5",
     "isparta-loader": "^2.0.0",
+    "json-loader": "^0.5.4",
     "karma": "^0.13.15",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^0.2.2",

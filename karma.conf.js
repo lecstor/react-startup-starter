@@ -43,8 +43,12 @@ module.exports = function (config) {
             }
           },
           {
-            test    : /\.scss$/,
-            loaders : [
+            test: /\.json$/,
+            loader: 'json',
+          },
+          {
+            test: /\.scss$/,
+            loaders: [
               'style-loader',
               'css-loader?sourceMap',
               'postcss-loader',
@@ -73,7 +77,6 @@ module.exports = function (config) {
       // fix issues with using enzyme
       externals: {
         jsdom: 'window',
-        cheerio: 'window',
         'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': 'window',
         'text-encoding': 'window'
