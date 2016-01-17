@@ -41,9 +41,12 @@ function userByEmail (email) {
   return find(values(STORE), store => store.user.email === email);
 }
 
-function newStore (email) {
+function newStore (email, { name, password }) {
   const store = {
-    user: { email, id: uuid.v4() },
+    user: {
+      email, name, password,
+      id: uuid.v4(),
+    },
     account: {
       apikeys: [],
     },
@@ -77,16 +80,18 @@ app.post('/session', (req, res) => {
   setTimeout(() => {
     const store = userByEmail(body.email);
     if (store) {
-      if (body.password === store.user.password) {
+      if (!store.user.password) {
+        res.send({ error: { message: 'Login failed', fields: { password: 'You have not set a password yet.' } } });
+      } else if (body.password === store.user.password) {
         req.my_session.user = omit(store.user, 'password');
         res.send({ result: { user: req.my_session.user } });
       } else {
-        res.send({ error: { message: 'Login failed', props: { password: 'The password is incorrect' } } });
+        res.send({ error: { message: 'Login failed', fields: { password: 'The password is incorrect' } } });
       }
     } else if (body.password === 'boom' || body.email === 'boom') {
       res.sendStatus(500);
     } else {
-      res.send({ error: { message: 'Login failed', props: { email: 'Account not found for that email address' } } });
+      res.send({ error: { message: 'Login failed', fields: { email: 'Account not found for that email address' } } });
     }
     res.end();
   }, 500);
@@ -114,11 +119,12 @@ app.post('/user', (req, res) => {
   res.type('application/json');
   setTimeout(() => {
     if (body.email) {
-      const store = newStore(body.email);
+      const { name, email, password } = body;
+      const store = newStore(email, { name, password });
       req.my_session.user = store.user;
       res.send({ result: store.user });
     } else {
-      res.send({ error: { message: 'Signup failed', props: { email: 'The email address must be an email address' } } });
+      res.send({ error: { message: 'Signup failed', fields: { email: 'The email address must be an email address' } } });
     }
     res.end();
   }, 1000);

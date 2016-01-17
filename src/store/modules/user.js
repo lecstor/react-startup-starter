@@ -93,6 +93,7 @@ export function signup (creds) {
   return {
     types: [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL],
     promise: fetch => fetch('/user', { method: 'post', body: JSON.stringify(creds) }),
+    onSuccess: ({ dispatch }) => redirectToApp(dispatch),
   };
 }
 

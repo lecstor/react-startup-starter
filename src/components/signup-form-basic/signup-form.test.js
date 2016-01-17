@@ -11,10 +11,11 @@ const props = {
   handleSubmit: () => submitClicked++,
   onInputChange: () => changeTriggered++,
   email: '',
+  error: {},
 };
 
-tape('# SignupForm - Bare Component', nest => {
-  nest.test('Displays correctly with no errors', test => {
+tape('SignupFormBasic Component', nest => {
+  nest.test('- Displays correctly with no errors', test => {
     const wrapper = shallow(<SignupForm {...props} />);
     test.equal(wrapper.type(), 'form', 'signup form node is a form');
     test.equal(wrapper.find('Button').length, 1, 'node has one button');
@@ -22,7 +23,7 @@ tape('# SignupForm - Bare Component', nest => {
     test.end();
   });
 
-  nest.test('Displays correctly with request error', test => {
+  nest.test('- Displays correctly with request error', test => {
     const tProps = Object.assign({}, props, { error: { server: { message: 'Something is not right' } } });
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');
@@ -31,8 +32,8 @@ tape('# SignupForm - Bare Component', nest => {
     test.end();
   });
 
-  nest.test('Displays correctly with email input error', test => {
-    const tProps = Object.assign({}, props, { error: { props: { email: 'That is not an email address' } } });
+  nest.test('- Displays correctly with email input error', test => {
+    const tProps = Object.assign({}, props, { error: { fields: { email: 'That is not an email address' } } });
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -40,7 +41,7 @@ tape('# SignupForm - Bare Component', nest => {
     test.end();
   });
 
-  nest.test('Fires signup action on button click', test => {
+  nest.test('- Fires signup action on button click', test => {
     submitClicked = 0;
     const wrapper = shallow(<SignupForm {...props} />);
     const button = wrapper.find('Button');
@@ -49,7 +50,7 @@ tape('# SignupForm - Bare Component', nest => {
     test.end();
   });
 
-  nest.test('Fires actions on input change', test => {
+  nest.test('- Fires actions on input change', test => {
     changeTriggered = 0;
     const wrapper = shallow(<SignupForm {...props} />);
     const inputs = wrapper.find('Input');

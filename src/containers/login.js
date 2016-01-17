@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import LoginForm from '../components/login-form';
-
 import { login } from '../store/modules/user';
 import { createStashSetFn, createStashEventValueFn } from '../store/modules/stash';
 
@@ -15,7 +13,6 @@ import { createStashSetFn, createStashEventValueFn } from '../store/modules/stas
 // Map the parts of the app state object that our component needs, to properties
 // of our component.
 const mapStateToProps = (state) => ({
-  form: state.stash.loginForm,
   error: state.user.error,
   loggingIn: state.user.loggingIn,
   ...state.stash.loginForm,
@@ -40,27 +37,27 @@ export class Login extends Component {
 
   // set default for params to handle route path with no params
   render () {
-    const { actions, email, password, loggingIn, error, params = {} } = this.props;
+    const { actions, email, password, loggingIn, error = {}, params = {} } = this.props;
+
+    const passAlert = error.fields && error.fields.password ? 'error' : undefined;
+    let emailAlert = error.fields && error.fields.email ? 'error' : undefined;
+    if (passAlert) emailAlert = 'success';
+
     const formProps = {
-      email, password, loggingIn, error,
-      handleSubmit: (subEmail, subPassword) =>
-        actions.login({ email: subEmail, password: subPassword }, params.splat),
+      email, password, loggingIn, emailAlert, passAlert, error,
+      handleSubmit: () => actions.login({ email, password }, params.splat),
       onInputChange: actions.stashEvent,
     };
     return (
-      <div className="container text-center">
-        <h1>This is the login view!</h1>
-        <p>email: "ok@example.com" password: "password"</p>
-        <p>"boom" to break the server</p>
-        <div className="text-left col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-4 col-lg-4">
-          <LoginForm {...formProps} />
-        </div>
+      <div>
+        {React.Children.map(this.props.children, child => React.cloneElement(child, formProps))}
       </div>
     );
   }
 }
 
 Login.propTypes = {
+  children: PropTypes.node,
   error: PropTypes.object,
   actions: PropTypes.object.isRequired,
   email: PropTypes.string,

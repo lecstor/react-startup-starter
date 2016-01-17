@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import SignupForm from '../components/signup-form';
-
 import { signup } from '../store/modules/user';
 import { createStashEventValueFn } from '../store/modules/stash';
 
@@ -29,32 +27,33 @@ const mapDispatchToProps = (dispatch) => ({
 
 // don't use pure function components for views or react-transform-hmr
 // won't work for us (for now)
-export default class Signup extends Component {
+export class Signup extends Component {
 
   render () {
-    const { actions, email, signingUp, error } = this.props;
+    const { actions, name, password, email, signingUp, error = {} } = this.props;
     const formProps = {
-      email, signingUp, error,
-      handleSubmit: (subEmail) => actions.signup({ email: subEmail }),
+      email, name, password, signingUp,
+      error: error || {},
+      emailAlert: error.fields && error.fields.email ? 'error' : undefined,
+      handleSubmit: () => actions.signup({ name, email, password }),
       onInputChange: actions.stashEvent,
     };
-
     return (
-      <div className="container text-center">
-        <h1>This is the signup view!</h1>
-        <div className="text-left col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-4 col-lg-4">
-          <SignupForm {...formProps} />
-        </div>
+      <div>
+        {React.Children.map(this.props.children, child => React.cloneElement(child, formProps))}
       </div>
     );
   }
 }
 
 Signup.propTypes = {
+  children: PropTypes.node,
   actions: PropTypes.object.isRequired,
   error: PropTypes.object,
   signupError: PropTypes.object,
+  name: PropTypes.string,
   email: PropTypes.string,
+  password: PropTypes.string,
   signingUp: PropTypes.bool,
 };
 

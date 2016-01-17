@@ -4,7 +4,7 @@ import waiter from '../store/waiter';
 import { load as loadUser, isLoaded as userIsLoaded } from '../store/modules/user';
 import { load as loadApiKeys } from '../store/modules/apikeys';
 
-import SignupView from '../containers/signup';
+import SignupScreen from '../screens/signup';
 
 // Code splitting is controlled via our routes.
 //
@@ -26,23 +26,17 @@ const getRoutes = (store) => ({
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../containers/index-site').default));
+          require.ensure([], require => cb(null, require('../screens/index').default));
         },
       },
       childRoutes: [
         {
           path: 'login(/from**)',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/login').default));
+            require.ensure([], require => cb(null, require('../screens/login').default));
           },
         },
-        { path: 'signup', component: SignupView },
-        {
-          path: 'about',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/about').default));
-          },
-        },
+        { path: 'signup', component: SignupScreen },
         {
           path: 'logout',
           getComponent (location, cb) {
@@ -68,7 +62,7 @@ const getRoutes = (store) => ({
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../containers/index-app').default));
+          require.ensure([], require => cb(null, require('../screens/app/index').default));
         },
       },
       childRoutes: [
@@ -84,7 +78,7 @@ const getRoutes = (store) => ({
         {
           path: 'user',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/app/user').default));
+            require.ensure([], require => cb(null, require('../screens/app/user').default));
           },
         },
       ],

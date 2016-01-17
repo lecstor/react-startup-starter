@@ -1,37 +1,81 @@
-import React from 'react';
+import React, { Component } from 'react';
 import tape from 'blue-tape';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
 
-import configureStore from '../../store';
+import LoginContainer from '../login';
 
-import Login from '../login';
+class Stub extends Component {
+  render () {
+    return <div {...this.props} />;
+  }
+}
 
-function mountComponent (store) {
+function mountComponent (store, { containerProps = {} } = {}) {
   return mount(
     <Provider store={store}>
-      <Login />
+      <LoginContainer {...containerProps}>
+        <Stub />
+      </LoginContainer>
     </Provider>
   );
 }
 
-tape('# Login', nest => {
-  nest.test('  Submit the form', test => {
-    const store = configureStore();
+tape('Login Container', nest => {
+  nest.test('- Props from empty store', test => {
+    const store = createStore(() => ({ stash: {}, user: {} }));
     const wrapper = mountComponent(store);
+    const stub = wrapper.find(Stub);
 
-    const inputs = wrapper.find('Input');
-    const emailInput = inputs.at(0);
-    emailInput.simulate('change', { target: { name: 'email', value: 'myemail' } });
-    test.equals(emailInput.props().value, 'myemail', 'email set on change');
+    test.ok(isFunction(stub.props().handleSubmit), 'handleSubmit is function');
+    test.ok(isFunction(stub.props().onInputChange), 'onInputChange is function');
 
-    const passInput = inputs.at(1);
-    passInput.simulate('change', { target: { name: 'password', value: 'mypassword' } });
-    test.equals(passInput.props().value, 'mypassword', 'password set on change');
+    const expected = {
+      email: undefined,
+      password: undefined,
+      loggingIn: undefined,
+      emailAlert: undefined,
+      passAlert: undefined,
+      error: {},
+    };
+    const actual = omit(stub.props(), ['handleSubmit', 'onInputChange']);
+    test.deepEqual(actual, expected, 'props');
 
-    const button = wrapper.find('Button');
-    button.simulate('click');
-    test.ok(button.hasClass('active'), 'button is active');
+    test.end();
+  });
+
+  nest.test('- Props from populated store', test => {
+    const store = createStore(() => ({
+      stash: {
+        loginForm: { email: 'jason@lecstor.com', password: 'secretPassword' },
+      },
+      user: {
+        loggingIn: true,
+        error: { fields: { email: 'is that an email?', password: 'not secret enough' } },
+      },
+    }));
+    const wrapper = mountComponent(store, { splat: 'from/there' });
+    const stub = wrapper.find(Stub);
+
+    const expected = {
+      email: 'jason@lecstor.com',
+      password: 'secretPassword',
+      loggingIn: true,
+      emailAlert: 'success',
+      passAlert: 'error',
+      error: {
+        fields: {
+          email: 'is that an email?',
+          password: 'not secret enough',
+        },
+      },
+    };
+    const actual = omit(stub.props(), ['handleSubmit', 'onInputChange']);
+    test.deepEqual(actual, expected, 'props');
+
     test.end();
   });
 });

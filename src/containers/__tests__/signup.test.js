@@ -1,33 +1,80 @@
-import React from 'react';
+import React, { Component } from 'react';
 import tape from 'blue-tape';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
 
-import configureStore from '../../store';
+import SignupContainer from '../signup';
 
-import Login from '../signup';
+class Stub extends Component {
+  render () {
+    return <div {...this.props} />;
+  }
+}
 
 function mountComponent (store) {
   return mount(
     <Provider store={store}>
-      <Login />
+      <SignupContainer>
+        <Stub />
+      </SignupContainer>
     </Provider>
   );
 }
 
-tape('# Signup', nest => {
-  nest.test('  Submit the form', test => {
-    const store = configureStore();
+tape('Signup Container', nest => {
+  nest.test('- Props from empty store', test => {
+    const store = createStore(() => ({ stash: {}, user: {} }));
     const wrapper = mountComponent(store);
+    const stub = wrapper.find(Stub);
 
-    const inputs = wrapper.find('Input');
-    const emailInput = inputs.at(0);
-    emailInput.simulate('change', { target: { name: 'email', value: 'myemail' } });
-    test.equals(emailInput.props().value, 'myemail', 'email set on change');
+    test.ok(isFunction(stub.props().handleSubmit), 'handleSubmit is function');
+    test.ok(isFunction(stub.props().onInputChange), 'onInputChange is function');
 
-    const button = wrapper.find('Button');
-    button.simulate('click');
-    test.ok(button.hasClass('active'), 'button is active');
+    const expected = {
+      email: undefined,
+      name: undefined,
+      password: undefined,
+      signingUp: undefined,
+      emailAlert: undefined,
+      error: {},
+    };
+    const actual = omit(stub.props(), ['handleSubmit', 'onInputChange']);
+    test.deepEqual(actual, expected, 'props');
+
+    test.end();
+  });
+
+  nest.test('- Props from populated store', test => {
+    const store = createStore(() => ({
+      stash: {
+        signupForm: { name: 'Jason Galea', email: 'jason@lecstor.com', password: 'secretPassword' },
+      },
+      user: {
+        signingUp: true,
+        error: { fields: { email: 'is that an email?' } },
+      },
+    }));
+    const wrapper = mountComponent(store);
+    const stub = wrapper.find(Stub);
+
+    const expected = {
+      name: 'Jason Galea',
+      email: 'jason@lecstor.com',
+      password: 'secretPassword',
+      signingUp: true,
+      emailAlert: 'error',
+      error: {
+        fields: {
+          email: 'is that an email?',
+        },
+      },
+    };
+    const actual = omit(stub.props(), ['handleSubmit', 'onInputChange']);
+    test.deepEqual(actual, expected, 'props');
+
     test.end();
   });
 });
