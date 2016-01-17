@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistState } from 'redux-devtools';
+
 import rootReducer from '../store/reducers';
 import { DevTools } from '../containers/root.dev';
-
 import hyperActions from './middleware/hyperActions';
 
 const finalCreateStore = compose(

@@ -45,15 +45,19 @@ $ open http://localhost:3000
 Usage
 -----
 
-command               | function
-----------------------|--------------------------------------------------------------------
-`npm start`           | start the dev_server with a development build
-`npm run start:prod`  | start the dev_server with a production build
-`npm run build`       | save a production build to the dist directory
-`npm run build:dev`   | save a development build to the dist directory
-`npm run build:stats` | Generate build stats which you can upload to the webpack [analyse tool](https://webpack.github.io/docs/build-performance.html) (see [Webpack Build Performance](https://webpack.github.io/docs/build-performance.html))
-`npm test`            | run all tests continuously with Karma in a browser (chrome by default)
-`npm run test:once`   | run all tests once with Karma in a browser (chrome by default)
+`npm start` - start the dev_server with a development build
+
+`npm run start:prod` - start the dev_server with a production build
+
+`npm run build` - save a production build to the dist directory
+
+`npm run build:dev` - save a development build to the dist directory
+
+`npm run build:stats` - Generate build stats which you can upload to the webpack [analyse tool](https://webpack.github.io/docs/build-performance.html) (see [Webpack Build Performance](https://webpack.github.io/docs/build-performance.html))
+
+`npm test` - run all tests continuously with Karma in a browser (chrome by default)
+
+`npm run test:once` - run all tests once with Karma in a browser (chrome by default)
 
 Configuration
 -------------
@@ -65,6 +69,51 @@ For the low-down on file naming, load order, and more see [Configuration-Files](
 * `server_host` - hostname for the express server
 * `server_port` - port for the express server
 * `webpack_config_file` - the webpack config file to use to build the app
+
+File Structure
+--------------
+```
+.
+├── config/                     # configuration files
+├── coverage/                   # code coverage reports for tests
+├── dev_server/                 # Express based development server
+├── dist/                       # app distribution builds
+├── src/                        # use the source
+│   ├── components/             # "dumb" or "pure function" components
+│   ├── containers/             # composable "smart" components (mostly those connected to Redux)
+│   ├── routes/                 # React Router route definitions
+│   ├── screens/                # the components the routes will load (one per page/view/screen)
+│   ├── store/                  # the redux store
+│   │   ├── middleware/         # reducer middlware
+│   │   │   └── hyperActions.js # function & promise handling for the store
+│   │   ├── modules/            # actions and reducers
+│   │   │   └── stash.js        # generic stash for storing form input values and others
+│   │   ├── configureStore.*.js # create the store with middleware and reducers
+│   │   ├── customFetch.js      # light wrapper around isomorphic-fetch
+│   │   ├── reducers.js         # combine the reducers for configureStore
+│   │   └── waiter.js           # call a function once when state changes
+│   └── index.js                # the root component loaded with history and a redux store
+├── webpack/                    # webpack config for production, development, and tests (not really)
+└── karma.conf                  # Karma config for tests (inc webpack config)
+```
+
+File Loading
+------------
+```
+src/index.js
+├── src/containers/root.js                    # the root component loaded with history and a redux store
+│   └── src/routes/index.js                   # React Router route definitions
+│       ├── src/store/waiter.js               # call a function once when state changes
+│       ├── src/containers/layout-*.js        # define everything in a screen except the main content
+│       └── src/screens/*                     # define a page/view/screen
+│           ├── src/containers/*.js           # composable "smart" components (mostly those connected to Redux)
+│           └── src/components/*.js           # "dumb" or "pure function" components - may include other components
+└── src/store/configureStore.*.js             # create the store with middleware and reducers
+    ├── src/store/reducers.js                 # loads all reducers and combines them into one
+    │   └── src/store/modules/*               # definitions of actions and reducers
+    └── src/store/middleware/hyperActions.js  # call action functions and promises and handle results by dispatching actions
+        └── src/store/customFetch.js          # make server requests
+```
 
 Ethos
 -----
