@@ -13,7 +13,7 @@ import { createStashEventValueFn } from '../store/modules/stash';
 const mapStateToProps = (state) => ({
   error: state.user.error,
   signingUp: state.user.signingUp,
-  ...state.stash.signupForm,
+  formFields: state.stash.signupForm,
 });
 
 const stashEvent = createStashEventValueFn('signupForm');
@@ -30,12 +30,12 @@ const mapDispatchToProps = (dispatch) => ({
 export class Signup extends Component {
 
   render () {
-    const { actions, name, password, email, signingUp, error = {} } = this.props;
+    const { actions, formFields, signingUp, error = {} } = this.props;
     const formProps = {
-      email, name, password, signingUp,
+      formFields, signingUp,
       error: error || {},
       emailAlert: error.fields && error.fields.email ? 'error' : undefined,
-      handleSubmit: () => actions.signup({ name, email, password }),
+      handleSubmit: () => actions.signup(formFields),
       onInputChange: actions.stashEvent,
     };
     return (
@@ -51,9 +51,7 @@ Signup.propTypes = {
   actions: PropTypes.object.isRequired,
   error: PropTypes.object,
   signupError: PropTypes.object,
-  name: PropTypes.string,
-  email: PropTypes.string,
-  password: PropTypes.string,
+  formFields: PropTypes.object,
   signingUp: PropTypes.bool,
 };
 

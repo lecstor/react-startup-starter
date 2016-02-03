@@ -7,7 +7,8 @@ import Alert from 'react-bootstrap/lib/Alert';
 /**
  * Signup Form Component
  * @param   {Object}   options
- * @param   {String}   options.email
+ * @param   {Object}   options.formFields
+ * @param   {String}   options.formFields.email
  * @param   [{String}] options.emailAlert
  * @param   {Object}   options.error
  * @param   {String}   options.error.message
@@ -20,9 +21,9 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {Function} options.handleSubmit
  * @returns {Component}
  */
-const SignupForm = ({ email, emailAlert, error, signingUp, onInputChange, handleSubmit }) => (
+const SignupForm = ({ formFields = {}, emailAlert, error, signingUp, onInputChange, handleSubmit }) => (
   <form onSubmit={handleSubmit}>
-    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={email}
+    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={formFields.email}
       bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>

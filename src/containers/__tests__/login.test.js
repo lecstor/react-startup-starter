@@ -34,8 +34,7 @@ tape('Login Container', nest => {
     test.ok(isFunction(stub.props().onInputChange), 'onInputChange is function');
 
     const expected = {
-      email: undefined,
-      password: undefined,
+      formFields: undefined,
       loggingIn: undefined,
       emailAlert: undefined,
       passAlert: undefined,
@@ -61,8 +60,10 @@ tape('Login Container', nest => {
     const stub = wrapper.find(Stub);
 
     const expected = {
-      email: 'jason@lecstor.com',
-      password: 'secretPassword',
+      formFields: {
+        email: 'jason@lecstor.com',
+        password: 'secretPassword',
+      },
       loggingIn: true,
       emailAlert: 'success',
       passAlert: 'error',

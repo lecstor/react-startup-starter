@@ -15,7 +15,7 @@ import { createStashSetFn, createStashEventValueFn } from '../store/modules/stas
 const mapStateToProps = (state) => ({
   error: state.user.error,
   loggingIn: state.user.loggingIn,
-  ...state.stash.loginForm,
+  formFields: state.stash.loginForm,
 });
 
 const stash = createStashSetFn('loginForm');
@@ -37,15 +37,15 @@ export class Login extends Component {
 
   // set default for params to handle route path with no params
   render () {
-    const { actions, email, password, loggingIn, error = {}, params = {} } = this.props;
+    const { actions, formFields, loggingIn, error = {}, params = {} } = this.props;
 
     const passAlert = error.fields && error.fields.password ? 'error' : undefined;
     let emailAlert = error.fields && error.fields.email ? 'error' : undefined;
     if (passAlert) emailAlert = 'success';
 
     const formProps = {
-      email, password, loggingIn, emailAlert, passAlert, error,
-      handleSubmit: () => actions.login({ email, password }, params.splat),
+      formFields, loggingIn, emailAlert, passAlert, error,
+      handleSubmit: () => actions.login(formFields, params.splat),
       onInputChange: actions.stashEvent,
     };
     return (
@@ -60,8 +60,7 @@ Login.propTypes = {
   children: PropTypes.node,
   error: PropTypes.object,
   actions: PropTypes.object.isRequired,
-  email: PropTypes.string,
-  password: PropTypes.string,
+  formFields: PropTypes.object,
   loggingIn: PropTypes.bool,
   params: PropTypes.object,
 };

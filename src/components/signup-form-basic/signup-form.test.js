@@ -10,7 +10,6 @@ let submitClicked = 0;
 const props = {
   handleSubmit: () => submitClicked++,
   onInputChange: () => changeTriggered++,
-  email: '',
   error: {},
 };
 

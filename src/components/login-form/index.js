@@ -14,17 +14,18 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {String}   options.error.fields.password
  * @param   {Number}   options.error.server.status
  * @param   {String}   options.error.server.message
- * @param   {String}   options.email
- * @param   {String}   options.password
+ * @param   {Object}   options.formFields
+ * @param   {String}   options.formFields.email
+ * @param   {String}   options.formFields.password
  * @param   {Boolean}  options.loggingIn
  * @returns {Component}
  */
-const LoginForm = ({ email, password, emailAlert, passAlert, loggingIn, error, handleSubmit, onInputChange }) => (
+const LoginForm = ({ formFields = {}, emailAlert, passAlert, loggingIn, error, handleSubmit, onInputChange }) => (
   <form onSubmit={handleSubmit}>
-    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={email}
+    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={formFields.email}
       bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
-    <Input label="Password" name="password" type="password" placeholder="password" onChange={onInputChange} value={password}
+    <Input label="Password" name="password" type="password" placeholder="password" onChange={onInputChange} value={formFields.password}
       bsStyle={passAlert} hasFeedback={passAlert ? true : false}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>

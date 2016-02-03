@@ -7,9 +7,10 @@ import Alert from 'react-bootstrap/lib/Alert';
 /**
  * Signup Form Component
  * @param   {Object}   options
- * @param   {String}   options.name
- * @param   {String}   options.email
- * @param   {String}   options.password
+ * @param   {Object}   options.formFields
+ * @param   {String}   options.formFields.name
+ * @param   {String}   options.formFields.email
+ * @param   {String}   options.formFields.password
  * @param   [{String}] options.emailAlert
  * @param   {Object}   options.error
  * @param   {String}   options.error.message
@@ -22,13 +23,13 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {Function} options.handleSubmit
  * @returns {Component}
  */
-const SignupForm = ({ name, email, password, emailAlert, error, signingUp, onInputChange, handleSubmit }) => (
+const SignupForm = ({ formFields = {}, emailAlert, error, signingUp, onInputChange, handleSubmit }) => (
   <form onSubmit={handleSubmit}>
-    <Input label="Your Name" name="name" type="text" placeholder="name" onChange={onInputChange} value={name} />
-    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={email}
+    <Input label="Your Name" name="name" type="text" placeholder="name" onChange={onInputChange} value={formFields.name} />
+    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={formFields.email}
       bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
-    <Input label="Password" name="password" type="password" placeholder="password" onChange={onInputChange} value={password} />
+    <Input label="Password" name="password" type="password" placeholder="password" onChange={onInputChange} value={formFields.password} />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={signingUp} onClick={handleSubmit}> Sign Up </Button>
     </div>
