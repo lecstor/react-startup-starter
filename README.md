@@ -23,6 +23,8 @@ React Startup Starter
 * [ESLint](http://eslint.org) The pluggable linting utility for JavaScript and JSX
 * [node-config](https://github.com/lorenwest/node-config) Node.js Application Configuration
 * [react-bootstrap](http://react-bootstrap.github.io/) The most popular front-end framework, rebuilt for React.
+* [redux-devtools-log-monitor](https://github.com/gaearon/redux-devtools-log-monitor) The default monitor for Redux DevTools with a tree view.
+* [redux-devtools-inspector](https://github.com/alexkuz/redux-devtools-inspector) A state monitor for Redux DevTools that provides a convenient way to inspect "real world" app states that could be complicated and deeply nested.
 
 Get it running
 --------------
@@ -40,6 +42,7 @@ $ open http://localhost:3000
 
 - Position the debug dev tools with ctrl-q
 - Hide/Show the debug dev tools with ctrl-h
+- Change DevTools Monitor with ctrl-m
 
 
 Usage

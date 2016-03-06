@@ -3,13 +3,16 @@ import { Router } from 'react-router';
 
 import { Provider } from 'react-redux';
 import { createDevTools } from 'redux-devtools';
-import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
+
+import LogMonitor from 'redux-devtools-log-monitor';
+import Inspector from 'redux-devtools-inspector';
 
 import getRoutes from '../routes';
 
 const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
+  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" changeMonitorKey="ctrl-m">
+    <Inspector />
     <LogMonitor />
   </DockMonitor>
 );
