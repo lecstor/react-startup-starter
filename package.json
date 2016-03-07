@@ -51,7 +51,7 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "blue-tape": "^0.1.11",
+    "blue-tape": "^0.2.0",
     "body-parser": "^1.14.2",
     "client-sessions": "^0.7.0",
     "config": "^1.17.1",
@@ -92,15 +92,15 @@
     "redux-devtools-inspector": "^0.3.1",
     "redux-devtools-log-monitor": "^1.0.1",
     "redux-mock-store": "0.0.4",
-    "rimraf": "^2.5.0",
+    "rimraf": "^2.5.2",
     "sass-loader": "^3.0.0",
     "sinon": "^1.17.2",
     "style-loader": "^0.13.0",
-    "tape": "^4.4.0",
+    "tape": "^4.5.1",
     "url-loader": "^0.5.6",
-    "watch": "^0.16.0",
-    "webpack": "^1.11.0",
+    "watch": "^0.17.1",
+    "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.5.0"
+    "webpack-hot-middleware": "^2.9.1"
   }
 }
