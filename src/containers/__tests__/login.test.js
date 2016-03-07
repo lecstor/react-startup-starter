@@ -13,6 +13,7 @@ class Stub extends Component {
     return <div {...this.props} />;
   }
 }
+// const Stub = (props = {}) => (<div {...props} />);
 
 function mountComponent (store, { containerProps = {} } = {}) {
   return mount(

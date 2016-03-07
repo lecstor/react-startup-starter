@@ -9,9 +9,10 @@ export default function reducer (state = initialState, action = {}) {
 
   switch (action.type) {
 
-    case SET_VALUE:
+    case SET_VALUE: {
       const stashValue = Object.assign({}, state[stash], value);
       return Object.assign({}, state, { [stash]: stashValue });
+    }
 
     case CLEAR_STASH:
       return { ...state, [stash]: {} };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 import Button from 'react-bootstrap/lib/Button';
@@ -32,12 +32,20 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
   return (
     <Row style={{ borderBottom: '1px solid lightgrey', padding: '5px' }}>
       <Col xs={12} md={5}>
-        {editingKey && <Input name="editKeyLabel" type="text" buttonAfter={SaveButton} value={editKeyLabel} onChange={stashEditLabel} bsSize="small" />}
-        {!editingKey && <div style={{ display: 'inline' }} onClick={editKeySelect}><strong>{apikey.label}</strong></div>}
+        {editingKey &&
+          <Input name="editKeyLabel" type="text" buttonAfter={SaveButton}
+            value={editKeyLabel} onChange={stashEditLabel} bsSize="small"
+          />}
+        {!editingKey &&
+          <div style={{ display: 'inline' }} onClick={editKeySelect}>
+            <strong>{apikey.label}</strong>
+          </div>}
       </Col>
       <Col xs={8} md={4} style={idStyle}>{apikey.id}</Col>
       <Col xs={4} md={3} style={{ textAlign: 'right' }}>
-        <Button style={{ width: '80px', marginRight: '5px' }} bsSize="sm" onClick={enabledAction} bsStyle={disableBsStyle}>
+        <Button style={{ width: '80px', marginRight: '5px' }} bsSize="sm" bsStyle={disableBsStyle}
+          onClick={enabledAction}
+        >
           <Glyphicon glyph="off" /> {enabledLabel}
         </Button>
         <Button style={{ width: '80px' }} bsSize="sm" onClick={deleteKey} bsStyle="danger">
@@ -46,6 +54,15 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
       </Col>
     </Row>
   );
+};
+
+ApiKey.propTypes = {
+  apikey: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  editKeyId: PropTypes.object,
+  editKeyLabel: PropTypes.string,
+  stashEditLabel: PropTypes.func.isRequired,
+  editKeySelect: PropTypes.func.isRequired,
 };
 
 export default ApiKey;

@@ -2,9 +2,7 @@ import React from 'react';
 import test from 'tape';
 import { shallow } from 'enzyme';
 
-import createButton from './';
-
-const Button = createButton(React);
+import Button from './';
 
 // const clickCount
 test('Button', nest => {
@@ -55,7 +53,7 @@ test('Button', nest => {
       label: 'Click Me',
       onClick: () => click++,
     };
-    const button = shallow(<Button { ...props }/>);
+    const button = shallow(<Button { ...props } />);
     button.simulate('click');
 
     assert.equal(click, 1, msg);

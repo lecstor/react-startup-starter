@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({ createKey, updateKey, deleteKey, stash, stashEvent }, dispatch),
 });
 
-export default class ApiKeys extends Component {
+export class ApiKeys extends Component {
   render () {
     const { actions, apikeys, newKeyLabel, editKeyId, editKeyLabel } = this.props;
     const newKey = () => {
@@ -49,7 +49,7 @@ export default class ApiKeys extends Component {
         <Row style={{ marginTop: '30px' }}><Col xs={12}>
           <CreateApiKey {...newKeyProps} />
         </Col></Row>
-        {apikeys.loading && <Spinner config={spinnerConf}/>}
+        {apikeys.loading && <Spinner config={spinnerConf} />}
         {apikeys.data.map(apikey => (
           <ApiKey key={apikey.id} apikey={apikey} {...apiKeyProps}
             editKeySelect={editKeySelect(apikey.id, apikey.label)}

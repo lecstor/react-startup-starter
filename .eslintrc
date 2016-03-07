@@ -11,6 +11,10 @@
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
 
+    // pure function components sometimes break hot-reloading as it tries to replace
+    // router due to our router being a function so it can have access to the store..
+    "react/prefer-stateless-function": 1,
+
     "space-before-function-paren": [2, "always"],
   },
   "plugins": [

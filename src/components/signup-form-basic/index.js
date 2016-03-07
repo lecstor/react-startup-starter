@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
@@ -23,13 +23,20 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @param   {Function} options.handleSubmit
  * @returns {Component}
  */
-const SignupForm = ({ formFields = {}, emailAlert, error, signingUp, onInputChange, handleSubmit }) => (
+const SignupForm = (
+  { formFields = {}, emailAlert, error, signingUp, onInputChange, handleSubmit }
+) => (
   <form onSubmit={handleSubmit}>
-    <Input label="Your Name" name="name" type="text" placeholder="name" onChange={onInputChange} value={formFields.name} />
-    <Input label="Email" name="email" type="email" placeholder="email" onChange={onInputChange} value={formFields.email}
-      bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
+    <Input label="Your Name" name="name" type="text" placeholder="name"
+      onChange={onInputChange} value={formFields.name}
     />
-    <Input label="Password" name="password" type="password" placeholder="password" onChange={onInputChange} value={formFields.password} />
+    <Input label="Email" name="email" type="email" placeholder="email"
+      onChange={onInputChange} value={formFields.email}
+      bsStyle={emailAlert} hasFeedback={emailAlert}
+    />
+    <Input label="Password" name="password" type="password" placeholder="password"
+      onChange={onInputChange} value={formFields.password}
+    />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={signingUp} onClick={handleSubmit}> Sign Up </Button>
     </div>
@@ -37,5 +44,14 @@ const SignupForm = ({ formFields = {}, emailAlert, error, signingUp, onInputChan
     {error.fields && error.fields.email && <Alert bsStyle="warning">{error.fields.email}</Alert>}
   </form>
 );
+
+SignupForm.propTypes = {
+  formFields: PropTypes.object,
+  emailAlert: PropTypes.string,
+  signingUp: PropTypes.bool,
+  error: PropTypes.object,
+  handleSubmit: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+};
 
 export default SignupForm;

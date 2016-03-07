@@ -7,10 +7,11 @@ import SignupForm from '../components/signup-form-basic';
 // won't work for us (for now)
 export default class Signup extends Component {
   render () {
+    const colStyle = 'col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-4 col-lg-4';
     return (
       <div className="container text-center">
         <h1>This is the signup view!</h1>
-        <div className="text-left col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-4 col-lg-4">
+        <div className={`text-left ${colStyle}`}>
           <SignupFormContainer>
             <SignupForm />
           </SignupFormContainer>

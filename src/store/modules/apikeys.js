@@ -34,18 +34,18 @@ export default function reducer (state = initialState, action = {}) {
     case CREATE_KEY:
       return { ...state, loading: true };
 
-    case CREATE_KEY_SUCCESS:
+    case CREATE_KEY_SUCCESS: {
       const data = [action.result, ...state.data];
       return { ...state, loading: false, data };
+    }
 
     case CREATE_KEY_FAIL:
       return { ...state, loading: false, error: action.error };
 
-
     case UPDATE_KEY:
       return { ...state, loading: true };
 
-    case UPDATE_KEY_SUCCESS:
+    case UPDATE_KEY_SUCCESS: {
       const updateIdx = findIndex(state.data, { id: action.result.id });
       if (updateIdx < 0) return { ...state, loading: false };
       return {
@@ -57,6 +57,7 @@ export default function reducer (state = initialState, action = {}) {
           ...state.data.slice(updateIdx + 1),
         ],
       };
+    }
 
     case UPDATE_KEY_FAIL:
       return { ...state, loading: false, error: action.error };
@@ -65,7 +66,7 @@ export default function reducer (state = initialState, action = {}) {
     case DELETE_KEY:
       return { ...state, loading: true };
 
-    case DELETE_KEY_SUCCESS:
+    case DELETE_KEY_SUCCESS: {
       const deleteIdx = findIndex(state.data, { id: action.result.id });
       if (deleteIdx < 0) return { ...state, loading: false };
       return {
@@ -76,6 +77,7 @@ export default function reducer (state = initialState, action = {}) {
           ...state.data.slice(deleteIdx + 1),
         ],
       };
+    }
 
     case DELETE_KEY_FAIL:
       return { ...state, loading: false, error: action.error };
@@ -109,12 +111,9 @@ export function updateKey (key) {
 export function deleteKey (key) {
   return {
     types: [DELETE_KEY, DELETE_KEY_SUCCESS, DELETE_KEY_FAIL],
-    promise: (fetch) => {
-      return fetch(`/apikeys/${key.id}`, { method: 'delete' })
-      .then((response) => {
-        if (!response.error) response.result = { id: key.id };
-        return response;
-      });
-    },
+    promise: (fetch) => fetch(`/apikeys/${key.id}`, { method: 'delete' }).then((response) => {
+      if (!response.error) return { ...response, result: { id: key.id } };
+      return response;
+    }),
   };
 }

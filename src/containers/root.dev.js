@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Router } from 'react-router';
 
 import { Provider } from 'react-redux';
@@ -20,19 +20,20 @@ const DevTools = createDevTools(
 export { DevTools };
 
 export default class Root extends Component {
-  static propTypes = {
-    store: React.PropTypes.object,
-    history: React.PropTypes.object,
-  };
   render () {
-    const { store } = this.props;
+    const { store, history } = this.props;
     return (
       <Provider store={store}>
         <div>
-          <Router history={this.props.history} routes={getRoutes(store)} />
+          <Router history={history} routes={getRoutes(store)} />
           <DevTools />
         </div>
       </Provider>
     );
   }
 }
+
+Root.propTypes = {
+  store: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};

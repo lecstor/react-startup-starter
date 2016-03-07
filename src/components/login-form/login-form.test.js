@@ -24,7 +24,9 @@ tape('LoginForm Component', nest => {
   });
 
   nest.test('- Displays correctly with request error', test => {
-    const tProps = Object.assign({}, props, { error: { server: { message: 'Something is not right' } } });
+    const tProps = Object.assign(
+      {}, props, { error: { server: { message: 'Something is not right' } } }
+    );
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -33,7 +35,9 @@ tape('LoginForm Component', nest => {
   });
 
   nest.test('- Displays correctly with email input error', test => {
-    const tProps = Object.assign({}, props, { error: { fields: { email: 'That is not an email address' } } });
+    const tProps = Object.assign(
+      {}, props, { error: { fields: { email: 'That is not an email address' } } }
+    );
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');
@@ -42,7 +46,9 @@ tape('LoginForm Component', nest => {
   });
 
   nest.test('- Displays correctly with password input error', test => {
-    const tProps = Object.assign({}, props, { error: { fields: { password: 'Incorrect Password' } } });
+    const tProps = Object.assign(
+      {}, props, { error: { fields: { password: 'Incorrect Password' } } }
+    );
     const wrapper = shallow(<LoginForm {...tProps} />);
     const alert = wrapper.find('Alert');
     test.equal(alert.length, 1, 'node has one alert');

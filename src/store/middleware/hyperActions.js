@@ -22,13 +22,16 @@ import fetch from '../customFetch';
  * to be called after the action has completed. The function will be called with an object
  * containing the dispatch and getState functions.
  */
+
 export default function hyperActions ({ dispatch, getState }) {
   return next => action => {
     if (typeof action === 'function') {
       return action(dispatch, getState);
     }
 
-    const { promise, types, onSuccess, onFail, onRequestFail, ...rest } = action;
+    /* eslint no-use-before-define: 1 */
+    /* downgrade to warn until this is fixed: https://github.com/babel/babel-eslint/issues/249 */
+    const { promise, types, onSuccess, onFail, ...rest } = action;
     if (!promise) {
       return next(action);
     }

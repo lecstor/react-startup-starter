@@ -23,7 +23,11 @@ tape('===== stash.test.js =====', tests => {
         type: 'rss/stash/SET_VALUE',
         result: { stash: 'mystash', value: { mykey: 'myvalue' } },
       };
-      test.deepEqual(setValue('mystash', { mykey: 'myvalue' }), expected, 'setValue returns correct action');
+      test.deepEqual(
+        setValue('mystash', { mykey: 'myvalue' }),
+        expected,
+        'setValue returns correct action'
+      );
       test.end();
     });
 
@@ -33,7 +37,11 @@ tape('===== stash.test.js =====', tests => {
         result: { stash: 'mystash', value: { mykey: 'myvalue' } },
       };
       const event = { target: { name: 'mykey', value: 'myvalue' } };
-      test.deepEqual(setValueFromEvent('mystash', event), expected, 'setValueFromEvent returns correct action');
+      test.deepEqual(
+        setValueFromEvent('mystash', event),
+        expected,
+        'setValueFromEvent returns correct action'
+      );
       test.end();
     });
   });
@@ -45,7 +53,11 @@ tape('===== stash.test.js =====', tests => {
         type: 'rss/stash/SET_VALUE',
         result: { stash: 'mystash', value: { mykey: 'myvalue' } },
       };
-      test.deepEqual(actionCreator({ mykey: 'myvalue' }), expected, 'createStashSetFn returns working action creator');
+      test.deepEqual(
+        actionCreator({ mykey: 'myvalue' }),
+        expected,
+        'createStashSetFn returns working action creator'
+      );
       test.end();
     });
 
@@ -56,7 +68,10 @@ tape('===== stash.test.js =====', tests => {
         result: { stash: 'mystash', value: { mykey: 'myvalue' } },
       };
       const event = { target: { name: 'mykey', value: 'myvalue' } };
-      test.deepEqual(actionCreator(event), expected, 'createStashEventValueFn returns working action creator');
+      test.deepEqual(
+        actionCreator(event),
+        expected, 'createStashEventValueFn returns working action creator'
+      );
       test.end();
     });
   });
@@ -80,7 +95,7 @@ tape('===== stash.test.js =====', tests => {
 
     nest.test('set from empty state', test => {
       const action = setValue('mystash', { mykey: 'myvalue' });
-      const expected = { 'mystash': { 'mykey': 'myvalue' } };
+      const expected = { mystash: { mykey: 'myvalue' } };
       const stateBefore = {};
       deepFreeze(stateBefore);
       deepFreeze(action);

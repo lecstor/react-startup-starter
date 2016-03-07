@@ -29,7 +29,7 @@ export default class UserDetails extends Component {
       actions, name, email,
       error: err,
       bsStyle: emailValid ? undefined : 'error',
-      bsFeed: emailValid ? false : true,
+      bsFeed: emailValid,
       isSaving: form.isSaving,
       saveDisabled: !emailValid,
       handleSave: () => actions.update({ name, email }),

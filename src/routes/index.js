@@ -54,8 +54,9 @@ const getRoutes = (store) => ({
         // attempt to load the user if we haven't already
         if (!userIsLoaded(store.getState())) store.dispatch(loadUser());
 
+        const toLogin = () => store.dispatch(pushPath('/login'));
         // wait while user.loading then user.data.id ? callback : dispatch pushPath('/login')
-        waiter(store, 'user.loading', 'user.data.id', callback, () => store.dispatch(pushPath('/login')));
+        waiter(store, 'user.loading', 'user.data.id', callback, toLogin);
       },
       getComponent (location, cb) {
         require.ensure([], require => cb(null, require('../containers/layout-app').default));

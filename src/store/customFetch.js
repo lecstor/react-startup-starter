@@ -18,7 +18,7 @@ function parseJSON (response) {
 export default function customFetch (url, options = {}) {
   const defaultOptions = {
     method: 'get',
-    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     credentials: 'same-origin',
   };
   const fetchOptions = Object.assign(defaultOptions, options);
