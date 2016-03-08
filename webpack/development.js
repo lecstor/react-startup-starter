@@ -25,7 +25,7 @@ module.exports = {
       'react-redux',
       'react-router',
       'redux',
-      'redux-simple-router'
+      'react-router-redux'
     ]
   },
   output: {
@@ -66,10 +66,6 @@ module.exports = {
                   imports: ['react'],
                   locals: ['module']
                 },
-                // {
-                //   transform: 'react-transform-catch-errors',
-                //   imports: ['react', 'redbox-react']
-                // }
               ]
             }]
           ]

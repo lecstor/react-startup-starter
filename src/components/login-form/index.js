@@ -26,11 +26,11 @@ const LoginForm = ({
   <form onSubmit={handleSubmit}>
     <Input label="Email" name="email" type="email" placeholder="email"
       onChange={onInputChange} value={formFields.email}
-      bsStyle={emailAlert} hasFeedback={emailAlert}
+      bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
     <Input label="Password" name="password" type="password" placeholder="password"
       onChange={onInputChange} value={formFields.password}
-      bsStyle={passAlert} hasFeedback={passAlert}
+      bsStyle={passAlert} hasFeedback={passAlert ? true : false}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={loggingIn} onClick={handleSubmit}> Log In </Button>
@@ -48,8 +48,8 @@ LoginForm.propTypes = {
   passAlert: PropTypes.string,
   loggingIn: PropTypes.bool,
   error: PropTypes.object,
-  handleSubmit: PropTypes.func.isRequired,
-  onInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+  onInputChange: PropTypes.func,
 };
 
 export default LoginForm;

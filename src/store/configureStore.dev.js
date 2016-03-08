@@ -1,12 +1,16 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import { persistState } from 'redux-devtools';
 
 import rootReducer from '../store/reducers';
 import { DevTools } from '../containers/root.dev';
 import hyperActions from './middleware/hyperActions';
 
+const routerMiddle = routerMiddleware(browserHistory);
+
 const finalCreateStore = compose(
-  applyMiddleware(hyperActions),
+  applyMiddleware(hyperActions, routerMiddle),
   DevTools.instrument(),
   persistState(
     window.location.href.match(

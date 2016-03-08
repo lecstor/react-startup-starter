@@ -1,4 +1,4 @@
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 import waiter from '../store/waiter';
 import { load as loadUser, isLoaded as userIsLoaded } from '../store/modules/user';
@@ -54,8 +54,8 @@ const getRoutes = (store) => ({
         // attempt to load the user if we haven't already
         if (!userIsLoaded(store.getState())) store.dispatch(loadUser());
 
-        const toLogin = () => store.dispatch(pushPath('/login'));
-        // wait while user.loading then user.data.id ? callback : dispatch pushPath('/login')
+        const toLogin = () => store.dispatch(push('/login'));
+        // wait while user.loading then user.data.id ? callback : dispatch push('/login')
         waiter(store, 'user.loading', 'user.data.id', callback, toLogin);
       },
       getComponent (location, cb) {

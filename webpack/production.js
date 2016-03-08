@@ -21,7 +21,7 @@ module.exports = {
       'react-redux',
       'react-router',
       'redux',
-      'redux-simple-router'
+      'react-router-redux'
     ]
   },
   output: {

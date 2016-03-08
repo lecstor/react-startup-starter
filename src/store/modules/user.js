@@ -1,4 +1,4 @@
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 // https://github.com/rackt/redux/issues/99
 // https://github.com/erikras/react-redux-universal-hot-example/blob/master/src/redux/middleware/clientMiddleware.js
@@ -72,7 +72,7 @@ export function isLoaded (globalState) {
 
 export function redirectToApp (dispatch, path = '/app') {
   const redirectTo = /^\/app/.test(path) ? path : '/app';
-  dispatch(pushPath(redirectTo));
+  dispatch(push(redirectTo));
 }
 
 /**
@@ -109,7 +109,7 @@ export function logout () {
   return {
     types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
     promise: (fetch) => fetch('/session', { method: 'delete' }),
-    onSuccess: ({ dispatch }) => dispatch(pushPath('/')),
+    onSuccess: ({ dispatch }) => dispatch(push('/')),
   };
 }
 

@@ -30,7 +30,7 @@ UserDetailsForm.propTypes = {
   name: PropTypes.string,
   email: PropTypes.string,
   bsStyle: PropTypes.string,
-  bsFeed: PropTypes.string,
+  bsFeed: PropTypes.bool,
   isSaving: PropTypes.bool,
   saveDisabled: PropTypes.bool,
   error: PropTypes.object,

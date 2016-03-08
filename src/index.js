@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import { syncReduxAndRouter } from 'redux-simple-router';
+// import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import Root from './containers/root';
 import configureStore from './store';
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 const store = configureStore(window.__INITIAL_STATE__);
 
-// Connect the Redux store to the app router and keep them in sync
-syncReduxAndRouter(history, store);
+// Create an enhanced history that syncs navigation events with the store
+const history = syncHistoryWithStore(browserHistory, store);
+
+// // Connect the Redux store to the app router and keep them in sync
+// syncReduxAndRouter(history, store);
 
 // The Root component is a container component (src/containers) which will get
 // a child component according to the current browser location and the routes

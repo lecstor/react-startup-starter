@@ -32,7 +32,7 @@ const SignupForm = (
     />
     <Input label="Email" name="email" type="email" placeholder="email"
       onChange={onInputChange} value={formFields.email}
-      bsStyle={emailAlert} hasFeedback={emailAlert}
+      bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
     <Input label="Password" name="password" type="password" placeholder="password"
       onChange={onInputChange} value={formFields.password}
@@ -50,8 +50,8 @@ SignupForm.propTypes = {
   emailAlert: PropTypes.string,
   signingUp: PropTypes.bool,
   error: PropTypes.object,
-  handleSubmit: PropTypes.func.isRequired,
-  onInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+  onInputChange: PropTypes.func,
 };
 
 export default SignupForm;

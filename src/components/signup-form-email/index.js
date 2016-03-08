@@ -27,7 +27,7 @@ const SignupForm = (
   <form onSubmit={handleSubmit}>
     <Input label="Email" name="email" type="email" placeholder="email"
       onChange={onInputChange} value={formFields.email}
-      bsStyle={emailAlert} hasFeedback={emailAlert}
+      bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={signingUp} onClick={handleSubmit}> Sign Up </Button>
@@ -42,8 +42,8 @@ SignupForm.propTypes = {
   emailAlert: PropTypes.string,
   signingUp: PropTypes.bool,
   error: PropTypes.object,
-  handleSubmit: PropTypes.func.isRequired,
-  onInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+  onInputChange: PropTypes.func,
 };
 
 export default SignupForm;

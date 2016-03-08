@@ -1,4 +1,4 @@
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 import fetch from '../customFetch';
 
@@ -54,7 +54,7 @@ export default function hyperActions ({ dispatch, getState }) {
         console.error('hyperActions fetch error:', err);
         next({ ...rest, error: err, type: FAILURE });
         if (error.status === 403) {
-          setTimeout(() => dispatch(pushPath(`/login/from${getState().routing.path}`)), 1000);
+          setTimeout(() => dispatch(push(`/login/from${getState().routing.path}`)), 1000);
         }
       }
     ).catch((error) => {

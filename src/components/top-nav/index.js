@@ -45,3 +45,4 @@ TopNav.propTypes = {
   loggingOut: PropTypes.bool,
 };
 
+export default TopNav;
