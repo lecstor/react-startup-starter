@@ -13,7 +13,7 @@ React Startup Starter
 * [React](https://github.com/facebook/react) A Javascript library for building user interfaces
 * [Redux](https://github.com/rackt/redux) Redux is a predictable state container for JavaScript apps
 * [react-router](https://github.com/rackt/react-router) A complete routing solution for React.js
-* [redux-simple-router](https://github.com/jlongster/redux-simple-router) Ruthlessly simple bindings to keep react-router and redux in sync
+* [react-router-redux](https://github.com/reactjs/react-router-redux) Ruthlessly simple bindings to keep react-router and redux in sync
 * [Babel](https://babeljs.io/)(6) Next gen (ES6/7/etc) Javascript compiler
 * [Webpack](https://webpack.github.io/) A bundler for javascript and friends
 * [Karma](http://karma-runner.github.io/) Spectacular Test Runner for JavaScript
