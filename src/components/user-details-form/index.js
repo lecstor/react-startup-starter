@@ -34,7 +34,7 @@ UserDetailsForm.propTypes = {
   isSaving: PropTypes.bool,
   saveDisabled: PropTypes.bool,
   error: PropTypes.object,
-  handleSave: PropTypes.func.isRequired,
+  handleSave: PropTypes.func,
 };
 
 export default UserDetailsForm;
