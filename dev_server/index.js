@@ -99,10 +99,12 @@ app.post('/session', (req, res) => {
 
 app.get('/session', (req, res) => {
   res.type('application/json');
-  if (req.my_session.user && req.my_session.user.id) {
-    return res.send({ result: req.my_session.user });
-  }
-  res.send({ result: undefined });
+  setTimeout(() => {
+    if (req.my_session.user && req.my_session.user.id) {
+      return res.send({ result: req.my_session.user });
+    }
+    res.send({ result: undefined });
+  }, 500);
 });
 
 // logout
@@ -132,8 +134,10 @@ app.post('/user', (req, res) => {
 
 app.get('/user', (req, res) => {
   const store = getStore(req);
-  if (!store) return res.send({});
-  res.send({ result: omit(store.user, 'password') });
+  setTimeout(() => {
+    if (!store) return res.send({});
+    res.send({ result: omit(store.user, 'password') });
+  }, 1000);
 });
 
 // update user details

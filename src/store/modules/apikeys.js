@@ -1,20 +1,22 @@
 import findIndex from 'lodash/findIndex';
 
-const LOAD = 'rss/apikeys/LOAD';
-const LOAD_SUCCESS = 'rss/apikeys/LOAD_SUCCESS';
-const LOAD_FAIL = 'rss/apikeys/LOAD_FAIL';
+const ns = (action) => `rss/apikeys/${action}`;
 
-const CREATE_KEY = 'rss/apikeys/CREATE_KEY';
-const CREATE_KEY_SUCCESS = 'rss/apikeys/CREATE_KEY_SUCCESS';
-const CREATE_KEY_FAIL = 'rss/apikeys/CREATE_KEY_FAIL';
+export const LOAD = ns('LOAD');
+export const LOAD_SUCCESS = ns('LOAD_SUCCESS');
+export const LOAD_FAIL = ns('LOAD_FAIL');
 
-const UPDATE_KEY = 'rss/apikeys/UPDATE_KEY';
-const UPDATE_KEY_SUCCESS = 'rss/apikeys/UPDATE_KEY_SUCCESS';
-const UPDATE_KEY_FAIL = 'rss/apikeys/UPDATE_KEY_FAIL';
+export const CREATE = ns('CREATE');
+export const CREATE_SUCCESS = ns('CREATE_SUCCESS');
+export const CREATE_FAIL = ns('CREATE_FAIL');
 
-const DELETE_KEY = 'rss/apikeys/DELETE_KEY';
-const DELETE_KEY_SUCCESS = 'rss/apikeys/DELETE_KEY_SUCCESS';
-const DELETE_KEY_FAIL = 'rss/apikeys/DELETE_KEY_FAIL';
+export const UPDATE = ns('UPDATE');
+export const UPDATE_SUCCESS = ns('UPDATE_SUCCESS');
+export const UPDATE_FAIL = ns('UPDATE_FAIL');
+
+export const DELETE = ns('DELETE');
+export const DELETE_SUCCESS = ns('DELETE_SUCCESS');
+export const DELETE_FAIL = ns('DELETE_FAIL');
 
 const initialState = { loaded: false, data: [] };
 
@@ -31,21 +33,22 @@ export default function reducer (state = initialState, action = {}) {
       return { ...state, loading: false, error: action.error };
 
 
-    case CREATE_KEY:
+    case CREATE:
       return { ...state, loading: true };
 
-    case CREATE_KEY_SUCCESS: {
+    case CREATE_SUCCESS: {
       const data = [action.result, ...state.data];
       return { ...state, loading: false, data };
     }
 
-    case CREATE_KEY_FAIL:
+    case CREATE_FAIL:
       return { ...state, loading: false, error: action.error };
 
-    case UPDATE_KEY:
+
+    case UPDATE:
       return { ...state, loading: true };
 
-    case UPDATE_KEY_SUCCESS: {
+    case UPDATE_SUCCESS: {
       const updateIdx = findIndex(state.data, { id: action.result.id });
       if (updateIdx < 0) return { ...state, loading: false };
       return {
@@ -59,14 +62,14 @@ export default function reducer (state = initialState, action = {}) {
       };
     }
 
-    case UPDATE_KEY_FAIL:
+    case UPDATE_FAIL:
       return { ...state, loading: false, error: action.error };
 
 
-    case DELETE_KEY:
+    case DELETE:
       return { ...state, loading: true };
 
-    case DELETE_KEY_SUCCESS: {
+    case DELETE_SUCCESS: {
       const deleteIdx = findIndex(state.data, { id: action.result.id });
       if (deleteIdx < 0) return { ...state, loading: false };
       return {
@@ -79,7 +82,7 @@ export default function reducer (state = initialState, action = {}) {
       };
     }
 
-    case DELETE_KEY_FAIL:
+    case DELETE_FAIL:
       return { ...state, loading: false, error: action.error };
 
     default:
@@ -87,33 +90,49 @@ export default function reducer (state = initialState, action = {}) {
   }
 }
 
+/**
+ * returns an action which can be used to load existing keys
+ * @returns {Object} action
+ * @returns {Object} action.type     the load action type
+ */
 export function load () {
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (fetch) => fetch('/apikeys'),
-  };
+  return { type: LOAD };
 }
 
+/**
+ * returns an action which can be used to create a new key
+ * @param   {Object}  key
+ * @param   {String}  key.label  a label for the new key
+ * @param   {Boolean} [key.test]   set to true to create a test key
+ * @returns {Object} action
+ * @returns {Object} action.type     the create action type
+ * @returns {Object} action.payload  the provided key
+ */
 export function createKey (key) {
-  return {
-    types: [CREATE_KEY, CREATE_KEY_SUCCESS, CREATE_KEY_FAIL],
-    promise: (fetch) => fetch('/apikeys', { method: 'post', body: JSON.stringify(key) }),
-  };
+  return { type: CREATE, payload: key };
 }
 
+/**
+ * returns an action which can be used to update an existing key
+ * @param   {Object} key
+ * @param   {String} key.id     the id of the key to be updated
+ * @param   {String} key.label  a new label for the key
+ * @returns {Object} action
+ * @returns {Object} action.type     the update action type
+ * @returns {Object} action.payload  the provided key
+ */
 export function updateKey (key) {
-  return {
-    types: [UPDATE_KEY, UPDATE_KEY_SUCCESS, UPDATE_KEY_FAIL],
-    promise: (fetch) => fetch(`/apikeys/${key.id}`, { method: 'put', body: JSON.stringify(key) }),
-  };
+  return { type: UPDATE, payload: key };
 }
 
+/**
+ * returns an action which can be used to delete an existing key
+ * @param   {Object} key
+ * @param   {String} key.id     the id of the key to be updated
+ * @returns {Object} action
+ * @returns {Object} action.type     the delete action type
+ * @returns {Object} action.payload  the provided key
+ */
 export function deleteKey (key) {
-  return {
-    types: [DELETE_KEY, DELETE_KEY_SUCCESS, DELETE_KEY_FAIL],
-    promise: (fetch) => fetch(`/apikeys/${key.id}`, { method: 'delete' }).then((response) => {
-      if (!response.error) return { ...response, result: { id: key.id } };
-      return response;
-    }),
-  };
+  return { type: DELETE, payload: key };
 }

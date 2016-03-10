@@ -59,7 +59,7 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
 ApiKey.propTypes = {
   apikey: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  editKeyId: PropTypes.object,
+  editKeyId: PropTypes.string,
   editKeyLabel: PropTypes.string,
   stashEditLabel: PropTypes.func.isRequired,
   editKeySelect: PropTypes.func.isRequired,

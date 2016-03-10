@@ -25,6 +25,8 @@
   "author": "Jason Galea <jason@lecstor.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.6.1",
+    "history": "^2.0.1",
     "isomorphic-fetch": "^2.2.0",
     "json5": "^0.4.0",
     "lodash": "^4.6.1",
@@ -37,6 +39,7 @@
     "react-router-bootstrap": "^0.20.1",
     "react-router-redux": "^4.0.0",
     "redux": "^3.3.1",
+    "redux-saga": "^0.9.3",
     "spin.js": "^2.3.2"
   },
   "devDependencies": {

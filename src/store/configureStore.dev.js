@@ -1,16 +1,19 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
-import { persistState } from 'redux-devtools';
-
 import rootReducer from '../store/reducers';
-import { DevTools } from '../containers/root.dev';
-import hyperActions from './middleware/hyperActions';
 
-const routerMiddle = routerMiddleware(browserHistory);
+import { persistState } from 'redux-devtools';
+import { DevTools } from '../containers/root.dev';
+
+import createSagaMiddleware from 'redux-saga';
+import sagasRoot from '../sagas';
+
+const reduxRouter = routerMiddleware(browserHistory);
+const sagas = createSagaMiddleware(sagasRoot);
 
 const finalCreateStore = compose(
-  applyMiddleware(hyperActions, routerMiddle),
+  applyMiddleware(reduxRouter, sagas),
   DevTools.instrument(),
   persistState(
     window.location.href.match(

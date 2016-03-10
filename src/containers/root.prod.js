@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
-import getRoutes from '../routes';
+import routes from '../routes';
 
 export default class Root extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Root extends Component {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <Router history={this.props.history} routes={getRoutes(store)} />
+        <Router history={this.props.history} routes={routes} />
       </Provider>
     );
   }

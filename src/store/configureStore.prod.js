@@ -3,12 +3,14 @@ import { routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import rootReducer from '../store/reducers';
 
-import hyperActions from './middleware/hyperActions';
+import createSagaMiddleware from 'redux-saga';
+import sagasRoot from '../sagas';
 
-const routerMiddle = routerMiddleware(browserHistory);
+const reduxRouter = routerMiddleware(browserHistory);
+const sagas = createSagaMiddleware(sagasRoot);
 
 const finalCreateStore = compose(
-  applyMiddleware(hyperActions, routerMiddle)
+  applyMiddleware(reduxRouter, sagas)
 )(createStore);
 
 export default function configureStore (initialState) {

@@ -10,7 +10,7 @@ import ApiKey from '../../components/api-key';
 import CreateApiKey from '../../components/api-key/create';
 
 import { createStashSetFn, createStashEventValueFn } from '../../store/modules/stash';
-import { createKey, updateKey, deleteKey } from '../../store/modules/apikeys';
+import { createKey, updateKey, deleteKey, load as loadApiKeys } from '../../store/modules/apikeys';
 
 const mapStateToProps = (state) => ({
   apikeys: state.apikeys,
@@ -21,10 +21,15 @@ const stash = createStashSetFn('apikeysForm');
 const stashEvent = createStashEventValueFn('apikeysForm');
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ createKey, updateKey, deleteKey, stash, stashEvent }, dispatch),
+  actions: bindActionCreators({
+    createKey, updateKey, deleteKey, stash, stashEvent, loadApiKeys,
+  }, dispatch),
 });
 
 export class ApiKeys extends Component {
+  componentWillMount () {
+    this.props.actions.loadApiKeys();
+  }
   render () {
     const { actions, apikeys, newKeyLabel, editKeyId, editKeyLabel } = this.props;
     const newKey = () => {

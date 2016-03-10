@@ -24,11 +24,11 @@ const TopNav = ({ userLabel, loggingIn, loggingOut }) => {
           </LinkContainer>}
           {!userLabel &&
           <LinkContainer to="/login">
-            <NavItem>Login</NavItem>
+            <NavItem>Log In</NavItem>
           </LinkContainer>}
           {userLabel &&
           <LinkContainer to="/logout">
-            <NavItem>Logout</NavItem>
+            <NavItem>Log Out</NavItem>
           </LinkContainer>}
         </Nav>
         {userLabel && <p className={messageStyle}>Logged in as <strong>{userLabel}</strong>.</p>}
