@@ -14,6 +14,7 @@ React Startup Starter
 * [Redux](https://github.com/rackt/redux) Redux is a predictable state container for JavaScript apps
 * [react-router](https://github.com/rackt/react-router) A complete routing solution for React.js
 * [react-router-redux](https://github.com/reactjs/react-router-redux) Ruthlessly simple bindings to keep react-router and redux in sync
+* [redux-saga](https://github.com/yelouafi/redux-saga) An alternative side effect model for Redux apps
 * [Babel](https://babeljs.io/)(6) Next gen (ES6/7/etc) Javascript compiler
 * [Webpack](https://webpack.github.io/) A bundler for javascript and friends
 * [Karma](http://karma-runner.github.io/) Spectacular Test Runner for JavaScript
@@ -86,15 +87,18 @@ File Structure
 │   ├── containers/             # composable "smart" components (mostly those connected to Redux)
 │   ├── routes/                 # React Router route definitions
 │   ├── screens/                # the components the routes will load (one per page/view/screen)
+│   ├── sagas/                  # manage redux action side-effects
+│   │   ├── apikeys.js          # apikey sagas
+│   │   ├── index.js            # combines all sagas. Used to create Redux saga middware
+│   │   └── user.js             # user sagas
 │   ├── store/                  # the redux store
-│   │   ├── middleware/         # reducer middlware
-│   │   │   └── hyperActions.js # function & promise handling for the store
 │   │   ├── modules/            # actions and reducers
-│   │   │   └── stash.js        # generic stash for storing form input values and others
+│   │   │   ├── apikeys.js      # actions and reducers for apikeys
+│   │   │   ├── stash.js        # generic stash for storing form input values and others
+│   │   │   └── user.js         # actions and reducers for the site user
 │   │   ├── configureStore.*.js # create the store with middleware and reducers
 │   │   ├── customFetch.js      # light wrapper around isomorphic-fetch
-│   │   ├── reducers.js         # combine the reducers for configureStore
-│   │   └── waiter.js           # call a function once when state changes
+│   │   └── reducers.js         # combine the reducers for configureStore
 │   └── index.js                # the root component loaded with history and a redux store
 ├── webpack/                    # webpack config for production, development, and tests (not really)
 └── karma.conf                  # Karma config for tests (inc webpack config)
@@ -106,15 +110,14 @@ File Loading
 src/index.js
 ├── src/containers/root.js                    # the root component loaded with history and a redux store
 │   └── src/routes/index.js                   # React Router route definitions
-│       ├── src/store/waiter.js               # call a function once when state changes
 │       ├── src/containers/layout-*.js        # define everything in a screen except the main content
 │       └── src/screens/*                     # define a page/view/screen
 │           ├── src/containers/*.js           # composable "smart" components (mostly those connected to Redux)
 │           └── src/components/*.js           # "dumb" or "pure function" components - may include other components
 └── src/store/configureStore.*.js             # create the store with middleware and reducers
-    ├── src/store/reducers.js                 # loads all reducers and combines them into one
-    │   └── src/store/modules/*               # definitions of actions and reducers
-    └── src/store/middleware/hyperActions.js  # call action functions and promises and handle results by dispatching actions
+    └── src/store/reducers.js                 # loads all reducers and combines them into one
+        └── src/store/modules/*               # definitions of actions and reducers
+dispatching actions
         └── src/store/customFetch.js          # make server requests
 ```
 

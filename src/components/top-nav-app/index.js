@@ -5,9 +5,11 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 
-const TopNavApp = ({ userLabel, loggingOut }) => {
+const TopNavApp = ({ userState }) => {
   const styles = require('./style.scss');
   const messageStyle = `${styles.loggedInMessage} navbar-text`;
+
+  const userLabel = userState.data ? userState.data.email : undefined;
 
   return (
     <Navbar fixedTop className={styles.navbar}>
@@ -19,20 +21,28 @@ const TopNavApp = ({ userLabel, loggingOut }) => {
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav pullRight navbar>
-          <LinkContainer to="/logout">
-            <NavItem>Log Out</NavItem>
-          </LinkContainer>
+          {!userLabel &&
+            <LinkContainer to="/login">
+              <NavItem>Log In</NavItem>
+            </LinkContainer>
+          }
+          {userLabel &&
+            <LinkContainer to="/logout">
+              <NavItem>Log Out</NavItem>
+            </LinkContainer>
+          }
         </Nav>
         {userLabel && <p className={messageStyle}> Logged in as <strong>{userLabel}</strong>. </p>}
-        {loggingOut && <p className={messageStyle}> Logging Out.. </p>}
+        {userState.loading && <p className={messageStyle}>Loading..</p>}
+        {userState.loggingIn && <p className={messageStyle}>Logging In..</p>}
+        {userState.loggingOut && <p className={messageStyle}> Logging Out.. </p>}
       </Navbar.Collapse>
     </Navbar>
   );
 };
 
 TopNavApp.propTypes = {
-  userLabel: PropTypes.string,
-  loggingOut: PropTypes.bool,
+  userState: PropTypes.object,
 };
 
 export default TopNavApp;
