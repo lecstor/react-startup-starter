@@ -5,13 +5,6 @@ React Startup Starter
 - Redux stores all app state in a single plain object which is updated by actions which are plain objects.
 - Redux-Saga manages the side-effects of actions dispatched to the Redux store (async requests, success/fail actions)
 
-### Achievements
-
-* Code-splitting - uses React Router dynamic routes and Webpack to split the code into "chunks" which are loaded by the client on demand minimising the initial download required.
-* Login, logout, user details, and API keys UI all working through Redux and a self-contained development server.
-* Redux "stash" module for storing form data, UI state, and more so view changes don't lose input.
-* Handles session expiry logging the user out and redirecting to the front page. (delete the my_session cookie while editing API keys to test)
-
 ### Giant Shoulders
 
 * [React](https://github.com/facebook/react) A Javascript library for building user interfaces
