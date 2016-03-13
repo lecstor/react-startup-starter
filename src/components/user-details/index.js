@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import UserDetailsFormContainer from '../../containers/app/user-details';
-import UserDetailsForm from '../../components/user-details-form';
+import UserDetailsFormContainer from '../../containers/user-details';
+import UserDetailsForm from './form';
 
 // don't use pure function components for views or react-transform-hmr
 // won't work for us (for now)
-export default class User extends Component {
+export default class UserDetails extends Component {
   render () {
     return (
       <div className="container">

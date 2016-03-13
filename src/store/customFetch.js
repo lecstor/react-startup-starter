@@ -24,5 +24,6 @@ export default function customFetch (url, options = {}) {
   const fetchOptions = Object.assign(defaultOptions, options);
   return fetch(url, fetchOptions)
   .then(checkStatus)
-  .then(parseJSON);
+  .then(parseJSON)
+  .catch(error => { throw error; });
 }

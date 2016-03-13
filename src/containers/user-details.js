@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { createStashEventValueFn } from '../../store/modules/stash';
-import { update } from '../../store/modules/user';
+import { createStashEventValueFn } from '../store/modules/stash';
+import { update } from '../store/modules/user';
 
 const mapStateToProps = (state) => ({
   user: state.user,
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({ update, stashEvent }, dispatch),
 });
 
-export default class UserDetails extends Component {
+export class UserDetails extends Component {
   render () {
     const { actions, user, form, error } = this.props;
 
@@ -35,11 +35,7 @@ export default class UserDetails extends Component {
       handleSave: () => actions.update({ name, email }),
     };
 
-    return (
-      <div>
-        {React.Children.map(this.props.children, child => React.cloneElement(child, formProps))}
-      </div>
-    );
+    return React.cloneElement(this.props.children, formProps);
   }
 }
 

@@ -3,7 +3,7 @@
 // Redux DevTools code in production builds.
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./root.prod');
+  module.exports = require('./prod');
 } else {
-  module.exports = require('./root.dev');
+  module.exports = require('./dev');
 }

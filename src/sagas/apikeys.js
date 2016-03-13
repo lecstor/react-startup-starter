@@ -16,7 +16,7 @@ function* loadKeys () {
       const response = yield call(fetch, '/apikeys');
       yield put({ type: LOAD_SUCCESS, result: response.result });
     } catch (e) {
-      yield put({ type: LOAD_FAIL, error: e });
+      yield put({ type: LOAD_FAIL, error: e.message });
     }
   }
 }
@@ -31,7 +31,7 @@ function* createKey () {
       );
       yield put({ type: CREATE_SUCCESS, result: response.result });
     } catch (e) {
-      yield put({ type: CREATE_FAIL, error: e });
+      yield put({ type: CREATE_FAIL, error: e.message });
     }
   }
 }
@@ -46,7 +46,7 @@ function* updateKey () {
       );
       yield put({ type: UPDATE_SUCCESS, result: response.result });
     } catch (e) {
-      yield put({ type: UPDATE_FAIL, error: e });
+      yield put({ type: UPDATE_FAIL, error: e.message });
     }
   }
 }
@@ -61,7 +61,7 @@ function* deleteKey () {
       );
       yield put({ type: DELETE_SUCCESS, result: { id: key.id } });
     } catch (e) {
-      yield put({ type: DELETE_FAIL, error: e });
+      yield put({ type: DELETE_FAIL, error: e.message });
     }
   }
 }

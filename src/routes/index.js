@@ -1,6 +1,4 @@
 
-import SignupScreen from '../screens/signup';
-
 // Code splitting is controlled via our routes.
 //
 // By dynamically requiring our route components we're telling webpack to separate
@@ -14,50 +12,35 @@ const routes = {
     {
       path: '/',
       getComponent (location, cb) {
-        require.ensure([], require => cb(null, require('../containers/layout-site').default));
+        require.ensure([], require => cb(null, require('../containers/layout-default').default));
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../screens/index').default));
+          require.ensure([], require => cb(null, require('../components/index').default));
         },
       },
       childRoutes: [
         {
-          path: 'login(/from**)',
+          path: 'login',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../screens/login').default));
+            require.ensure([], require => cb(null, require('../components/login/').default));
           },
         },
-        { path: 'signup', component: SignupScreen },
-        {
-          path: 'logout',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/logout').default));
-          },
-        },
-      ],
-    },
-    {
-      path: '/app',
-      getComponent (location, cb) {
-        require.ensure([], require => cb(null, require('../containers/layout-app').default));
-      },
-      indexRoute: {
-        getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../screens/app/index').default));
-        },
-      },
-      childRoutes: [
         {
           path: 'apikeys',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/app/apikeys').default));
+            require.ensure([], require => cb(null, require('../containers/api-keys').default));
+          },
+          indexRoute: {
+            getComponent (location, cb) {
+              require.ensure([], require => cb(null, require('../components/api-keys/').default));
+            },
           },
         },
         {
-          path: 'user',
+          path: 'user-details',
           getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../screens/app/user').default));
+            require.ensure([], require => cb(null, require('../components/user-details').default));
           },
         },
       ],

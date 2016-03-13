@@ -1,12 +1,16 @@
 React Startup Starter
 =====================
 
+- React Router dynamic routes and Webpack split the code into "chunks" which are loaded by the client on demand minimising the initial download required.
+- Redux stores all app state in a single plain object which is updated by actions which are plain objects.
+- Redux-Saga manages the side-effects of actions dispatched to the Redux store (async requests, success/fail actions)
+
 ### Achievements
 
 * Code-splitting - uses React Router dynamic routes and Webpack to split the code into "chunks" which are loaded by the client on demand minimising the initial download required.
 * Login, logout, user details, and API keys UI all working through Redux and a self-contained development server.
 * Redux "stash" module for storing form data, UI state, and more so view changes don't lose input.
-* Gracefully handles session expiry displaying login if a background request returns 403. (delete the my_session cookie while editing API keys to test)
+* Handles session expiry logging the user out and redirecting to the front page. (delete the my_session cookie while editing API keys to test)
 
 ### Giant Shoulders
 
@@ -83,42 +87,25 @@ File Structure
 ├── dev_server/                 # Express based development server
 ├── dist/                       # app distribution builds
 ├── src/                        # use the source
-│   ├── components/             # "dumb" or "pure function" components
-│   ├── containers/             # composable "smart" components (mostly those connected to Redux)
-│   ├── routes/                 # React Router route definitions
-│   ├── screens/                # the components the routes will load (one per page/view/screen)
+│   ├── index.js                # the root component loaded with history and a redux store
+│   ├── components/             # pure function components
+│   ├── containers/             # components that connect to Redux. Most do not contain Dom markup
+│   │                           #   instead passing props to a single child component
+│   ├── routes/                 # routes connect urls to components
 │   ├── sagas/                  # manage redux action side-effects
-│   │   ├── apikeys.js          # apikey sagas
 │   │   ├── index.js            # combines all sagas. Used to create Redux saga middware
+│   │   ├── apikeys.js          # apikey sagas
 │   │   └── user.js             # user sagas
-│   ├── store/                  # the redux store
-│   │   ├── modules/            # actions and reducers
-│   │   │   ├── apikeys.js      # actions and reducers for apikeys
-│   │   │   ├── stash.js        # generic stash for storing form input values and others
-│   │   │   └── user.js         # actions and reducers for the site user
-│   │   ├── configureStore.*.js # create the store with middleware and reducers
-│   │   ├── customFetch.js      # light wrapper around isomorphic-fetch
-│   │   └── reducers.js         # combine the reducers for configureStore
-│   └── index.js                # the root component loaded with history and a redux store
-├── webpack/                    # webpack config for production, development, and tests (not really)
+│   └── store/                  # the redux store
+│       ├── modules/            # actions and reducers
+│       │   ├── apikeys.js      # actions and reducers for apikeys
+│       │   ├── stash.js        # generic stash for storing form input values and others
+│       │   └── user.js         # actions and reducers for the site user
+│       ├── configureStore.*.js # create the store with middleware and reducers
+│       ├── customFetch.js      # light wrapper around isomorphic-fetch
+│       └── reducers.js         # combine the reducers for configureStore
+├── webpack/                    # webpack config for production, development, and tests
 └── karma.conf                  # Karma config for tests (inc webpack config)
-```
-
-File Loading
-------------
-```
-src/index.js
-├── src/containers/root.js                    # the root component loaded with history and a redux store
-│   └── src/routes/index.js                   # React Router route definitions
-│       ├── src/containers/layout-*.js        # define everything in a screen except the main content
-│       └── src/screens/*                     # define a page/view/screen
-│           ├── src/containers/*.js           # composable "smart" components (mostly those connected to Redux)
-│           └── src/components/*.js           # "dumb" or "pure function" components - may include other components
-└── src/store/configureStore.*.js             # create the store with middleware and reducers
-    └── src/store/reducers.js                 # loads all reducers and combines them into one
-        └── src/store/modules/*               # definitions of actions and reducers
-dispatching actions
-        └── src/store/customFetch.js          # make server requests
 ```
 
 Ethos
@@ -133,6 +120,7 @@ Recommended Reading
 -------------------
 
 * [Redux Documentation](http://rackt.org/redux/index.html)
+* [Redux-Saga Documentation](http://yelouafi.github.io/redux-saga/)
 * [Getting Started with Redux (Dan Abramov)](https://egghead.io/series/getting-started-with-redux)
 * [5 Questions Every Unit Test Must Answer (Eric Elliot)](https://medium.com/javascript-scene/what-every-unit-test-needs-f6cd34d9836d)
 * [The Two Pillars of JavaScript (Eric Elliot)](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3)

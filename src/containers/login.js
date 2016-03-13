@@ -48,11 +48,7 @@ export class Login extends Component {
       handleSubmit: () => actions.login(formFields, params.splat),
       onInputChange: actions.stashEvent,
     };
-    return (
-      <div>
-        {React.Children.map(this.props.children, child => React.cloneElement(child, formProps))}
-      </div>
-    );
+    return React.cloneElement(this.props.children, formProps);
   }
 }
 

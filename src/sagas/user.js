@@ -33,7 +33,6 @@ function* signUp () {
         fetch, '/user', { method: 'post', body: JSON.stringify(user) }
       );
       yield put({ type: SIGNUP_SUCCESS, result: response.result });
-      yield put(redirectTo('/app'));
     } catch (e) {
       yield put({ type: SIGNUP_FAIL, error: e });
     }
@@ -58,14 +57,12 @@ function* update () {
 function* logIn () {
   while (true) {
     const action = yield take(LOGIN);
-    const { creds, sourcePath } = action.payload;
+    const { creds } = action.payload;
     try {
       const response = yield call(
         fetch, '/session', { method: 'post', body: JSON.stringify(creds) }
       );
       yield put({ type: LOGIN_SUCCESS, result: response.result });
-      const target = /^\/app/.test(sourcePath) ? sourcePath : '/app';
-      yield put(redirectTo(target));
     } catch (e) {
       yield put({ type: LOGIN_FAIL, error: e });
     }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 
-import user from '../store/modules/user';
+import user, { LOGOUT as LOGOUT_USER } from '../store/modules/user';
 import apikeys from '../store/modules/apikeys';
 import stash from '../store/modules/stash';
 
@@ -12,13 +12,21 @@ export function createReducer (initialState, fnMap) {
   };
 }
 
-export default combineReducers({
+const appReducer = combineReducers({
   routing,
   user,
   apikeys,
   stash,
 });
 
+const rootReducer = (state, action) => {
+  if (action.type === LOGOUT_USER) {
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
+
+export default rootReducer;
 
 // dynamic reducers for code splitting
 

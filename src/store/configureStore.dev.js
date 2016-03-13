@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import rootReducer from '../store/reducers';
 
 import { persistState } from 'redux-devtools';
-import { DevTools } from '../containers/root.dev';
+import { DevTools } from '../root/dev';
 
 import createSagaMiddleware from 'redux-saga';
 import sagasRoot from '../sagas';

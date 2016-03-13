@@ -33,8 +33,8 @@ export function signup (userData) {
   return { type: SIGNUP, payload: userData };
 }
 
-export function login (creds, sourcePath) {
-  return { type: LOGIN, payload: { creds, sourcePath } };
+export function login (creds) {
+  return { type: LOGIN, payload: { creds } };
 }
 
 export function logout () {
