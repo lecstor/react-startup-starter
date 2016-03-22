@@ -1,33 +1,27 @@
 import React, { PropTypes } from 'react';
-import { IndexLink } from 'react-router';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
+
+import sty from './index.css';
 
 const TopNavApp = ({ userState, userLabel, logOut }) => {
-  const styles = require('./style.scss');
-  const messageStyle = `${styles.loggedInMessage} navbar-text`;
+  const logOutButton = userState.data
+    ? <a href="#" className={sty.link} onClick={logOut}>Log Out</a>
+    : undefined;
 
   return (
-    <Navbar fixedTop className={styles.navbar}>
-      <Navbar.Header>
-        <Navbar.Brand className={styles.brand}>
-          <IndexLink to="/">React Startup Starter App</IndexLink>
-        </Navbar.Brand>
-        <Navbar.Toggle />
-      </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav pullRight navbar>
-          {userLabel &&
-            <NavItem onClick={logOut}>Log Out</NavItem>
-          }
-        </Nav>
-        {userLabel && <p className={messageStyle}> Logged in as <strong>{userLabel}</strong>. </p>}
-        {userState.loading && <p className={messageStyle}>Loading..</p>}
-        {userState.loggingIn && <p className={messageStyle}>Logging In..</p>}
-        {userState.loggingOut && <p className={messageStyle}> Logging Out.. </p>}
-      </Navbar.Collapse>
-    </Navbar>
+    <div className={sty.navBar}>
+      {logOutButton}
+      <span className={sty.brand}>React Startup Starter</span>
+      <span className={sty.loginStatus}>
+        {userLabel &&
+          <span className={sty.message}>
+            Logged in as: <span className={sty.userId}>{userLabel}</span>
+          </span>
+        }
+        {userState.loading && <span className={sty.message}>Loading..</span>}
+        {userState.loggingIn && <span className={sty.message}>Logging In..</span>}
+        {userState.loggingOut && <span className={sty.message}> Logging Out.. </span>}
+      </span>
+    </div>
   );
 };
 

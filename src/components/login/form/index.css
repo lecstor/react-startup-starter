@@ -1,0 +1,15 @@
+
+.buttonContainer:after {
+   content: "";
+   display: table;
+   clear: both;
+}
+
+.label {
+  composes: label from '../../elements/input/index.css';
+}
+
+.button {
+  composes: safe from '../../../styles/buttons.css';
+  float: right;
+}

@@ -31,6 +31,8 @@
     "json5": "^0.4.0",
     "lodash": "^4.6.1",
     "node-uuid": "^1.4.7",
+    "normalize.css": "^3.0.3",
+    "postcss-modules-values": "^1.1.1",
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.3",
     "react-dom": "^0.14.7",
@@ -43,6 +45,7 @@
     "spin.js": "^2.3.2"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "babel-core": "^6.6.5",
     "babel-eslint": "^5.0.0",
     "babel-istanbul": "^0.6.1",

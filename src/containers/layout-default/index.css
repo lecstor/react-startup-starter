@@ -1,0 +1,36 @@
+.screen {
+  width: 100%;
+  height: 100%;
+}
+
+.page {
+  composes: row from '../../styles/grid.css';
+  height: 100%;
+}
+
+.uiSmall {
+  width: 500px;
+}
+
+.loginForm {
+  composes: uiSmall;
+  margin: 0 auto;
+}
+
+.sideNav {
+  composes: col padCol from '../../styles/grid.css';
+  width: 200px;
+  height: 100%;
+}
+
+.content {
+  composes: col from '../../styles/grid.css';
+  width: calc(100% - 200px);
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.heading {
+  font-size: 2em;
+  margin: 0.5em 0;
+}

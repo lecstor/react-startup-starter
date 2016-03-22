@@ -1,0 +1,7 @@
+html, body, div#root {
+  height: 100%;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}

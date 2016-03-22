@@ -1,0 +1,17 @@
+@value colors: '../../styles/colors.css';
+@value navBg, navBorder from colors;
+
+.link {
+  composes: link from '../../styles/common.css';
+}
+
+.activeLink {
+  composes: activeLink from '../../styles/common.css';
+}
+
+.container {
+  height: 100%;
+  padding-top: 10px;
+  border-right: 1px solid navBorder;
+  background-color: navBg;
+}

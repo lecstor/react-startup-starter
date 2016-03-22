@@ -39,7 +39,11 @@ export class Login extends Component {
     const { actions, formFields, userState, params = {} } = this.props;
     const error = userState.saga === 'logIn' ? userState.error : undefined;
     const formProps = {
-      handleSubmit: () => actions.login(formFields, params.splat),
+      handleSubmit: (e) => {
+        e.preventDefault();
+        console.log('handleSubmit');
+        actions.login(formFields, params.splat);
+      },
       onInputChange: actions.stashEvent,
     };
     if (formFields) formProps.formFields = formFields;

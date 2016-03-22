@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import get from 'lodash/get';
 
-import Input from 'react-bootstrap/lib/Input';
-import Button from 'react-bootstrap/lib/Button';
+import Input from '../../elements/input';
 import Alert from 'react-bootstrap/lib/Alert';
+
+import sty from '../form.css';
 
 /**
  * Signup Form Component
@@ -28,18 +29,21 @@ const SignupForm = (
   { formFields = {}, emailAlert, error, serverError, signingUp, onInputChange, handleSubmit }
 ) => (
   <form onSubmit={handleSubmit}>
-    <Input label="Your Name" name="name" type="text" placeholder="name"
+    <div className={sty.label}>Your Name</div>
+    <Input className={sty.input} name="name" type="text" placeholder="name"
       onChange={onInputChange} value={formFields.name}
     />
-    <Input label="Email" name="email" type="email" placeholder="email"
+    <div className={sty.label}>Your Email Address</div>
+    <Input className={sty.input} name="email" type="email" placeholder="email"
       onChange={onInputChange} value={formFields.email}
       bsStyle={emailAlert} hasFeedback={emailAlert ? true : false}
     />
-    <Input label="Password" name="password" type="password" placeholder="password"
+    <div className={sty.label}>Your New Password</div>
+    <Input className={sty.input} name="password" type="password" placeholder="password"
       onChange={onInputChange} value={formFields.password}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
-      <Button active={signingUp} onClick={handleSubmit}> Sign Up </Button>
+      <button className={sty.button} active={signingUp} onClick={handleSubmit}> Sign Up </button>
     </div>
     {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
     {get(error, 'fields.email') && <Alert bsStyle="warning">{error.fields.email}</Alert>}

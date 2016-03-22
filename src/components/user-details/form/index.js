@@ -1,24 +1,26 @@
 import React, { PropTypes } from 'react';
 
-import Input from 'react-bootstrap/lib/Input';
-import Button from 'react-bootstrap/lib/Button';
+import Input from '../../elements/input';
 import Alert from 'react-bootstrap/lib/Alert';
 
+import sty from './index.css';
 
 const UserDetailsForm = (
   { actions, name, email, bsStyle, bsFeed, isSaving, saveDisabled, handleSave, error, serverError }
 ) => (
-  <form onSubmit={handleSave}>
+  <form className={sty.form} onSubmit={handleSave}>
+    <div className={sty.label}>Your Name</div>
     <Input label="Your Name" name="name" type="text" placeholder="your name"
       onChange={actions.stashEvent} value={name}
     />
-    <Input label="Email/Login" name="email" type="email" placeholder="your email address"
-      onChange={actions.stashEvent} value={email} bsStyle={bsStyle} hasFeedback={bsFeed}
+    <div className={sty.label}>Email/Login</div>
+    <Input name="email" type="email" placeholder="your email address"
+      onChange={actions.stashEvent} value={email}
     />
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
-      <Button active={isSaving} disabled={saveDisabled} bsStyle="success" onClick={handleSave}>
+      <button className={sty.button} active={isSaving} disabled={saveDisabled} onClick={handleSave}>
         Save
-      </Button>
+      </button>
     </div>
     {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
     {error && error.email && <Alert bsStyle="warning">{error.email}</Alert>}

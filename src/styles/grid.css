@@ -1,0 +1,49 @@
+
+/*
+  a grid - thanks to https://css-tricks.com/dont-overthink-it-grids/
+ */
+
+
+/* keep elements at set width despide padding or borders */
+
+.row, .row:after, .row:before,
+.col, .col:after, .col:before {
+  box-sizing: border-box;
+}
+
+
+/* prevent row collapsing on floated columns */
+
+.row:after {
+   content: "";
+   display: table;
+   clear: both;
+}
+
+/* float the columns */
+
+.col {
+  float: left;
+}
+
+
+/* apply fixed inner gutters to columns */
+
+.padCol {
+  padding-right: 20px;
+}
+
+.padCol:last-of-type {
+  padding-right: 0;
+}
+
+
+/* apply padding to the row */
+
+.padRow {
+  padding: 20px 0 20px 20px;
+}
+
+.padRow > [class*='col']:last-of-type {
+  padding-right: 20px;
+}

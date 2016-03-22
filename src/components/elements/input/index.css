@@ -1,0 +1,57 @@
+
+.base {
+  cursor: auto;
+  border: 2px solid #ddd;
+  box-shadow: none;
+  font-size: 100%;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.stacked {
+  display: block;
+  margin: .25em 0;
+}
+
+.text {
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 4px;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+/* add "input hidden" icon to text input field */
+.password {
+  composes: base stacked text;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAALZJREFUOBFjYKAANDQ0rGWiQD9IqzgL0BQ3IKMXiB8AcSKQ/waIrYDsKUD8Fir2pKmpSf/fv3+zgPxfzMzMSbW1tbeBbAaQC+b+//9fB4h9gOwikCAQTAPyDYHYBciuBQkANfcB+WZAbPP37992kBgIUOoFBiZGRsYkIL4ExJvZ2NhAXmFgYmLKBPLPAfFuFhaWJpAYEBQC+SeA+BDQC5UQIQpJYFgdodQLLyh0w6j20RCgUggAAEREPpKMfaEsAAAAAElFTkSuQmCC");
+  background-attachment: scroll;
+  background-size: 16px 18px;
+  background-position: 98% 50%;
+  background-repeat: no-repeat;
+}
+
+.input {
+  composes: base stacked text;
+}
+
+.inputOk {
+  composes: input;
+  composes: okBg from '../../../styles/colors.css';
+}
+
+.inputWarn {
+  composes: input;
+  composes: warnBg from '../../../styles/colors.css';
+}
+
+.inputError {
+  composes: input;
+  composes: errorBg from '../../../styles/colors.css';
+}
+
+.label {
+  margin: .5em .5em 0 .5em;
+}

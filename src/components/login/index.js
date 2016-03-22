@@ -9,9 +9,7 @@ export default class Login extends Component {
   render () {
     return (
       <div style={{ textAlign: 'center' }}>
-        <h1>This is the login view!</h1>
-        <p>email: "ok@example.com" password: "password"</p>
-        <p>"boom" to break the server</p>
+        <p>ok@example.com - password</p>
         <div style={{ textAlign: 'left' }}>
           <LoginFormContainer>
             <LoginForm />

@@ -1,0 +1,40 @@
+@value colors: '../../styles/colors.css';
+@value navBg, navBorder from colors;
+
+.navBar {
+  top: 0;
+  padding: 15px;
+  background-color: navBg;
+  border-bottom: 1px solid navBorder;
+}
+
+.link {
+  composes: link from '../../styles/common.css';
+  float: right;
+  margin-right: 20px;
+  padding: 0;
+}
+
+.brand {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+.logOut {
+  float: right;
+  margin-right: 20px;
+}
+
+.loginStatus {
+  float: right;
+  margin-right: 20px;
+}
+
+.userId {
+  font-size: 120%;
+}
+
+.message {
+  padding-right: 20px;
+  font-size: 80%;
+}

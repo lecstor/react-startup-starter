@@ -1,13 +1,18 @@
 import React from 'react';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router';
+
+import sty from './index.css';
+
+const linkProps = {
+  activeClassName: sty.activeLink,
+  className: sty.link,
+};
 
 const SideNavApp = () => (
-  <Nav bsStyle="pills" stacked>
-    <LinkContainer to="/user-details"><NavItem>Your Details</NavItem></LinkContainer>
-    <LinkContainer to="/apikeys"><NavItem>API Keys</NavItem></LinkContainer>
-  </Nav>
+  <div className={sty.container}>
+    <Link to="/user-details" {...linkProps}>Your Details</Link>
+    <Link to="/apikeys" {...linkProps}>API Keys</Link>
+  </div>
 );
 
 export default SideNavApp;

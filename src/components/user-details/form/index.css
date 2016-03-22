@@ -1,0 +1,16 @@
+
+.form {
+  max-width: 500px;
+}
+
+.input {
+  composes: base stacked text from '../../elements/input/index.css';
+}
+
+.label {
+  composes: label from '../../elements/input/index.css';
+}
+
+.button {
+  composes: safe from '../../../styles/buttons.css';
+}

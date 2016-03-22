@@ -1,0 +1,52 @@
+@value notQuiteBlack: rgb(55, 58, 60);
+@value linkBlue: rgb(2, 117, 216);
+@value darkGrey: rgb(200, 200, 200);
+
+@value safeBlue: rgb(31, 141, 214);
+@value cautionOrange: rgb(255, 185, 75);
+@value dangerRed: rgb(202, 60, 60);
+
+@value transGreen: rgba(28, 184, 65, 0.2);
+@value transOrange: rgba(255, 191, 0, 0.2);
+@value transRed: rgba(202, 60, 60, 0.2);
+
+@value navBg: rgb(247, 247, 249);
+@value navBorder: darkGrey;
+@value navLink: notQuiteBlack;
+@value navLinkHover: safeBlue;
+@value navLinkActive: linkBlue;
+
+.okBg {
+  background-color: transGreen;
+}
+
+.warnBg {
+  background-color: transOrange;
+}
+
+.errorBg {
+  background-color: transRed;
+}
+
+.button[disabled] {
+  background-color: lightgray;
+  color: notQuiteBlack;
+}
+
+.safeButton {
+  composes: button;
+  background-color: safeBlue;
+  color: white;
+}
+
+.cautionButton {
+  composes: button;
+  background-color: cautionOrange;
+  color: notQuiteBlack;
+}
+
+.dangerButton {
+  composes: button;
+  background-color: dangerRed;
+  color: white;
+}

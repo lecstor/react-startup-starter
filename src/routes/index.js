@@ -7,43 +7,38 @@
 // Dynamic Routes (React-Router) https://github.com/rackt/react-router/blob/latest/docs/guides/advanced/DynamicRouting.md
 
 const routes = {
-  component: 'div',
+  path: '/',
+  getComponent (location, cb) {
+    require.ensure([], require => cb(null, require('../containers/layout-default').default));
+  },
+  indexRoute: {
+    getComponent (location, cb) {
+      require.ensure([], require => cb(null, require('../components/index').default));
+    },
+  },
   childRoutes: [
     {
-      path: '/',
+      path: 'login',
       getComponent (location, cb) {
-        require.ensure([], require => cb(null, require('../containers/layout-default').default));
+        require.ensure([], require => cb(null, require('../components/login/').default));
+      },
+    },
+    {
+      path: 'apikeys',
+      getComponent (location, cb) {
+        require.ensure([], require => cb(null, require('../containers/api-keys').default));
       },
       indexRoute: {
         getComponent (location, cb) {
-          require.ensure([], require => cb(null, require('../components/index').default));
+          require.ensure([], require => cb(null, require('../components/api-keys/').default));
         },
       },
-      childRoutes: [
-        {
-          path: 'login',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../components/login/').default));
-          },
-        },
-        {
-          path: 'apikeys',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../containers/api-keys').default));
-          },
-          indexRoute: {
-            getComponent (location, cb) {
-              require.ensure([], require => cb(null, require('../components/api-keys/').default));
-            },
-          },
-        },
-        {
-          path: 'user-details',
-          getComponent (location, cb) {
-            require.ensure([], require => cb(null, require('../components/user-details').default));
-          },
-        },
-      ],
+    },
+    {
+      path: 'user-details',
+      getComponent (location, cb) {
+        require.ensure([], require => cb(null, require('../components/user-details').default));
+      },
     },
   ],
 };

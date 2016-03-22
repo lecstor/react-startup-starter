@@ -1,0 +1,12 @@
+
+.input {
+  composes: base stacked text from '../elements/input/index.css';
+}
+
+.label {
+  composes: label from '../elements/input/index.css';
+}
+
+.button {
+  composes: base from '../../styles/buttons.css';
+}

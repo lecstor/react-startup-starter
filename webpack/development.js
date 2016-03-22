@@ -1,9 +1,13 @@
 const config = require('config');
 
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+// const customProperties = require('postcss-custom-properties');
+const modulesValues = require('postcss-modules-values');
 
 module.exports = {
   name: 'client',
@@ -16,7 +20,7 @@ module.exports = {
   entry: {
     app: [
       'webpack-hot-middleware/client',
-      './src/index'
+      './src/index',
     ],
     vendor: [
       'webpack-hot-middleware/client',
@@ -25,18 +29,19 @@ module.exports = {
       'react-redux',
       'react-router',
       'redux',
-      'react-router-redux'
-    ]
+      'react-router-redux',
+    ],
   },
   output: {
     path: path.join(__dirname, '../', 'dist'),
     filename: '[name].[hash].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     // new webpack.NoErrorsPlugin()
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(config.get('globals')),
+    new ExtractTextPlugin('style.css', { allChunks: true }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../', 'src', 'index.html'),
       hash: false,
@@ -64,22 +69,21 @@ module.exports = {
                 {
                   transform: 'react-transform-hmr',
                   imports: ['react'],
-                  locals: ['module']
+                  locals: ['module'],
                 },
-              ]
-            }]
-          ]
-        }
+              ],
+            }],
+          ],
+        },
       },
       {
-        test    : /\.scss$/,
-        loaders : [
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?sourceMap',
-          'postcss-loader',
-          'sass-loader'
-        ]
-      }
-    ]
-  }
+          'css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]!postcss-loader'
+        ),
+      },
+    ],
+  },
+  postcss: [modulesValues, autoprefixer],
 };

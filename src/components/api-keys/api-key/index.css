@@ -1,0 +1,112 @@
+@value colors: '../../../styles/colors.css';
+@value notQuiteBlack from colors;
+
+.label {
+  composes: label from '../../elements/input/index.css';
+}
+
+.button {
+  padding: 0.3em;
+  border-radius: 4px;
+  border: 0 rgba(0,0,0,0);
+  margin: 0.3em 0;
+  width: 5em;
+}
+
+.buttonLeft {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.cancelButton {
+  composes: safe from '../../../styles/buttons.css';
+  margin: 0;
+  height: 2em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 0.5em;
+  border: 1px solid rgb(11, 117, 187);
+}
+
+.saveButton {
+  composes: cancelButton;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.disableButton {
+  composes: caution from '../../../styles/buttons.css';
+  composes: button buttonLeft;
+}
+
+.enableButton {
+  composes: safe from '../../../styles/buttons.css';
+  composes: button buttonLeft;
+}
+
+.deleteButton {
+  composes: danger from '../../../styles/buttons.css';
+  composes: button;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.key {
+  composes: row from '../../../styles/grid.css';
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+}
+
+.keyLabel {
+  composes: col padCol from '../../../styles/grid.css';
+  display: inline;
+  width: 18em;
+  margin-top: .5em;
+}
+
+.keyId {
+  composes: col padCol from '../../../styles/grid.css';
+  display: inline;
+  width: 20em;
+  margin-top: .5em;
+}
+
+.buttonBar {
+  composes: col from '../../../styles/grid.css';
+  float: right;
+}
+
+.input {
+  composes: base text from '../../elements/input/index.css';
+  height: 2em;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  display: inline;
+  vertical-align: top;
+  max-width: 400px;
+}
+
+@media (max-width: 800px) {
+  .cancelButton {
+    float: right;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .saveButton {
+    float: right;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .input {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin-bottom: 3px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}
