@@ -18,16 +18,15 @@ const mapDispatchToProps = (dispatch) => ({
 
 export class UserDetails extends Component {
   render () {
-    const { actions, user, form, error } = this.props;
+    const { actions, user, form } = this.props;
 
-    const err = error ? { ...error, ...error.props } : {};
     const name = form.name || user.data.name;
     const email = form.email || user.data.email;
     const emailValid = /[^\.\s]+\@[^\.\s]+\.[^\.\s]+/.test(email);
 
     const formProps = {
       actions, name, email,
-      error: err,
+      error: user.err,
       bsStyle: emailValid ? undefined : 'error',
       bsFeed: emailValid,
       isSaving: form.isSaving,
@@ -44,7 +43,6 @@ UserDetails.propTypes = {
   actions: PropTypes.object.isRequired,
   user: PropTypes.object,
   form: PropTypes.object,
-  error: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);

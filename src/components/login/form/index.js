@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import get from 'lodash/get';
 
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
@@ -21,7 +22,9 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @returns {Component}
  */
 const LoginForm = ({
-  formFields = {}, emailAlert, passAlert, loggingIn, error, handleSubmit, onInputChange,
+  formFields = {}, emailAlert, passAlert, error, serverError,
+  loggingIn,
+  handleSubmit, onInputChange,
 }) => (
   <form onSubmit={handleSubmit}>
     <Input label="Email" name="email" type="email" placeholder="email"
@@ -35,10 +38,9 @@ const LoginForm = ({
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={loggingIn} onClick={handleSubmit}> Log In </Button>
     </div>
-    {error.server && <Alert bsStyle="danger">{error.server.message}</Alert>}
-    {error.fields && error.fields.email && <Alert bsStyle="warning">{error.fields.email}</Alert>}
-    {error.fields && error.fields.password &&
-      <Alert bsStyle="warning">{error.fields.password}</Alert>}
+    {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
+    {get(error, 'fields.email') && <Alert bsStyle="warning">{error.fields.email}</Alert>}
+    {get(error, 'fields.password') && <Alert bsStyle="warning">{error.fields.password}</Alert>}
   </form>
 );
 
@@ -48,6 +50,7 @@ LoginForm.propTypes = {
   passAlert: PropTypes.string,
   loggingIn: PropTypes.bool,
   error: PropTypes.object,
+  serverError: PropTypes.string,
   handleSubmit: PropTypes.func,
   onInputChange: PropTypes.func,
 };

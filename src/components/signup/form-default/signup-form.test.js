@@ -13,7 +13,7 @@ const props = {
   error: {},
 };
 
-tape('SignupFormBasic Component', nest => {
+tape('SignupFormDefault Component', nest => {
   nest.test('- Displays correctly with no errors', test => {
     const wrapper = shallow(<SignupForm {...props} />);
     test.equal(wrapper.type(), 'form', 'signup form node is a form');
@@ -24,7 +24,7 @@ tape('SignupFormBasic Component', nest => {
 
   nest.test('- Displays correctly with request error', test => {
     const tProps = Object.assign(
-      {}, props, { error: { server: { message: 'Something is not right' } } }
+      {}, props, { serverError: 'Something is not right' }
     );
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');

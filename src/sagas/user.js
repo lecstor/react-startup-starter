@@ -12,72 +12,67 @@ import {
   LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL,
 } from '../store/modules/user';
 
+// function reqSuccess({ saga, type, response }) {
+//   if (response.fail_code) {
+//     put({ saga, type: `${type}_FAIL`, payload: response });
+//   } else {
+//     put({ saga, type: `${type}_SUCCESS`, payload: response.data });
+//   }
+// }
+
 function* loadUser () {
+  const saga = 'loadUser';
   while (true) {
     yield take(LOAD);
-    try {
-      const response = yield call(fetch, '/user');
-      yield put({ type: LOAD_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: LOAD_FAIL, error: e });
-    }
+    const response = yield call(fetch, '/user');
+    const type = response.ok ? LOAD_SUCCESS : LOAD_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* signUp () {
+  const saga = 'signUp';
   while (true) {
     const action = yield take(SIGNUP);
     const user = action.payload;
-    try {
-      const response = yield call(
-        fetch, '/user', { method: 'post', body: JSON.stringify(user) }
-      );
-      yield put({ type: SIGNUP_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: SIGNUP_FAIL, error: e });
-    }
+    const response = yield call(fetch, '/user', { method: 'post', body: JSON.stringify(user) });
+    const type = response.ok ? SIGNUP_SUCCESS : SIGNUP_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* update () {
+  const saga = 'update';
   while (true) {
     const action = yield take(UPDATE);
     const user = action.payload;
-    try {
-      const response = yield call(
-        fetch, '/user', { method: 'put', body: JSON.stringify(user) }
-      );
-      yield put({ type: UPDATE_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: UPDATE_FAIL, error: e });
-    }
+    const response = yield call(fetch, '/user', { method: 'put', body: JSON.stringify(user) });
+    const type = response.ok ? UPDATE_SUCCESS : UPDATE_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* logIn () {
+  const saga = 'logIn';
   while (true) {
     const action = yield take(LOGIN);
     const { creds } = action.payload;
-    try {
-      const response = yield call(
-        fetch, '/session', { method: 'post', body: JSON.stringify(creds) }
-      );
-      yield put({ type: LOGIN_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: LOGIN_FAIL, error: e });
-    }
+    const response = yield call(fetch, '/session', { method: 'post', body: JSON.stringify(creds) });
+    const type = response.ok ? LOGIN_SUCCESS : LOGIN_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* logOut () {
+  const saga = 'logOut';
   while (true) {
     yield take(LOGOUT);
-    try {
-      const response = yield call(fetch, '/session', { method: 'delete' });
-      yield put({ type: LOGOUT_SUCCESS, result: response.result });
+    const response = yield call(fetch, '/session', { method: 'delete' });
+    if (response.ok) {
+      yield put({ saga, type: LOGOUT_SUCCESS, payload: response.data });
       yield put(redirectTo('/'));
-    } catch (e) {
-      yield put({ type: LOGOUT_FAIL, error: e });
+    } else {
+      yield put({ saga, type: LOGOUT_FAIL, payload: response });
     }
   }
 }

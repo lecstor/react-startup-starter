@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/lib/Alert';
 
 
 const UserDetailsForm = (
-  { actions, name, email, bsStyle, bsFeed, isSaving, saveDisabled, handleSave, error }
+  { actions, name, email, bsStyle, bsFeed, isSaving, saveDisabled, handleSave, error, serverError }
 ) => (
   <form onSubmit={handleSave}>
     <Input label="Your Name" name="name" type="text" placeholder="your name"
@@ -20,8 +20,8 @@ const UserDetailsForm = (
         Save
       </Button>
     </div>
-    {error.server && <Alert bsStyle="danger">{error.server.message}</Alert>}
-    {error.email && <Alert bsStyle="warning">{error.email}</Alert>}
+    {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
+    {error && error.email && <Alert bsStyle="warning">{error.email}</Alert>}
   </form>
 );
 
@@ -34,6 +34,7 @@ UserDetailsForm.propTypes = {
   isSaving: PropTypes.bool,
   saveDisabled: PropTypes.bool,
   error: PropTypes.object,
+  serverError: PropTypes.string,
   handleSave: PropTypes.func,
 };
 

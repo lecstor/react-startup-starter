@@ -11,8 +11,7 @@ import { createStashEventValueFn } from '../store/modules/stash';
 // Map the parts of the app state object that our component needs, to properties
 // of our component.
 const mapStateToProps = (state) => ({
-  error: state.user.error,
-  signingUp: state.user.signingUp,
+  userState: state.user,
   formFields: state.stash.signupForm,
 });
 
@@ -30,14 +29,22 @@ const mapDispatchToProps = (dispatch) => ({
 export class Signup extends Component {
 
   render () {
-    const { actions, formFields, signingUp, error = {} } = this.props;
+    const { actions, formFields, userState } = this.props;
+    const error = userState.saga === 'signUp' ? userState.error : undefined;
     const formProps = {
-      formFields, signingUp,
-      error: error || {},
-      emailAlert: error.fields && error.fields.email ? 'error' : undefined,
       handleSubmit: () => actions.signup(formFields),
       onInputChange: actions.stashEvent,
     };
+    if (formFields) formProps.formFields = formFields;
+    if (userState.signingUp) formProps.signingUp = userState.signingUp;
+    if (error) {
+      if (error.isServer) {
+        formProps.serverError = error.statusText;
+      } else {
+        formProps.error = userState.error;
+      }
+      if (error.fields && error.fields.email) formProps.emailAlert = 'error';
+    }
     return React.cloneElement(this.props.children, formProps);
   }
 }
@@ -45,10 +52,9 @@ export class Signup extends Component {
 Signup.propTypes = {
   children: PropTypes.node,
   actions: PropTypes.object.isRequired,
-  error: PropTypes.object,
+  userState: PropTypes.object,
   signupError: PropTypes.object,
   formFields: PropTypes.object,
-  signingUp: PropTypes.bool,
 };
 
 // connect our Signup component to redux state and dispatch methods

@@ -33,12 +33,7 @@ tape('Signup Container', nest => {
     test.ok(isFunction(stub.props().handleSubmit), 'handleSubmit is function');
     test.ok(isFunction(stub.props().onInputChange), 'onInputChange is function');
 
-    const expected = {
-      formFields: undefined,
-      signingUp: undefined,
-      emailAlert: undefined,
-      error: {},
-    };
+    const expected = {};
     const actual = omit(stub.props(), ['handleSubmit', 'onInputChange']);
     test.deepEqual(actual, expected, 'props');
 
@@ -51,6 +46,7 @@ tape('Signup Container', nest => {
         signupForm: { name: 'Jason Galea', email: 'jason@lecstor.com', password: 'secretPassword' },
       },
       user: {
+        saga: 'signUp',
         signingUp: true,
         error: { fields: { email: 'is that an email?' } },
       },

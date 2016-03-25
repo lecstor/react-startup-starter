@@ -12,7 +12,7 @@ test('Button', nest => {
     const text = '<button>  </button>';
     const re = new RegExp(text, 'g');
     const props = {
-      // actions: createActions()
+      onClick: () => {},
     };
 
     const $ = shallow(<Button { ...props } />);
@@ -32,7 +32,12 @@ test('Button', nest => {
     const text = '<button> Click Me </button>';
     const re = new RegExp(text, 'g');
 
-    const $ = shallow(<Button label="Click Me" />);
+    const props = {
+      onClick: () => {},
+      label: 'Click Me',
+    };
+
+    const $ = shallow(<Button { ...props } />);
     const output = $.html();
     assert.comment(output);
 

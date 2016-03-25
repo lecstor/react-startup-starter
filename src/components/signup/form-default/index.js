@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import get from 'lodash/get';
 
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
@@ -24,7 +25,7 @@ import Alert from 'react-bootstrap/lib/Alert';
  * @returns {Component}
  */
 const SignupForm = (
-  { formFields = {}, emailAlert, error, signingUp, onInputChange, handleSubmit }
+  { formFields = {}, emailAlert, error, serverError, signingUp, onInputChange, handleSubmit }
 ) => (
   <form onSubmit={handleSubmit}>
     <Input label="Your Name" name="name" type="text" placeholder="name"
@@ -40,8 +41,8 @@ const SignupForm = (
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <Button active={signingUp} onClick={handleSubmit}> Sign Up </Button>
     </div>
-    {error.server && <Alert bsStyle="danger">{error.server.message}</Alert>}
-    {error.fields && error.fields.email && <Alert bsStyle="warning">{error.fields.email}</Alert>}
+    {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
+    {get(error, 'fields.email') && <Alert bsStyle="warning">{error.fields.email}</Alert>}
   </form>
 );
 
@@ -50,6 +51,7 @@ SignupForm.propTypes = {
   emailAlert: PropTypes.string,
   signingUp: PropTypes.bool,
   error: PropTypes.object,
+  serverError: PropTypes.string,
   handleSubmit: PropTypes.func,
   onInputChange: PropTypes.func,
 };

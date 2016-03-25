@@ -21,69 +21,71 @@ export const DELETE_FAIL = ns('DELETE_FAIL');
 const initialState = { loaded: false, data: [] };
 
 export default function reducer (state = initialState, action = {}) {
+  const newState = { ...state, error: undefined, saga: action.saga };
+
   switch (action.type) {
 
     case LOAD:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
 
     case LOAD_SUCCESS:
-      return { ...state, loading: false, loaded: true, data: action.result };
+      return { ...newState, loading: false, loaded: true, data: action.payload };
 
     case LOAD_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, fail: action.error, error: action.payload };
 
 
     case CREATE:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
 
     case CREATE_SUCCESS: {
-      const data = [action.result, ...state.data];
-      return { ...state, loading: false, data };
+      const data = [action.payload, ...newState.data];
+      return { ...newState, loading: false, data };
     }
 
     case CREATE_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, fail: action.error, error: action.payload };
 
 
     case UPDATE:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
 
     case UPDATE_SUCCESS: {
-      const updateIdx = findIndex(state.data, { id: action.result.id });
-      if (updateIdx < 0) return { ...state, loading: false };
+      const updateIdx = findIndex(state.data, { id: action.payload.id });
+      if (updateIdx < 0) return { ...newState, loading: false };
       return {
-        ...state,
+        ...newState,
         loading: false,
         data: [
-          ...state.data.slice(0, updateIdx),
-          action.result,
-          ...state.data.slice(updateIdx + 1),
+          ...newState.data.slice(0, updateIdx),
+          action.payload,
+          ...newState.data.slice(updateIdx + 1),
         ],
       };
     }
 
     case UPDATE_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, fail: action.error, error: action.payload };
 
 
     case DELETE:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
 
     case DELETE_SUCCESS: {
-      const deleteIdx = findIndex(state.data, { id: action.result.id });
-      if (deleteIdx < 0) return { ...state, loading: false };
+      const deleteIdx = findIndex(state.data, { id: action.payload.id });
+      if (deleteIdx < 0) return { ...newState, loading: false };
       return {
-        ...state,
+        ...newState,
         loading: false,
         data: [
-          ...state.data.slice(0, deleteIdx),
-          ...state.data.slice(deleteIdx + 1),
+          ...newState.data.slice(0, deleteIdx),
+          ...newState.data.slice(deleteIdx + 1),
         ],
       };
     }
 
     case DELETE_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, fail: action.error, error: action.payload };
 
     default:
       return state;

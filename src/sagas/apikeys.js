@@ -10,58 +10,53 @@ import {
 } from '../store/modules/apikeys';
 
 function* loadKeys () {
+  const saga = 'loadKeys';
   while (true) {
     yield take(LOAD);
-    try {
-      const response = yield call(fetch, '/apikeys');
-      yield put({ type: LOAD_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: LOAD_FAIL, error: e.message });
-    }
+    const response = yield call(fetch, '/apikeys');
+    const type = response.ok ? LOAD_SUCCESS : LOAD_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* createKey () {
+  const saga = 'createKey';
   while (true) {
     const action = yield take(CREATE);
     const key = action.payload;
-    try {
-      const response = yield call(
-        fetch, '/apikeys', { method: 'post', body: JSON.stringify(key) }
-      );
-      yield put({ type: CREATE_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: CREATE_FAIL, error: e.message });
-    }
+    const response = yield call(
+      fetch, '/apikeys', { method: 'post', body: JSON.stringify(key) }
+    );
+    const type = response.ok ? CREATE_SUCCESS : CREATE_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* updateKey () {
+  const saga = 'updateKey';
   while (true) {
     const action = yield take(UPDATE);
     const key = action.payload;
-    try {
-      const response = yield call(
-        fetch, `/apikeys/${key.id}`, { method: 'put', body: JSON.stringify(key) }
-      );
-      yield put({ type: UPDATE_SUCCESS, result: response.result });
-    } catch (e) {
-      yield put({ type: UPDATE_FAIL, error: e.message });
-    }
+    const response = yield call(
+      fetch, `/apikeys/${key.id}`, { method: 'put', body: JSON.stringify(key) }
+    );
+    const type = response.ok ? UPDATE_SUCCESS : UPDATE_FAIL;
+    yield put({ saga, type, payload: response.data });
   }
 }
 
 function* deleteKey () {
+  const saga = 'deleteKey';
   while (true) {
     const action = yield take(DELETE);
     const key = action.payload;
-    try {
-      yield call(
-        fetch, `/apikeys/${key.id}`, { method: 'delete', body: JSON.stringify(key) }
-      );
-      yield put({ type: DELETE_SUCCESS, result: { id: key.id } });
-    } catch (e) {
-      yield put({ type: DELETE_FAIL, error: e.message });
+    const response = yield call(
+      fetch, `/apikeys/${key.id}`, { method: 'delete', body: JSON.stringify(key) }
+    );
+    if (response.ok) {
+      yield put({ saga, type: DELETE_SUCCESS, payload: { id: key.id } });
+    } else {
+      yield put({ saga, type: DELETE_FAIL, payload: response.data });
     }
   }
 }

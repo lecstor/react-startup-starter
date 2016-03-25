@@ -1,3 +1,4 @@
+import pick from 'lodash/pick';
 
 export const LOAD = 'rss/user/LOAD';
 export const LOAD_SUCCESS = 'rss/user/LOAD_SUCCESS';
@@ -49,44 +50,45 @@ export function loginSubmit () {
   return { type: LOGIN };
 }
 
-
 export default function reducer (state = initialState, action = {}) {
+  const newState = { ...state, error: undefined, saga: action.saga };
+
   switch (action.type) {
 
     case LOAD:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
     case LOAD_SUCCESS:
-      return { ...state, loading: false, data: action.result };
+      return { ...newState, loading: false, data: action.payload };
     case LOAD_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, error: action.payload };
 
     case SIGNUP:
-      return { ...state, signingUp: true, error: undefined };
+      return { ...newState, signingUp: true };
     case SIGNUP_SUCCESS:
-      return { ...state, signingUp: false, error: undefined, data: action.result };
+      return { ...newState, signingUp: false, data: action.payload };
     case SIGNUP_FAIL:
-      return { ...state, signingUp: false, error: action.error };
+      return { ...newState, signingUp: false, error: action.payload };
 
     case LOGIN:
-      return { ...state, loggingIn: true, error: undefined };
+      return { ...newState, loggingIn: true };
     case LOGIN_SUCCESS:
-      return { ...state, loggingIn: false, error: undefined, data: action.result.user };
+      return { ...newState, loggingIn: false, data: action.payload };
     case LOGIN_FAIL:
-      return { ...state, loggingIn: false, error: action.error, data: undefined };
+      return { ...newState, loggingIn: false, error: action.payload };
 
     case LOGOUT:
-      return { ...state, loggingOut: true };
+      return { ...newState, loggingOut: true };
     case LOGOUT_SUCCESS:
-      return { ...state, loggingOut: false, data: null };
+      return { ...newState, loggingOut: false, data: null };
     case LOGOUT_FAIL:
-      return { ...state, loggingOut: false, error: action.error };
+      return { ...newState, loggingOut: false, error: action.payload };
 
     case UPDATE:
-      return { ...state, loading: true };
+      return { ...newState, loading: true };
     case UPDATE_SUCCESS:
-      return { ...state, loading: false, data: action.result };
+      return { ...newState, loading: false, data: action.payload };
     case UPDATE_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { ...newState, loading: false, error: action.payload };
 
     default:
       return state;

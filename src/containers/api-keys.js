@@ -2,13 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// import Row from 'react-bootstrap/lib/Row';
-// import Col from 'react-bootstrap/lib/Col';
-
-// import Spinner from '../../components/spinner';
-// import ApiKey from '../../components/api-key';
-// import CreateApiKey from '../../components/api-key/create';
-
 import { createStashSetFn, createStashEventValueFn } from '../store/modules/stash';
 import { createKey, updateKey, deleteKey, load as loadApiKeys } from '../store/modules/apikeys';
 

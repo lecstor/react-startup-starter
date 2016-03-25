@@ -13,8 +13,7 @@ import { createStashSetFn, createStashEventValueFn } from '../store/modules/stas
 // Map the parts of the app state object that our component needs, to properties
 // of our component.
 const mapStateToProps = (state) => ({
-  error: state.user.error,
-  loggingIn: state.user.loggingIn,
+  userState: state.user,
   formFields: state.stash.loginForm,
 });
 
@@ -37,27 +36,37 @@ export class Login extends Component {
 
   // set default for params to handle route path with no params
   render () {
-    const { actions, formFields, loggingIn, error = {}, params = {} } = this.props;
-
-    const passAlert = error.fields && error.fields.password ? 'error' : undefined;
-    let emailAlert = error.fields && error.fields.email ? 'error' : undefined;
-    if (passAlert) emailAlert = 'success';
-
+    const { actions, formFields, userState, params = {} } = this.props;
+    const error = userState.saga === 'logIn' ? userState.error : undefined;
     const formProps = {
-      formFields, loggingIn, emailAlert, passAlert, error,
       handleSubmit: () => actions.login(formFields, params.splat),
       onInputChange: actions.stashEvent,
     };
+    if (formFields) formProps.formFields = formFields;
+    if (userState.loggingIn) formProps.loggingIn = userState.loggingIn;
+    if (error) {
+      if (error.isServer) {
+        formProps.serverError = error.statusText;
+      } else {
+        formProps.error = userState.error;
+      }
+      if (error.fields) {
+        if (error.fields.email) formProps.emailAlert = 'error';
+        if (error.fields.password) {
+          formProps.passAlert = 'error';
+          formProps.emailAlert = 'success';
+        }
+      }
+    }
     return React.cloneElement(this.props.children, formProps);
   }
 }
 
 Login.propTypes = {
   children: PropTypes.node,
-  error: PropTypes.object,
+  userState: PropTypes.object,
   actions: PropTypes.object.isRequired,
   formFields: PropTypes.object,
-  loggingIn: PropTypes.bool,
   params: PropTypes.object,
 };
 

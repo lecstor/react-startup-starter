@@ -24,7 +24,7 @@ tape('SignupFormEmail Component', nest => {
 
   nest.test('- Displays correctly with request error', test => {
     const tProps = Object.assign(
-      {}, props, { error: { server: { message: 'Something is not right' } } }
+      {}, props, { serverError: 'Something is not right' }
     );
     const wrapper = shallow(<SignupForm {...tProps} />);
     const alert = wrapper.find('Alert');
