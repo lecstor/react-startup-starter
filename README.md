@@ -20,7 +20,8 @@ React Startup Starter
 * [Istanbul](https://github.com/gotwarlost/istanbul) A Javascript code coverage tool written in JS
 * [ESLint](http://eslint.org) The pluggable linting utility for JavaScript and JSX
 * [node-config](https://github.com/lorenwest/node-config) Node.js Application Configuration
-* [react-bootstrap](http://react-bootstrap.github.io/) The most popular front-end framework, rebuilt for React.
+* [css-modules](https://github.com/css-modules/css-modules) locally scoped class and animation names
+* [autoprefixer](https://github.com/postcss/autoprefixer) PostCSS plugin to parse CSS and add vendor prefixes to CSS rules using values from Can I Use.
 * [redux-devtools-log-monitor](https://github.com/gaearon/redux-devtools-log-monitor) The default monitor for Redux DevTools with a tree view.
 * [redux-devtools-inspector](https://github.com/alexkuz/redux-devtools-inspector) A state monitor for Redux DevTools that provides a convenient way to inspect "real world" app states that could be complicated and deeply nested.
 
