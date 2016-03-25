@@ -61,7 +61,6 @@ tape('Signup Container', nest => {
         password: 'secretPassword',
       },
       signingUp: true,
-      emailAlert: 'error',
       error: {
         fields: {
           email: 'is that an email?',

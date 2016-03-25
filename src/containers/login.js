@@ -54,13 +54,6 @@ export class Login extends Component {
       } else {
         formProps.error = userState.error;
       }
-      if (error.fields) {
-        if (error.fields.email) formProps.emailAlert = 'error';
-        if (error.fields.password) {
-          formProps.passAlert = 'error';
-          formProps.emailAlert = 'success';
-        }
-      }
     }
     return React.cloneElement(this.props.children, formProps);
   }

@@ -61,8 +61,6 @@ tape('Login Container', nest => {
         password: 'secretPassword',
       },
       loggingIn: true,
-      emailAlert: 'success',
-      passAlert: 'error',
       error: {
         fields: {
           email: 'is that an email?',

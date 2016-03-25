@@ -6,7 +6,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-// const customProperties = require('postcss-custom-properties');
 const modulesValues = require('postcss-modules-values');
 
 module.exports = {
@@ -16,7 +15,8 @@ module.exports = {
 
   // Use with multiple entry points in webpack
   // https://github.com/glenjamin/webpack-hot-middleware#use-with-multiple-entry-points-in-webpack
-  // If you want to use multiple entry points in your webpack config you need to include the hot middleware client in each entry point.
+  // If you want to use multiple entry points in your webpack config you need to include the
+  // hot middleware client in each entry point.
   entry: {
     app: [
       'webpack-hot-middleware/client',

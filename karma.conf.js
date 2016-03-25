@@ -47,13 +47,11 @@ module.exports = function (config) {
             loader: 'json',
           },
           {
-            test: /\.scss$/,
+            test: /\.css$/,
             loaders: [
               'style-loader',
-              'css-loader?sourceMap',
-              'postcss-loader',
-              'sass-loader'
-            ]
+              'css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]!postcss-loader'
+            ],
           },
           {
             test: /sinon\.js$/,

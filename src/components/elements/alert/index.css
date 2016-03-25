@@ -1,0 +1,14 @@
+
+.alert {
+  margin-bottom: 10px;
+}
+
+.alertWarning {
+  composes: alertWarning from '../../../styles/common.css';
+  composes: alert;
+}
+
+.alertError {
+  composes: alertError from '../../../styles/common.css';
+  composes: alert;
+}

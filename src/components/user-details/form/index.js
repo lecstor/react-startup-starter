@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react';
 
 import Input from '../../elements/input';
-import Alert from 'react-bootstrap/lib/Alert';
+import Alert from '../../elements/alert';
 
 import sty from './index.css';
 
 const UserDetailsForm = (
-  { actions, name, email, bsStyle, bsFeed, isSaving, saveDisabled, handleSave, error, serverError }
+  { actions, name, email, isSaving, saveDisabled, handleSave, error, serverError }
 ) => (
   <form className={sty.form} onSubmit={handleSave}>
+    {serverError && <Alert type="error">{serverError}</Alert>}
     <div className={sty.label}>Your Name</div>
     <Input label="Your Name" name="name" type="text" placeholder="your name"
       onChange={actions.stashEvent} value={name}
@@ -17,13 +18,13 @@ const UserDetailsForm = (
     <Input name="email" type="email" placeholder="your email address"
       onChange={actions.stashEvent} value={email}
     />
+    {error && error.email && <Alert type="warning">{error.email}</Alert>}
+
     <div style={{ textAlign: 'right', marginBottom: '5px' }}>
       <button className={sty.button} active={isSaving} disabled={saveDisabled} onClick={handleSave}>
         Save
       </button>
     </div>
-    {serverError && <Alert bsStyle="danger">{serverError}</Alert>}
-    {error && error.email && <Alert bsStyle="warning">{error.email}</Alert>}
   </form>
 );
 

@@ -1,5 +1,6 @@
 @value colors: './colors.css';
 @value navLink, navLinkHover, navLinkActive from colors;
+@value transOrange, cautionOrange, transRed, dangerRed, darkGrey from colors;
 
 .link {
   color: navLink;
@@ -21,4 +22,23 @@
 
 .contentHeading {
   font-size: 2em;
+}
+
+.alert {
+  border: 1px solid darkGrey;
+  color: darkGrey;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alertWarning {
+  composes: alert;
+  background-color: transOrange;
+  border-color: cautionOrange;
+}
+
+.alertError {
+  composes: alert;
+  background-color: transRed;
+  border-color: dangerRed;
 }

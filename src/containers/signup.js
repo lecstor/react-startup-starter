@@ -43,7 +43,6 @@ export class Signup extends Component {
       } else {
         formProps.error = userState.error;
       }
-      if (error.fields && error.fields.email) formProps.emailAlert = 'error';
     }
     return React.cloneElement(this.props.children, formProps);
   }

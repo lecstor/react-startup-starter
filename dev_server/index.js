@@ -106,7 +106,7 @@ app.post('/session', (req, res) => {
     } else {
       res.status(400).send({
         message: 'Login failed',
-        fields: { email: 'Account not found for that email address' },
+        fields: { email: 'An account was not found for that email address' },
       });
     }
     res.end();

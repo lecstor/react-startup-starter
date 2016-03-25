@@ -1,10 +1,12 @@
 const config = require('config');
 
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const modulesValues = require('postcss-modules-values');
 
 module.exports = {
   name: 'client',
@@ -13,7 +15,7 @@ module.exports = {
   // json: true,
   entry: {
     app: [
-      './src/index'
+      './src/index',
     ],
     vendor: [
       'history',
@@ -21,13 +23,13 @@ module.exports = {
       'react-redux',
       'react-router',
       'redux',
-      'react-router-redux'
-    ]
+      'react-router-redux',
+    ],
   },
   output: {
     path: path.join(__dirname, '../', 'dist'),
     filename: '[name].[hash].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     // new webpack.NoErrorsPlugin()
@@ -35,31 +37,29 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress : {
+      compress: {
         warnings: false,
         unused: true,
-        dead_code: true
+        dead_code: true,
       },
-      sourceMap: false // if true, uses SourceMaps to map error message locations to modules.
-                       // This slows down the compilation
+      sourceMap: false, // if true, uses SourceMaps to map error message locations to modules.
+                        // This slows down the compilation
     }),
     new HtmlWebpackPlugin({
-      template : path.join(__dirname, '../', 'src', 'index.html'),
-      hash     : false,
-      filename : 'index.html',
-      inject   : 'body',
-      minify   : {
-        collapseWhitespace : true
-      }
+      template: path.join(__dirname, '../', 'src', 'index.html'),
+      hash: false,
+      filename: 'index.html',
+      inject: 'body',
+      minify: { collapseWhitespace: true },
     }),
-    new ExtractTextPlugin('[name].[hash].css'),
+    new ExtractTextPlugin('[name].[hash].css', { allChunks: true }),
 
     // https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.[hash].js',
-      minChunks: Infinity
-    })
+      minChunks: Infinity,
+    }),
   ],
   module: {
     loaders: [
@@ -67,15 +67,18 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: path.join(__dirname, '../', 'src'),
-        query: {
-          presets: ['es2015', 'stage-0', 'react']
-        }
+        exclude: /node_modules/,
+        query: { presets: ['es2015', 'stage-0', 'react'] },
       },
       {
         // https://github.com/webpack/extract-text-webpack-plugin
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!sass-loader')
-      }
-    ]
-  }
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]___[hash:base64:5]!postcss-loader'
+        ),
+      },
+    ],
+  },
+  postcss: [modulesValues, autoprefixer],
 };
