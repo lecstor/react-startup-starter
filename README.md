@@ -55,7 +55,7 @@ Usage
 
 `npm run build:dev` - save a development build to the dist directory
 
-`npm run build:stats` - Generate build stats which you can upload to the webpack [analyse tool](https://webpack.github.io/docs/build-performance.html) (see [Webpack Build Performance](https://webpack.github.io/docs/build-performance.html))
+`npm run build:stats` - Generate build stats which you can upload to the webpack [analyse tool](http://webpack.github.io/analyse/) (see [Webpack Build Performance](https://webpack.github.io/docs/build-performance.html))
 
 `npm test` - run all tests continuously with Karma in a browser (chrome by default)
 
