@@ -41,7 +41,6 @@ export class Login extends Component {
     const formProps = {
       handleSubmit: (e) => {
         e.preventDefault();
-        console.log('handleSubmit');
         actions.login(formFields, params.splat);
       },
       onInputChange: actions.stashEvent,

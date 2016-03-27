@@ -15,7 +15,7 @@ const CreateApiKey = ({ newKeyLabel = '', updateLabel, newKey }) => (
         />
       </div>
       <div className={sty.buttonContainer}>
-        <button className={sty.button} disabled={newKeyLabel ? false : true} onClick={newKey}>
+        <button className={sty.button} disabled={newKeyLabel !== true} onClick={newKey}>
           Generate New API Key
         </button>
       </div>
