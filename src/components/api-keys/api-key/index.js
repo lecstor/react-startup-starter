@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 
 import Input from '../../elements/input';
+import PowerIcon from '../../icons/power-switch';
+import Nuclear from '../../icons/nuclear';
 
 import sty from './index.css';
 
@@ -17,6 +19,7 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
 
   const enabledLabel = apikey.disabled ? 'Enable' : 'Disable';
   const enabledButton = apikey.disabled ? 'enableButton' : 'disableButton';
+  const enabledIconColor = apikey.disabled ? '#FFF' : undefined;
   const editingLabel = editKeyId === apikey.id;
 
   return (
@@ -41,8 +44,12 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
       }
       <div className={sty.keyId}>{apikey.id}</div>
       <div className={sty.buttonBar}>
-        <button className={sty[enabledButton]} onClick={enabledAction}>{enabledLabel}</button>
-        <button className={sty.deleteButton} onClick={deleteKey}>Delete</button>
+        <button className={sty[enabledButton]} onClick={enabledAction}>
+          <PowerIcon width="16px" height="16px" color={enabledIconColor} /> {enabledLabel}
+        </button>
+        <button className={sty.deleteButton} onClick={deleteKey}>
+          <Nuclear width="16px" height="16px" color="#FFF" /> Delete
+        </button>
       </div>
     </div>
   );

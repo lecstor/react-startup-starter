@@ -3,14 +3,14 @@
 
 import React, { PropTypes } from 'react';
 
-import stys from './index.css';
+import sty from './index.css';
 
 const NavIcon = ({
   width = '25px', height = '25px',
   color = 'rgb(55, 58, 60)',
   titleId = 'navIconTitle',
 }) => (
-  <svg className={stys.svg} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve"
+  <svg className={sty.svg} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve"
     x="0px" y="0px" width={width} height={height} viewBox="0 0 512 512" aria-labelledby="title"
   >
     <title id={titleId}>Navigation Menu Icon</title>
