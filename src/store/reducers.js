@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 
+import stash from '../store/modules/stash';
 import user, { LOGOUT as LOGOUT_USER } from '../store/modules/user';
 import apikeys from '../store/modules/apikeys';
-import stash from '../store/modules/stash';
+import menu from '../store/modules/menu';
 
 export function createReducer (initialState, fnMap) {
   return (state = initialState, { type, payload } = {}) => {
@@ -14,9 +15,10 @@ export function createReducer (initialState, fnMap) {
 
 const appReducer = combineReducers({
   routing,
-  user,
-  apikeys,
   stash,
+  apikeys,
+  menu,
+  user,
 });
 
 const rootReducer = (state, action) => {

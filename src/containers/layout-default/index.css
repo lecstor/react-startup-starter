@@ -18,19 +18,34 @@
 }
 
 .sideNav {
-  composes: col padCol from '../../styles/grid.css';
-  width: 200px;
+  composes: col from '../../styles/grid.css';
+  width: 10em;
   height: 100%;
 }
 
 .content {
   composes: col from '../../styles/grid.css';
-  width: calc(100% - 200px);
-  padding-top: 20px;
-  padding-right: 20px;
+  width: calc(100% - 10em);
+  padding: 20px;
 }
 
 .heading {
   font-size: 2em;
   margin: 0.5em 0;
+}
+
+@media (max-width: 800px) {
+  .sideNav {
+    margin-left: -10em;
+  }
+
+  .sideNavShow {
+    composes: sideNav;
+    position: absolute;
+    margin-left: 0;
+  }
+
+  .content {
+    width: 100%;
+  }
 }

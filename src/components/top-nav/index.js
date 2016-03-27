@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 
+import NavIcon from '../icons/nav-icon';
+
 import sty from './index.css';
 
-const TopNavApp = ({ userState, userLabel, logOut }) => {
+const TopNavApp = ({ userState, userLabel, logOut, toggleLeftMenu }) => {
   const logOutButton = userState.data
     ? <a href="#" className={sty.link} onClick={logOut}>Log Out</a>
     : undefined;
@@ -10,6 +12,7 @@ const TopNavApp = ({ userState, userLabel, logOut }) => {
   return (
     <div className={sty.navBar}>
       {logOutButton}
+      <a href="#" className={sty.leftMenuButton} onClick={toggleLeftMenu}><NavIcon /></a>
       <span className={sty.brand}>React Startup Starter</span>
       <span className={sty.loginStatus}>
         {userLabel &&
@@ -29,6 +32,7 @@ TopNavApp.propTypes = {
   userState: PropTypes.object,
   userLabel: PropTypes.string,
   logOut: PropTypes.func,
+  toggleLeftMenu: PropTypes.func,
 };
 
 export default TopNavApp;
