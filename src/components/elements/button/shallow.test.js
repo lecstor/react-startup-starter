@@ -9,7 +9,7 @@ test('Button', nest => {
   nest.test('...with no parameters', assert => {
     const msg = 'should render an empty button';
 
-    const text = '<button>  </button>';
+    const text = '<button></button>';
     const re = new RegExp(text, 'g');
     const props = {
       onClick: () => {},
@@ -29,7 +29,7 @@ test('Button', nest => {
   nest.test('...with a label', assert => {
     const msg = 'should render a button with a label';
 
-    const text = '<button> Click Me </button>';
+    const text = '<button>Click Me</button>';
     const re = new RegExp(text, 'g');
 
     const props = {
@@ -37,7 +37,7 @@ test('Button', nest => {
       label: 'Click Me',
     };
 
-    const $ = shallow(<Button { ...props } />);
+    const $ = shallow(<Button { ...props }>Click Me</Button>);
     const output = $.html();
     assert.comment(output);
 

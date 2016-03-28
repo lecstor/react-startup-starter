@@ -1,3 +1,5 @@
+@value colors: '../../../styles/colors.css';
+@value transGreen, transOrange, transRed from colors;
 
 .base {
   cursor: auto;
@@ -39,17 +41,17 @@
 
 .inputOk {
   composes: input;
-  composes: okBg from '../../../styles/colors.css';
+  background-color: transGreen;
 }
 
 .inputWarn {
   composes: input;
-  composes: warnBg from '../../../styles/colors.css';
+  background-color: transOrange;
 }
 
 .inputError {
   composes: input;
-  composes: errorBg from '../../../styles/colors.css';
+  background-color: transRed;
 }
 
 .label {

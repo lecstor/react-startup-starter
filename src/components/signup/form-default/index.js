@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import get from 'lodash/get';
 
-import Input from '../../elements/input';
 import Alert from '../../elements/alert';
+import Button from '../../elements/button';
+import Form from '../../elements/form';
+import Input from '../../elements/input';
 
-import sty from '../form.css';
+import inputSty from '../../elements/input/index.css';
 
 /**
  * Signup Form Component
@@ -26,26 +28,26 @@ import sty from '../form.css';
 const SignupForm = (
   { formFields = {}, error, serverError, signingUp, onInputChange, handleSubmit }
 ) => (
-  <form onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit}>
     {serverError && <Alert type="error">{serverError}</Alert>}
-    <div className={sty.label}>Your Name</div>
-    <Input className={sty.input} name="name" type="text" placeholder="name"
-      onChange={onInputChange} value={formFields.name}
+    <div className={inputSty.label}>Your Name</div>
+    <Input name="name" type="text" placeholder="name" value={formFields.name}
+      onChange={onInputChange}
     />
-    <div className={sty.label}>Your Email Address</div>
-    <Input className={sty.input} name="email" type="email" placeholder="email"
-      onChange={onInputChange} value={formFields.email}
+    <div className={inputSty.label}>Your Email Address</div>
+    <Input name="email" type="email" placeholder="email" value={formFields.email}
+      onChange={onInputChange}
     />
     {get(error, 'fields.email') && <Alert type="warning">{error.fields.email}</Alert>}
 
-    <div className={sty.label}>Your New Password</div>
-    <Input className={sty.input} name="password" type="password" placeholder="password"
-      onChange={onInputChange} value={formFields.password}
+    <div className={inputSty.label}>Your New Password</div>
+    <Input name="password" type="password" placeholder="password" value={formFields.password}
+      onChange={onInputChange}
     />
-    <div style={{ textAlign: 'right', marginBottom: '5px' }}>
-      <button className={sty.button} active={signingUp} onClick={handleSubmit}> Sign Up </button>
-    </div>
-  </form>
+    <Button type="safe" floatRight active={signingUp} onClick={handleSubmit}>
+      Sign Up
+    </Button>
+  </Form>
 );
 
 SignupForm.propTypes = {

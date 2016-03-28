@@ -16,9 +16,9 @@ const props = {
 tape('SignupFormDefault Component', nest => {
   nest.test('- Displays correctly with no errors', test => {
     const wrapper = shallow(<SignupForm {...props} />);
-    test.equal(wrapper.type(), 'form', 'signup form node is a form');
-    test.equal(wrapper.find('button').length, 1, 'node has one button');
-    test.equal(wrapper.find('Alert').length, 0, 'node has no alerts');
+    test.equal(wrapper.find('Form').length, 1, 'node has one Form');
+    test.equal(wrapper.find('Button').length, 1, 'node has one Button');
+    test.equal(wrapper.find('Alert').length, 0, 'node has no Alerts');
     test.end();
   });
 
@@ -47,7 +47,7 @@ tape('SignupFormDefault Component', nest => {
   nest.test('- Fires signup action on button click', test => {
     submitClicked = 0;
     const wrapper = shallow(<SignupForm {...props} />);
-    const button = wrapper.find('button');
+    const button = wrapper.find('Button');
     button.simulate('click');
     test.equal(submitClicked, 1, 'click fired login action');
     test.end();

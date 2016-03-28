@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Input from '../../elements/input';
+import Button from '../../elements/button';
 
 import sty from './create.css';
 
@@ -15,9 +16,9 @@ const CreateApiKey = ({ newKeyLabel = '', updateLabel, newKey }) => (
         />
       </div>
       <div className={sty.buttonContainer}>
-        <button className={sty.button} disabled={newKeyLabel !== true} onClick={newKey}>
+        <Button className={sty.button} disabled={!newKeyLabel} onClick={newKey}>
           Generate New API Key
-        </button>
+        </Button>
       </div>
     </div>
   </div>

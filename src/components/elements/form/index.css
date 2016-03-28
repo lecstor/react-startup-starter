@@ -1,0 +1,10 @@
+
+.form {
+  max-width: 30em;
+}
+
+.form:after {
+   content: "";
+   display: table;
+   clear: both;
+}

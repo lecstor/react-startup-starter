@@ -15,38 +15,3 @@
 @value navLink: notQuiteBlack;
 @value navLinkHover: safeBlue;
 @value navLinkActive: linkBlue;
-
-.okBg {
-  background-color: transGreen;
-}
-
-.warnBg {
-  background-color: transOrange;
-}
-
-.errorBg {
-  background-color: transRed;
-}
-
-.button[disabled] {
-  background-color: lightgray;
-  color: notQuiteBlack;
-}
-
-.safeButton {
-  composes: button;
-  background-color: safeBlue;
-  color: white;
-}
-
-.cautionButton {
-  composes: button;
-  background-color: cautionOrange;
-  color: notQuiteBlack;
-}
-
-.dangerButton {
-  composes: button;
-  background-color: dangerRed;
-  color: white;
-}

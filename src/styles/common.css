@@ -23,22 +23,3 @@
 .contentHeading {
   font-size: 2em;
 }
-
-.alert {
-  border: 1px solid darkGrey;
-  color: darkGrey;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.alertWarning {
-  composes: alert;
-  background-color: transOrange;
-  border-color: cautionOrange;
-}
-
-.alertError {
-  composes: alert;
-  background-color: transRed;
-  border-color: dangerRed;
-}

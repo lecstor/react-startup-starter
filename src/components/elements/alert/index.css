@@ -1,14 +1,20 @@
 
 .alert {
+  border: 1px solid darkGrey;
+  color: darkGrey;
+  border-radius: 4px;
+  padding: 10px;
   margin-bottom: 10px;
 }
 
 .alertWarning {
-  composes: alertWarning from '../../../styles/common.css';
   composes: alert;
+  background-color: transOrange;
+  border-color: cautionOrange;
 }
 
 .alertError {
-  composes: alertError from '../../../styles/common.css';
   composes: alert;
+  background-color: transRed;
+  border-color: dangerRed;
 }

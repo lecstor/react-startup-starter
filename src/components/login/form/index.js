@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import get from 'lodash/get';
 
-import Input from '../../elements/input';
 import Alert from '../../elements/alert';
+import Button from '../../elements/button';
+import Form from '../../elements/form';
+import Input from '../../elements/input';
 
-import sty from './index.css';
+import inputSty from '../../elements/input/index.css';
 
 /**
  * Login Form Component
@@ -27,24 +29,20 @@ const LoginForm = ({
   loggingIn,
   handleSubmit, onInputChange,
 }) => (
-  <form onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit}>
     {serverError && <Alert type="error">{serverError}</Alert>}
-    <div className={sty.label}>Email</div>
-    <Input name="email" type="email" placeholder="email"
-      onChange={onInputChange} value={formFields.email}
+    <div className={inputSty.label}>Email</div>
+    <Input name="email" type="email" placeholder="email" value={formFields.email}
+      onChange={onInputChange}
     />
     {get(error, 'fields.email') && <Alert type="warning">{error.fields.email}</Alert>}
-    <div className={sty.label}>Password</div>
-    <Input name="password" type="password" placeholder="password"
-      onChange={onInputChange} value={formFields.password}
+    <div className={inputSty.label}>Password</div>
+    <Input name="password" type="password" placeholder="password" value={formFields.password}
+      onChange={onInputChange}
     />
     {get(error, 'fields.password') && <Alert type="warning">{error.fields.password}</Alert>}
-    <div className={sty.buttonContainer}>
-      <button className={sty.button} active={loggingIn}
-        onClick={handleSubmit}
-      > Log In </button>
-    </div>
-  </form>
+    <Button type="safe" floatRight active={loggingIn} onClick={handleSubmit}>Log In</Button>
+  </Form>
 );
 
 LoginForm.propTypes = {

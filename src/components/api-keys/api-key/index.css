@@ -19,7 +19,7 @@
 }
 
 .cancelButton {
-  composes: safe from '../../../styles/buttons.css';
+  composes: safe from '../../elements/button/index.css';
   margin: 0;
   height: 2em;
   border-top-left-radius: 0;
@@ -35,17 +35,17 @@
 }
 
 .disableButton {
-  composes: caution from '../../../styles/buttons.css';
+  composes: caution from '../../elements/button/index.css';
   composes: button buttonLeft;
 }
 
 .enableButton {
-  composes: safe from '../../../styles/buttons.css';
+  composes: safe from '../../elements/button/index.css';
   composes: button buttonLeft;
 }
 
 .deleteButton {
-  composes: danger from '../../../styles/buttons.css';
+  composes: danger from '../../elements/button/index.css';
   composes: button;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Input from '../../elements/input';
+import Button from '../../elements/button';
 import PowerIcon from '../../icons/power-switch';
 import Nuclear from '../../icons/nuclear';
 
@@ -29,12 +30,12 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
           <Input name="editKeyLabel" styles={sty} type="text"
             value={editKeyLabel} onChange={stashEditLabel}
           />
-          <button className={sty.saveButton} onClick={saveEdit}>
+          <Button className={sty.saveButton} onClick={saveEdit}>
             Save
-          </button>
-          <button className={sty.cancelButton} onClick={cancelEdit}>
+          </Button>
+          <Button className={sty.cancelButton} onClick={cancelEdit}>
             Cancel
-          </button>
+          </Button>
         </div>
       }
       {!editingLabel &&
@@ -44,12 +45,12 @@ const ApiKey = ({ apikey, actions, editKeyId, editKeyLabel, stashEditLabel, edit
       }
       <div className={sty.keyId}>{apikey.id}</div>
       <div className={sty.buttonBar}>
-        <button className={sty[enabledButton]} onClick={enabledAction}>
+        <Button className={sty[enabledButton]} onClick={enabledAction}>
           <PowerIcon width="16px" height="16px" color={enabledIconColor} /> {enabledLabel}
-        </button>
-        <button className={sty.deleteButton} onClick={deleteKey}>
+        </Button>
+        <Button className={sty.deleteButton} onClick={deleteKey}>
           <Nuclear width="16px" height="16px" color="#FFF" /> Delete
-        </button>
+        </Button>
       </div>
     </div>
   );
